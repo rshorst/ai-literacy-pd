@@ -176,6 +176,9 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .launch:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
 .launch .big{display:block;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,4vw,40px);line-height:1.05}
 .launch .small{display:block;margin-top:10px;font-size:14.5px}
+.shot{margin:28px auto 8px;max-width:560px}
+.shot img{display:block;width:100%;height:auto;border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.shot figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
 .facts li{margin-bottom:10px}
 .sources{font-size:14px;color:var(--muted)}
 .sources li{margin-bottom:4px}
@@ -185,6 +188,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <h1>Quick, Draw!</h1>
 <p class="lede">You get a word and 20 seconds to draw it. While you draw, a neural network guesses what it is.</p>
 <a class="launch" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><span class="big">Play Quick, Draw! ↗</span><span class="small">Opens in a new tab. Google doesn't let the game run inside other sites.</span></a>
+<figure class="shot"><img src="assets/quickdraw-palms.webp" width="900" height="1671" loading="lazy" alt="Quick, Draw! results screen. Asked to draw palms, the drawing of palm trees and two hands was not recognized. Its closest matches were glove, campfire and shrub. The examples it learned from are all palm trees."><figcaption>One round. Asked to draw “palms”, I drew palm trees and the palms of hands. The network didn’t recognize it, and its closest matches were glove, campfire and shrub. Every example it learned from was a palm tree.</figcaption></figure>
 
 <h2>Why we play it</h2>
 <p>It is a quick way to watch machine learning work, with no account needed. It also shows what that learning takes: millions of people drawing for free, and a system that learns the most common way to draw a thing.</p>
