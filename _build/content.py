@@ -730,7 +730,7 @@ QUICKDRAW_PAGE = f"""
 <h1>Quick, Draw!</h1>
 <p class="lede">You get a word and 20 seconds to draw it. While you draw, a neural network guesses what it is.</p>
 <a class="launch" href="{QD}" target="_blank" rel="noopener"><span class="big">Play Quick, Draw! ↗</span><span class="small">Opens in a new tab. Google doesn't let the game run inside other sites.</span></a>
-<figure class="shot"><img src="assets/quickdraw-palms.webp" width="900" height="1671" loading="lazy" alt="Quick, Draw! results screen. Asked to draw palms, the drawing of palm trees and two hands was not recognized. Its closest matches were glove, campfire and shrub. The examples it learned from are all palm trees."><figcaption>One round. Asked to draw “palms”, I drew palm trees and the palms of hands. The network didn’t recognize it, and its closest matches were glove, campfire and shrub. Every example it learned from was a palm tree.</figcaption></figure>
+<figure class="shot"><img src="assets/quickdraw-palms.webp" width="900" height="889" loading="lazy" alt="Quick, Draw! results screen. Asked to draw palms, the drawing of palm trees and two hands was not recognized. Its closest matches were glove, campfire and shrub. The examples it learned from are all palm trees."><figcaption>One round. Asked to draw “palms”, I drew palm trees and the palms of hands. The network didn’t recognize it, and its closest matches were glove, campfire and shrub. Every example it learned from was a palm tree.</figcaption></figure>
 
 <h2>Why we play it</h2>
 <p>It is a quick way to watch machine learning work, with no account needed. It also shows what that learning takes: millions of people drawing for free, and a system that learns the most common way to draw a thing.</p>
