@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Policy examples · AI literacy for teachers</title>
+<meta name="description" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Site frame: same tokens as the AI map so every page reads as one family. */
+:root{--bg:#edf0ef;--surface:#fbfcfc;--ink:#17202a;--muted:#5a6570;--line:#c3cbcf;--accent:#0b5cad;--hover:#e6ecf1;
+--c-company:#2f3b48;--c-model:#0b7a6a;--c-app:#2b52c4;--c-cat:#9c5a05;--c-concept:#99286f;
+--font-display:"Archivo","Helvetica Neue",Arial,sans-serif;--font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:6px;z-index:50}
+.skip:focus{left:12px}
+
+.site-header{background:var(--surface);border-bottom:1px solid var(--line)}
+.site-header .inner{max-width:1240px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;letter-spacing:-.01em;margin-right:auto}
+.brand small{display:block;font-family:var(--font-mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.site-nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+.site-nav a{display:block;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--muted);font-size:14.5px;font-weight:500}
+.site-nav a:hover{background:var(--hover);color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);background:var(--hover);font-weight:600}
+@media (max-width:860px){
+  .menu-btn{display:inline-block}
+  .site-nav{flex-basis:100%;display:none}
+  .site-nav.open{display:block}
+  .site-nav ul{flex-direction:column;padding:4px 0 6px}
+}
+
+.doc{max-width:780px;margin:0 auto;padding:32px 20px 56px}
+.doc.wide{max-width:1100px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:700;font-size:23px;line-height:1.2;margin:36px 0 10px;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.3;margin:24px 0 6px}
+.lede{font-size:18px;max-width:65ch}
+.doc p,.doc li{max-width:68ch}
+.doc ul,.doc ol{padding-left:22px}
+.doc li{margin-bottom:6px}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0 20px;font-size:15px}
+.doc th,.doc td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.doc th{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.note{border-left:3px solid var(--accent);background:var(--hover);padding:10px 14px;border-radius:0 8px 8px 0;margin:18px 0}
+.meta{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin:0 4px 4px 0}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--hover)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:18px 0}
+.tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--accent)}
+.tile h3{margin:0 0 4px}
+.tile p{margin:0;font-size:14.5px;color:var(--muted)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0;break-inside:avoid;page-break-inside:avoid}
+.card h3{margin:0 0 6px}
+.card .num{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.card dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:15px}
+.card dt{font-weight:600}
+.card dd{margin:0}
+.cards{columns:2 340px;column-gap:16px}
+.cards .card{display:inline-block;width:100%;margin:0 0 16px}
+
+.site-footer{border-top:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--muted)}
+.site-footer .inner{max-width:1240px;margin:0 auto;padding:16px 20px;display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+.site-footer a{color:var(--muted)}
+
+@media print{
+  .site-header,.site-footer,.tools,.skip,.no-print{display:none!important}
+  body{background:#fff;color:#000;font-size:12pt}
+  .doc{max-width:none;padding:0}
+  .card{border:1px solid #888;background:#fff}
+  a{color:#000;text-decoration:none}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">AI literacy for teachers<small>Professional learning · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="map.html">AI map</a></li><li><a href="cards.html">Scenario cards</a></li><li><a href="activities.html">Activities</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="readings.html">Readings</a></li><li><a href="policies.html" aria-current="page">Policy examples</a></li><li><a href="frameworks.html">Frameworks</a></li></ul></nav></div></header>
+<main id="main">
+
+<div class="doc">
+<p class="eyebrow">Positions to argue with</p>
+<h1>Policy examples</h1>
+<p class="lede">Twenty published K to 12 AI policies, ten secondary and ten elementary, from BC, the rest of Canada, the US, the UK and Australia. They are here as positions to argue with, not templates to adopt.</p>
+<div class="note">Read in September 2026. Policies in this area change quickly, so check the link before putting one in front of a room.</div>
+
+<h2>Two ways to use them</h2>
+<p><strong>Critique.</strong> Give small groups three contrasting documents, such as Seaquam's bolt-on, Park East's red-by-default and Waterloo's scale. Read each through the <a href="frameworks.html">dimensions</a>: what does it assume about data and where it goes, about authorship and relation, whose labour does it move, and what future does it take for granted? Then: which would you want to teach under, and what would you add?</p>
+<p><strong>Build your own.</strong> Use the lists as positions to argue with while writing your own guidance. Langley's line on Indigenous content, Central Okanagan's framing of consent as a legal duty, Halton's tiers, Peel's supervised-not-prohibited stance and Wyndham's equity rule are good starting points. For a class version, see <a href="class-ai-agreement.html">the class AI agreement</a>.</p>
+
+<h2>Secondary</h2>
+<article class="card" id="secondary-1"><h3>Seaquam Secondary School (Delta SD37), Academic Honesty</h3><p class="meta">Delta, BC. Secondary, grades 8 to 12. November 2024. Governs students.</p><p>A school academic-integrity page that adds copying from AI, or using AI content without sourcing it, to the list of plagiarism offences. Consequences include a mark of zero, a call home and referral to administration. No guidance on permitted use, no disclosure format, no tool list.</p><p><strong>Notable:</strong> The typical BC bolt-on: AI handled as a plagiarism category inside an existing honesty policy rather than as its own framework. A good contrast case.</p><p><a href="https://se.deltasd.bc.ca/our-school/academic-honesty/">Read the policy</a></p></article>
+<article class="card" id="secondary-2"><h3>School District No. 5 (Southeast Kootenay), Policy 24: Generative Artificial Intelligence</h3><p class="meta">Cranbrook and Fernie, BC. District K to 12. Adopted May 2024. Governs students, staff and others.</p><p>A formal board-adopted governance policy covering how AI tools are acquired and used: transparency, human verification of every output, bias evaluation of tools, training before deployment, privacy compliance and non-discrimination. Principles rather than classroom rules; the operational detail sits in an administrative procedure.</p><p><strong>Notable:</strong> One of the few BC districts with an adopted board policy, not just guidelines. Shows the governance layer above classroom practice.</p><p><a href="https://media.sd5.bc.ca/media/Default/medialib/policy-24-generative-artificial-intelligence.b0134e9115.pdf">Read the policy</a></p></article>
+<article class="card" id="secondary-3"><h3>York Region District School Board, Student AI Guidelines (Grades 7 to 12)</h3><p class="meta">York Region, Ontario. Grades 7 to 12. January 2026. Governs students, with a companion page for educators.</p><p>Permissive but structured. Board-approved tools may be used for brainstorming, tutoring, study notes, proofreading and organising research, always with the teacher's permission for each assignment. Disclosure and citation in the bibliography are mandatory, and students stay responsible for everything they submit. The educator page adds that student work should not be entered into AI for assessment.</p><p><strong>Notable:</strong> Pairs a student page with an educator page so the obligations mirror each other.</p><p><a href="https://www2.yrdsb.ca/student-support/artificial-intelligence/student-ai-guidelines-grades-7-12">Read the policy</a></p></article>
+<article class="card" id="secondary-4"><h3>Canadian Rockies Public Schools, Administrative Procedure 140</h3><p class="meta">Canmore and Banff, Alberta. K to 12 with grade 9 to 12 provisions. August 2026. Governs students and staff.</p><p>Folds AI into the technology acceptable-use procedure. Students may use AI to generate ideas, practise skills or deepen understanding, and must disclose it and mark which parts were AI-assisted. Only district-approved tools with privacy agreements may be used. Staff are steered away from AI detectors toward conversations with students. Deepfakes of any person without permission are banned.</p><p><strong>Notable:</strong> An explicit anti-deepfake rule and an explicit stance against detection software, with the preferred alternative named.</p><p><a href="https://www.crps.ca/download/344210">Read the policy</a></p></article>
+<article class="card" id="secondary-5"><h3>Snohomish High School, AI Code of Conduct</h3><p class="meta">Snohomish, Washington. Grades 9 to 12. October 2024. Governs students.</p><p>Teachers label each assignment AI recommended, AI permitted or AI restricted. The default is no use without teacher approval; attribution is required, no personal information may be entered, and misuse may be treated as cheating.</p><p><strong>Notable:</strong> The clearest school-level traffic-light scheme.</p><p><a href="https://shs.sno.wednet.edu/student-life/ai-code-of-conduct">Read the policy</a></p></article>
+<article class="card" id="secondary-6"><h3>Park East High School (NYC), AI and Academic Integrity Policies</h3><p class="meta">New York. Grades 9 to 12. 2026–27 school year. Governs students.</p><p>Restrictive by default: every assignment is red (no AI) unless the teacher makes it yellow or green. Where AI is allowed, students disclose what it generated and how they used it. A consequence ladder runs from a call home to a redo under a strict timeframe, then a zero.</p><p><strong>Notable:</strong> The clearest red-by-default policy, with a fully specified discipline ladder. A useful contrast to permissive-by-default models.</p><p><a href="https://www.parkeasths.org/apps/pages/index.jsp?uREC_ID=4428131&type=d&pREC_ID=2698883">Read the policy</a></p></article>
+<article class="card" id="secondary-7"><h3>Wyndham College (NSW), Generative AI in assessment</h3><p class="meta">Quakers Hill, New South Wales. Years 11 and 12. September 2024. Governs students, with teacher duties.</p><p>Every assessment notification declares one of four levels, from no AI to sanctioned tools generating content. Students keep evidence of their AI use and cite it; suspected malpractice goes through a review panel with a right of appeal. Tasks can never require AI, because that would conflict with equity.</p><p><strong>Notable:</strong> Combines a scale with an equity rule and a due-process chain.</p><p><a href="https://assets.schools.nsw.gov.au/content/dam/doe/sws/schools/w/wyndhamcol-h/Docs/Policy_for_use_of_Generative_AI_in_Assesment_at_Wyndham_College.2024.pdf">Read the policy</a></p></article>
+<article class="card" id="secondary-8"><h3>Harristown State High School, Artificial Intelligence policy</h3><p class="meta">Toowoomba, Queensland. Years 7 to 12. July 2025. Governs students, with teacher duties.</p><p>AI is allowed for brainstorming, research, clarifying concepts, flashcards and summaries, and banned for anything the marking guide assesses. Students keep and supply their prompt transcripts. Senior work suspected of prohibited use is not marked.</p><p><strong>Notable:</strong> Ties the line between allowed and prohibited to the marking guide itself, and uses prompt transcripts as evidence rather than detectors.</p><p><a href="https://harristownshs.eq.edu.au/SupportAndResources/FormsAndDocuments/Documents/3.curriculum/senior-secondary/HSHS-AI-policy-2025.pdf">Read the policy</a></p></article>
+<article class="card" id="secondary-9"><h3>Tudor Grange Academies Trust, AI Policy</h3><p class="meta">West Midlands and Worcestershire, England. Primary and secondary. April 2026. Governs staff and pupils.</p><p>Staff-focused. Authorised tools only; AI may draft resources, mark objective items and help write reports, with human review and disclosure of where AI was used. A data protection assessment is required before AI note-takers, and emotion-recognition AI is banned. Pupils may use authorised, age-appropriate tools.</p><p><strong>Notable:</strong> Treats teacher and administrative AI use as the main governance risk.</p><p><a href="https://www.tgacademy.org.uk/files/2026/04/AI-Policy-v1.0.pdf">Read the policy</a></p></article>
+<article class="card" id="secondary-10"><h3>Gwinnett County Public Schools, Guidance for Human-Centered AI Use</h3><p class="meta">Gwinnett County, Georgia. District K to 12. September 2025. Governs students, staff and parents.</p><p>Principle-based guidance from a large, AI-forward district: humans in the loop for all uses, encouraged student uses, a definition of AI plagiarism, citation when allowed, and staff instructions never to enter personal information or rely on unreviewed output. Using AI to impersonate, bully or harass is banned.</p><p><strong>Notable:</strong> Treats AI-enabled bullying and impersonation as a conduct issue, not only an integrity issue.</p><p><a href="https://www.gcpsk12.org/programs-and-services/college-and-career-development/academies-and-career-technical-and-agricultural-education/artificial-intelligence-and-computer-science/guidance-for-human-centered-ai-use">Read the policy</a></p></article>
+
+<h2>Elementary</h2>
+<article class="card" id="elementary-1"><h3>BC Ministry of Education and Child Care, What you need to know about AI (Elementary)</h3><p class="meta">British Columbia. Provincial, one of three versions. Written directly to children.</p><p>A one-page set of norms for children rather than a rule book: AI as a helper, not a replacement for your own thinking; add your own ideas; double-check everything; protect personal information; ask your teacher; tell a trusted adult if something feels wrong. A companion parent sheet comes in eight languages.</p><p><strong>Notable:</strong> The only provincial document in Canada written in age-differentiated language for elementary children. Several BC districts reproduce it.</p><p><a href="https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/ai-in-education/what-you-need-to-know-about-ai-elementary.pdf">Read the policy</a></p></article>
+<article class="card" id="elementary-2"><h3>Vancouver School Board, AI guidelines and Copilot 13+</h3><p class="meta">Vancouver, BC. K to 12; the age gate excludes elementary. May 2026.</p><p>Copilot 13+ is available inside the district tenant only to secondary students aged 13 and older, so elementary use is teacher-mediated. Educator guidelines permit planning, feedback and differentiation, with review of AI output, disclosure to students and no identifiable student data. The student guidelines were developed with educators and secondary students.</p><p><strong>Notable:</strong> The most current BC example of a hard no-accounts-under-13 line. A parent-led campaign is contesting it, which makes it good discussion material.</p><p><a href="https://www.vsb.bc.ca/ai-guidelines-for-educators">Read the policy</a></p></article>
+<article class="card" id="elementary-3"><h3>Langley School District (SD35), AI Guidelines</h3><p class="meta">Langley, BC. K to 12; Copilot for staff, student access planned for grades 9 to 12. Spring 2025.</p><p>Teacher-facing. Staff may use the district Copilot for planning, assignments, rubrics and family communications, and must tell students when and how AI is permitted. At the request of the district's Aboriginal Program, teachers are asked not to use AI to create Indigenous learning opportunities, which the guidelines name as cultural appropriation.</p><p><strong>Notable:</strong> The only policy found that explicitly prohibits using AI to generate Indigenous learning content.</p><p><a href="https://www.sd35.bc.ca/instructionalservices/sd35-ai-guidelines">Read the policy</a></p></article>
+<article class="card" id="elementary-4"><h3>Central Okanagan Public Schools (SD23), Guidelines for the Responsible Use of Generative AI</h3><p class="meta">Kelowna, BC. K to 12. April 2025. Governs educators, students and parents.</p><p>Puts the onus on teachers: check the approved tools list, respect vendor age minimums, judge developmental appropriateness for younger students, and send a parent consent form when data leaves Canada. Recommends against AI writing detectors.</p><p><strong>Notable:</strong> Frames age limits and parental consent as legal obligations under FIPPA, and rejects detectors outright.</p><p><a href="https://lts.sd23.bc.ca/documents/a8e0b7b4-1b65-45da-8273-5852d036518d/1-Central-Okanagan-Public-Schools-Guidelines-for-Responsible-use-of-Gen-AI.pdf">Read the policy</a></p></article>
+<article class="card" id="elementary-5"><h3>Halton District School Board, Generative AI Staff and Student Use Guidelines</h3><p class="meta">Halton Region, Ontario. K to 12 with tiers. August 2025.</p><p>The clearest tiered model found: no student tools for K to 6, a short vetted list for grades 7 and 8 with signed parental consent and an alternate assignment for anyone without it, and a broader list for 9 to 12. Staff may use AI for planning and report-card drafting as a supplement to professional judgement, and must disclose AI-generated lesson content.</p><p><strong>Notable:</strong> An explicit K to 6 prohibition, per-class consent letters and mandatory alternate assignments.</p><p><a href="https://www.myhdsb.ca/media/bhtc22om/generative-ai-staff-and-student-use-guidelines.pdf">Read the policy</a></p></article>
+<article class="card" id="elementary-6"><h3>Waterloo Region District School Board, GenAI Student Guidelines</h3><p class="meta">Waterloo Region, Ontario. Grades 7 to 12. May 2026.</p><p>Two board-licensed tools for grades 7 and up, always optional and teacher-guided. Teachers can include, limit or leave out AI for each task using a four-level scale, with worked citation examples. Copying without citation is plagiarism.</p><p><strong>Notable:</strong> A grade 7 floor with teacher opt-out, and a ready-made student-facing scale.</p><p><a href="https://www.wrdsb.ca/learning/digital-citizenship/genai-student-guidelines/">Read the policy</a></p></article>
+<article class="card" id="elementary-7"><h3>Peel District School Board, Interim Guidance on Generative AI</h3><p class="meta">Peel Region, Ontario. K to 12 with an under-13 provision. May 2024, reaffirmed December 2025.</p><p>Rather than banning, Peel allows students under 13 to use generative AI only with supervision, and all students only with educator approval. Staff review all AI output, attribute it, and keep personal data out.</p><p><strong>Notable:</strong> A supervised-not-prohibited stance for under-13s. A useful contrast to Halton.</p><p><a href="https://www.peelschools.org/documents/47dd02f9-5574-4671-8c10-10d644747cf7/SAW1207B-Interim-Guidance-on-Generative-AI-in-PDSB.pdf">Read the policy</a></p></article>
+<article class="card" id="elementary-8"><h3>Joy Lane Primary School, Acceptable Use of Generative AI</h3><p class="meta">Whitstable, Kent, England. Ages 4 to 11. March 2026.</p><p>Pupils may use AI only when supervised by an adult, as a research tool, or when studying AI itself; never in assessments or for homework passed off as their own. Staff may use approved tools for planning, resources, marking support and parent letters, and must keep personal data out of prompts.</p><p><strong>Notable:</strong> A complete, current primary policy with a named list of approved tools.</p><p><a href="https://www.joylane.kent.sch.uk/attachments/download.asp?file=1187&type=pdf">Read the policy</a></p></article>
+<article class="card" id="elementary-9"><h3>Manly Village Public School (NSW), Generative AI Implementation Procedures</h3><p class="meta">Manly, New South Wales. K to 6; AI limited to Years 5 and 6. 2025.</p><p>Prohibited by default, with one exception: Years 5 and 6 may use the state-built, filtered chatbot under teacher supervision. No AI for homework or assessment.</p><p><strong>Notable:</strong> A school layering stricter procedures on top of a state-provided tool.</p><p><a href="https://assets.schools.nsw.gov.au/content/dam/doe/sws/schools/m/manlyvill-p/Documents/Manly%20Village%20Generative%20AI%20Procedures%202025.pdf">Read the policy</a></p></article>
+<article class="card" id="elementary-10"><h3>Central Elementary School (CCSD 62), AI in Education</h3><p class="meta">Des Plaines, Illinois. K to 8 district. September 2025.</p><p>Permissive but teacher-controlled: two vetted tools approved for teacher-directed activities, contracts that restrict data collection from under-13s and bar vendors from training on student data, AI literacy lessons at every grade, and a signed student expectations document.</p><p><strong>Notable:</strong> A family-facing page that names the tools, the legal basis for under-13 protection and the permitted uses.</p><p><a href="https://central.d62.org/families-community/ai-in-education">Read the policy</a></p></article>
+
+<h2>Patterns across the twenty</h2>
+<ul>
+<li><strong>Disclosure and citation</strong> is the near-universal student rule. Few say what a good disclosure looks like; Waterloo and York give worked examples.</li>
+<li><strong>Teacher discretion, task by task,</strong> is the default mechanism. Scales make it visible: Waterloo's and Wyndham's four levels, Snohomish's and Park East's traffic lights. Park East is the only one that names the default.</li>
+<li><strong>Age gates</strong> do most of the elementary work. Thirteen is the usual line, or a grade floor. Peel is the exception: supervised use rather than prohibition.</li>
+<li><strong>No personal information</strong> goes into the tool, in almost every document, for students and staff alike.</li>
+<li><strong>Teacher use</strong> is governed less often than student use. When it is, the rules are approved tools only, review every output, disclose AI-generated materials, and never enter student work for assessment.</li>
+<li><strong>Consequences</strong> range from nothing stated to bolt-on plagiarism penalties, progressive ladders and due-process chains.</li>
+<li><strong>Detectors:</strong> three documents reject them, and none endorse them.</li>
+<li><strong>Equity</strong> appears once as a rule: Wyndham says AI can never be required for a task.</li>
+<li><strong>Indigenous knowledge</strong> is named only by Langley. Nothing else in the twenty touches knowledge sovereignty.</li>
+<li><strong>Labour, environment and cost</strong> are almost absent, and none ask what futures the policy assumes.</li>
+</ul>
+<p>Every policy here is about permission and detection. None is about what AI does to the conditions of meaning-making in a classroom. That gap is where an entangled policy starts.</p>
+</div>
+
+</main>
+<footer class="site-footer"><div class="inner"><span>© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</span><span>Updated November 2026 · <a href="https://github.com/rshorst/ai-literacy-pd">Source and offline copy</a></span></div></footer>
+<script>(function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scenario cards · AI literacy for teachers</title>
+<meta name="description" content="Ten classroom scenarios about AI for small-group discussion.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Site frame: same tokens as the AI map so every page reads as one family. */
+:root{--bg:#edf0ef;--surface:#fbfcfc;--ink:#17202a;--muted:#5a6570;--line:#c3cbcf;--accent:#0b5cad;--hover:#e6ecf1;
+--c-company:#2f3b48;--c-model:#0b7a6a;--c-app:#2b52c4;--c-cat:#9c5a05;--c-concept:#99286f;
+--font-display:"Archivo","Helvetica Neue",Arial,sans-serif;--font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:6px;z-index:50}
+.skip:focus{left:12px}
+
+.site-header{background:var(--surface);border-bottom:1px solid var(--line)}
+.site-header .inner{max-width:1240px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;letter-spacing:-.01em;margin-right:auto}
+.brand small{display:block;font-family:var(--font-mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.site-nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+.site-nav a{display:block;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--muted);font-size:14.5px;font-weight:500}
+.site-nav a:hover{background:var(--hover);color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);background:var(--hover);font-weight:600}
+@media (max-width:860px){
+  .menu-btn{display:inline-block}
+  .site-nav{flex-basis:100%;display:none}
+  .site-nav.open{display:block}
+  .site-nav ul{flex-direction:column;padding:4px 0 6px}
+}
+
+.doc{max-width:780px;margin:0 auto;padding:32px 20px 56px}
+.doc.wide{max-width:1100px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:700;font-size:23px;line-height:1.2;margin:36px 0 10px;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.3;margin:24px 0 6px}
+.lede{font-size:18px;max-width:65ch}
+.doc p,.doc li{max-width:68ch}
+.doc ul,.doc ol{padding-left:22px}
+.doc li{margin-bottom:6px}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0 20px;font-size:15px}
+.doc th,.doc td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.doc th{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.note{border-left:3px solid var(--accent);background:var(--hover);padding:10px 14px;border-radius:0 8px 8px 0;margin:18px 0}
+.meta{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin:0 4px 4px 0}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--hover)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:18px 0}
+.tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--accent)}
+.tile h3{margin:0 0 4px}
+.tile p{margin:0;font-size:14.5px;color:var(--muted)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0;break-inside:avoid;page-break-inside:avoid}
+.card h3{margin:0 0 6px}
+.card .num{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.card dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:15px}
+.card dt{font-weight:600}
+.card dd{margin:0}
+.cards{columns:2 340px;column-gap:16px}
+.cards .card{display:inline-block;width:100%;margin:0 0 16px}
+
+.site-footer{border-top:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--muted)}
+.site-footer .inner{max-width:1240px;margin:0 auto;padding:16px 20px;display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+.site-footer a{color:var(--muted)}
+
+@media print{
+  .site-header,.site-footer,.tools,.skip,.no-print{display:none!important}
+  body{background:#fff;color:#000;font-size:12pt}
+  .doc{max-width:none;padding:0}
+  .card{border:1px solid #888;background:#fff}
+  a{color:#000;text-decoration:none}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">AI literacy for teachers<small>Professional learning · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="map.html">AI map</a></li><li><a href="cards.html" aria-current="page">Scenario cards</a></li><li><a href="activities.html">Activities</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="readings.html">Readings</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="frameworks.html">Frameworks</a></li></ul></nav></div></header>
+<main id="main">
+
+<div class="doc wide">
+<p class="eyebrow">For small groups</p>
+<h1>Scenario cards</h1>
+<p class="lede">Ten classroom situations for discussion. Each pulls on two or three dimensions of the <a href="frameworks.html">Entangled Dimensions</a> framework and suggests one move to try with a chatbot, read through one of the four Cs of Computational Sense-Making.</p>
+<p><strong>How to run them.</strong> Groups of three or four take one card each. Discuss for ten minutes, try the move for five, then report one tension back to the room in two. If there is no connection, run the move on one screen, read out a saved output, or skip it.</p>
+<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button></div>
+<div class="cards">
+<article class="card" id="card-1"><p class="num">Card 1</p><h3>The helpful feedback</h3><p>A Grade 10 student shows you feedback a chatbot gave on their essay. It is specific, encouraging and mostly right. The student rewrote their essay to match it, and it is now smoother and less theirs.</p><dl><dt>Threads</dt><dd>relational, creative, epistemic</dd><dt>Ask</dt><dd>What did the student gain and what did they give up? Whose voice is the essay in now? What would feedback from you have done differently?</dd><dt>Try it (Composition)</dt><dd>Ask for feedback on a short paragraph, then ask it to “argue with the writer rather than fix the writing”. Compare.</dd></dl></article>
+<article class="card" id="card-2"><p class="num">Card 2</p><h3>The class agreement</h3><p>Your department wants one AI rule for all courses. Your students want a say.</p><dl><dt>Threads</dt><dd>political, relational, disciplinary</dd><dt>Ask</dt><dd>Who gets to decide? Should the rule differ in art, science and English? What does a rule assume about students?</dd><dt>Try it (Constraints)</dt><dd>Ask a chatbot to write a class AI policy. Note what it includes by default and what it leaves out: cost, data, refusal, community knowledge.</dd></dl></article>
+<article class="card" id="card-3"><p class="num">Card 3</p><h3>The grade it gave</h3><p>A colleague ran a stack of lab reports through a chatbot “just to check” their marks. The model's scores were close to theirs, with confident comments.</p><dl><dt>Threads</dt><dd>epistemic, data, relational</dd><dt>Ask</dt><dd>Is close agreement evidence of anything? What should students be told? What is assessment for, if a machine can mimic it?</dd><dt>Try it (Calibration)</dt><dd>Grade the same sample three times. Compare scores and reasoning. Ask it how certain it is.</dd></dl></article>
+<article class="card" id="card-4"><p class="num">Card 4</p><h3>The un-AI-able task</h3><p>You redesign an assignment so it “can't be done with AI”: handwritten, in class, personal. A student with an IEP relied on AI-supported drafting.</p><dl><dt>Threads</dt><dd>knowledge-construction, relational, political</dd><dt>Ask</dt><dd>Who does structural redesign help and who does it exclude? What is the task protecting?</dd><dt>Try it</dt><dd>None. Discuss without the machine, and notice what that is like.</dd></dl></article>
+<article class="card" id="card-5"><p class="num">Card 5</p><h3>Where it lives</h3><p>A student asks how much water their chatbot use takes. Another says it's tiny compared to video streaming.</p><dl><dt>Threads</dt><dd>ecological, political, futures</dd><dt>Ask</dt><dd>How do we teach cost when the numbers are contested and the companies don't publish them? Does this belong in every subject?</dd><dt>Try it (Calibration)</dt><dd>Ask the chatbot the student's question. How confident does it sound? What sources can you find?</dd></dl></article>
+<article class="card" id="card-6"><p class="num">Card 6</p><h3>The picture of us</h3><p>Students ask an image generator for “a family from our town”. The results look like nobody they know.</p><dl><dt>Threads</dt><dd>data, creative, relational</dd><dt>Ask</dt><dd>What does the system treat as normal? Whose absence is this? What would students make instead?</dd><dt>Try it (Computation)</dt><dd>Add context step by step and watch what changes and what doesn't.</dd></dl></article>
+<article class="card" id="card-7"><p class="num">Card 7</p><h3>The confident history</h3><p>A chatbot gives a smooth, confident account of a local historical event. Parts of it are wrong, and it leaves out whose account it is.</p><dl><dt>Threads</dt><dd>epistemic, knowledge-construction, political</dd><dt>Ask</dt><dd>Whose knowledge is in the training data, and whose is not? What should never be asked of the machine?</dd><dt>Try it (Computation)</dt><dd>Ask it where its account comes from and what it cannot know. Read the refusal or the invention.</dd></dl></article>
+<article class="card" id="card-8"><p class="num">Card 8</p><h3>The study buddy</h3><p>A student uses a chatbot every night to “explain things”. Their test scores are up. They say they have stopped asking you questions.</p><dl><dt>Threads</dt><dd>relational, epistemic, futures</dd><dt>Ask</dt><dd>What is lost if the relationship moves to the machine? What is gained? What would you say to this student?</dd><dt>Try it (Constraints)</dt><dd>Ask the chatbot to disagree with you about something. Notice how it smooths.</dd></dl></article>
+<article class="card" id="card-9"><p class="num">Card 9</p><h3>The free tool</h3><p>A company offers your school free AI accounts for every student, with lesson plans included.</p><dl><dt>Threads</dt><dd>political, data, futures</dd><dt>Ask</dt><dd>What is the business model? What happens to student data? What future is being built, and who chose it?</dd><dt>Try it</dt><dd>Ask the chatbot to summarise the tool's terms of service, then check it against the actual terms.</dd></dl></article>
+<article class="card" id="card-10"><p class="num">Card 10</p><h3>The lesson plan in thirty seconds</h3><p>A new teacher generates a full unit plan in half a minute. It is tidy, aligned to curriculum, and generic.</p><dl><dt>Threads</dt><dd>disciplinary, creative, knowledge-construction</dd><dt>Ask</dt><dd>What does planning do for a teacher beyond producing a plan? Where is the time better spent?</dd><dt>Try it (Composition)</dt><dd>Regenerate twice. What stays the same? That sameness is the average.</dd></dl></article>
+</div>
+<p class="meta">Free to reuse and adapt under CC BY 4.0. Cards to write next: a deepfake of a student; a parent who forbids AI; a student who refuses AI on principle.</p>
+</div>
+
+</main>
+<footer class="site-footer"><div class="inner"><span>© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</span><span>Updated November 2026 · <a href="https://github.com/rshorst/ai-literacy-pd">Source and offline copy</a></span></div></footer>
+<script>(function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>
+</body>
+</html>

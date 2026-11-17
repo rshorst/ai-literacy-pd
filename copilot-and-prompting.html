@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Copilot and prompting · AI literacy for teachers</title>
+<meta name="description" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Site frame: same tokens as the AI map so every page reads as one family. */
+:root{--bg:#edf0ef;--surface:#fbfcfc;--ink:#17202a;--muted:#5a6570;--line:#c3cbcf;--accent:#0b5cad;--hover:#e6ecf1;
+--c-company:#2f3b48;--c-model:#0b7a6a;--c-app:#2b52c4;--c-cat:#9c5a05;--c-concept:#99286f;
+--font-display:"Archivo","Helvetica Neue",Arial,sans-serif;--font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:6px;z-index:50}
+.skip:focus{left:12px}
+
+.site-header{background:var(--surface);border-bottom:1px solid var(--line)}
+.site-header .inner{max-width:1240px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;letter-spacing:-.01em;margin-right:auto}
+.brand small{display:block;font-family:var(--font-mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.site-nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+.site-nav a{display:block;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--muted);font-size:14.5px;font-weight:500}
+.site-nav a:hover{background:var(--hover);color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);background:var(--hover);font-weight:600}
+@media (max-width:860px){
+  .menu-btn{display:inline-block}
+  .site-nav{flex-basis:100%;display:none}
+  .site-nav.open{display:block}
+  .site-nav ul{flex-direction:column;padding:4px 0 6px}
+}
+
+.doc{max-width:780px;margin:0 auto;padding:32px 20px 56px}
+.doc.wide{max-width:1100px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:700;font-size:23px;line-height:1.2;margin:36px 0 10px;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.3;margin:24px 0 6px}
+.lede{font-size:18px;max-width:65ch}
+.doc p,.doc li{max-width:68ch}
+.doc ul,.doc ol{padding-left:22px}
+.doc li{margin-bottom:6px}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0 20px;font-size:15px}
+.doc th,.doc td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.doc th{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.note{border-left:3px solid var(--accent);background:var(--hover);padding:10px 14px;border-radius:0 8px 8px 0;margin:18px 0}
+.meta{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin:0 4px 4px 0}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--hover)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:18px 0}
+.tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--accent)}
+.tile h3{margin:0 0 4px}
+.tile p{margin:0;font-size:14.5px;color:var(--muted)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0;break-inside:avoid;page-break-inside:avoid}
+.card h3{margin:0 0 6px}
+.card .num{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.card dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:15px}
+.card dt{font-weight:600}
+.card dd{margin:0}
+.cards{columns:2 340px;column-gap:16px}
+.cards .card{display:inline-block;width:100%;margin:0 0 16px}
+
+.site-footer{border-top:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--muted)}
+.site-footer .inner{max-width:1240px;margin:0 auto;padding:16px 20px;display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+.site-footer a{color:var(--muted)}
+
+@media print{
+  .site-header,.site-footer,.tools,.skip,.no-print{display:none!important}
+  body{background:#fff;color:#000;font-size:12pt}
+  .doc{max-width:none;padding:0}
+  .card{border:1px solid #888;background:#fff}
+  a{color:#000;text-decoration:none}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">AI literacy for teachers<small>Professional learning · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="map.html">AI map</a></li><li><a href="cards.html">Scenario cards</a></li><li><a href="activities.html">Activities</a></li><li><a href="handouts.html" aria-current="page">Handouts</a></li><li><a href="readings.html">Readings</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="frameworks.html">Frameworks</a></li></ul></nav></div></header>
+<main id="main">
+<div class="doc">
+<p class="eyebrow">Handout</p>
+<h1>Copilot and prompting</h1>
+<p class="lede">A working handout for schools that use Microsoft 365. Microsoft renames and relicenses these products often, so what is on your screen may not match this page. Check details with your district's IT team.</p>
+<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button></div>
+<h2>What Copilot is in a school</h2>
+<p>There are two products sharing one name.</p>
+<p><strong>Microsoft 365 Copilot Chat</strong> is the free one. It comes with the standard school licences at no extra cost. It works from the web, not from your school's files.</p>
+<p><strong>Microsoft 365 Copilot</strong> is the paid add-on. What you get for the money is grounding in your own work, meaning your files, mail, calendar and Teams content, plus drafting features inside Word, Excel and PowerPoint.</p>
+<p>In practice, the side panel that answers questions is free. Features that rewrite the document in front of you are paid, and some may not be available on education licences at all. Check before you rely on them.</p>
+<h3>Data protection, honestly described</h3>
+<p>Microsoft commits that prompts and responses in a work or school account are not used to train its models, and that data stays inside your organization's permissions, retention and audit systems. Three things that commitment does not cover:</p>
+<ol>
+<li><strong>It follows the account, not the app.</strong> Sign in with a personal Microsoft account and you are under consumer terms.</li>
+<li><strong>Web search is different.</strong> When Copilot searches the web, the query goes out under Microsoft's ordinary service agreement.</li>
+<li><strong>Where the data lives.</strong> Don't assume your prompts stay in Canada. When this was written, Microsoft's data residency pages did not commit to that for Copilot Chat. Check your district's position under FIPPA.</li>
+</ol>
+<h3>Students</h3>
+<p>In a K to 12 setup, Microsoft's defaults block students under 13 from Copilot Chat, and 13 to 17 year olds are off unless an administrator sets age groups and records consent. Staff-only is the default, not a local restriction. Check what your school has enabled.</p>
+<h3>Education tools worth knowing</h3>
+<ul>
+<li><strong>Teach in Microsoft 365 Copilot.</strong> Lesson plans, quizzes, rubrics, and adapting material by reading level, language or difficulty. For staff only, included with education licences.</li>
+<li><strong>Learning Zone.</strong> Builds interactive lessons from your materials. Creating lessons needs a Copilot+ PC; students can open finished lessons on any device.</li>
+<li><strong>Learning Accelerators.</strong> Reading Progress, Reading Coach, Search Coach, Speaker Coach, Math Progress and Reflect. These are longstanding tools, not new AI.</li>
+<li><strong>Elevate for Educators.</strong> A free Microsoft educator credential launched with ISTE and ASCD in January 2026. Worth knowing about, and worth discussing: free vendor training is not neutral training.</li>
+</ul>
+<h2>Good uses, and what to skip</h2>
+<p><strong>Reasonable uses</strong></p>
+<ul>
+<li>First drafts of routine writing: newsletters, permission letters, a description of an assignment.</li>
+<li>Reformatting and restructuring something you already wrote.</li>
+<li>Variations: three versions of a task at different reading levels, ten practice questions to choose from.</li>
+<li>Summarising a long document you already understand, so you can find the part you need.</li>
+<li>Getting unstuck on a lesson idea.</li>
+</ul>
+<p><strong>Skip or be careful</strong></p>
+<ul>
+<li><strong>Grading.</strong> That is your professional judgement and your district's policy. Run the same piece of work through twice and see how stable the mark is before trusting it with anyone's grade.</li>
+<li><strong>Writing about identifiable people,</strong> whether students, colleagues or families. The Dutch education sector's assessment of Copilot found it inventing biographical details about real people.</li>
+<li><strong>Anything factual that goes to students unverified.</strong> The same assessment found fabricated articles and court cases.</li>
+<li><strong>Feedback you would want to give yourself.</strong> The relationship is the point.</li>
+<li><strong>Transcribing meetings with students or parents.</strong> That is a consent question for your district, not a feature question.</li>
+</ul>
+<p><strong>What the evidence says about time.</strong> The best trial so far randomised 259 science teachers across 68 schools using a chatbot for lesson preparation. They saved about 25 minutes a week, roughly a third of their preparation time, and independent reviewers found no difference in the quality of what they produced. It can save time. It does not obviously make the work better.</p>
+<h2>Prompting strategies</h2>
+<p>These are reasonable heuristics. Research on prompting is thin, so treat them as craft, not method.</p>
+<p><strong>Six that do most of the work</strong></p>
+<ol>
+<li><strong>Say who and what for.</strong> Grade, subject, length, what the students already know. Most disappointing output is a missing-context problem.</li>
+<li><strong>Show it an example.</strong> Paste one of your own handouts and ask for something that matches it.</li>
+<li><strong>Ask for options, not an answer.</strong> Three versions, and you pick.</li>
+<li><strong>Work in steps.</strong> Outline first, agree the outline, then the content.</li>
+<li><strong>Say what the output should look like.</strong> A table with these columns, six bullets, under 200 words.</li>
+<li><strong>Make it argue.</strong> “What is wrong with this?” “What would a skeptical colleague say?” The default setting is agreeable, which is not useful.</li>
+</ol>
+<p><strong>Three habits that matter more than any prompt</strong></p>
+<ul>
+<li><strong>Run it twice.</strong> Two fresh chats, same question. What changes is what it was never sure about.</li>
+<li><strong>Ask what it left out.</strong> The smoothing is where the interesting material went.</li>
+<li><strong>Verify anything factual.</strong> Every name, date, number and citation, before it reaches a student.</li>
+</ul>
+<div class="note">One question to keep asking: what am I giving up by handing this over? Sometimes nothing. Sometimes the thinking was the job.</div>
+<h2>Sources</h2>
+<ul>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/copilot/manage">Copilot licensing</a> and <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/enterprise-data-protection">enterprise data protection</a></li>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/microsoft-365/education/guide/1-reference/manage-microsoft-365-education-ai-features">education AI features and Teach in Copilot</a> and <a href="https://learn.microsoft.com/en-us/microsoft-365/education/guide/1-reference/enable-copilot-chat-for-learners">enabling Copilot Chat for learners</a></li>
+<li>SURF, <a href="https://www.surf.nl/files/2025-09/20250911-surf-public-update-dpia-on-m365-copilot-for-education-website.pdf">data protection impact assessment on Microsoft 365 Copilot for Education</a> (September 2025)</li>
+<li>EEF and NFER, <a href="https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/choices-in-edtech-using-generative-ai-chatgpt-for-ks3-science-lesson-preparation-2024-teacher-choices-trial">teacher choices trial on lesson preparation</a></li>
+</ul>
+<p class="meta">Checked September 2026.</p>
+</div>
+</main>
+<footer class="site-footer"><div class="inner"><span>© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</span><span>Updated November 2026 · <a href="https://github.com/rshorst/ai-literacy-pd">Source and offline copy</a></span></div></footer>
+<script>(function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>
+</body>
+</html>

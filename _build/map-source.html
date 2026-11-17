@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who makes what in AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a transit-style map in two tabs. Columns read left to right (maker > model > app > use),
+   concepts hang below the hub, details sit in a sticky side panel (a bottom sheet on small screens). */
+:root{
+  --bg:#edf0ef;
+  --surface:#fbfcfc;
+  --ink:#17202a;
+  --muted:#5a6570;
+  --line:#c3cbcf;
+  --accent:#0b5cad;
+  --hover:#e6ecf1;
+  --c-company:#2f3b48;
+  --c-model:#0b7a6a;
+  --c-app:#2b52c4;
+  --c-cat:#9c5a05;
+  --c-concept:#99286f;
+  --font-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151a; --surface:#171f27; --ink:#e5eaee; --muted:#9aa6b1; --line:#36424d;
+    --accent:#72b2ff; --hover:#22303c;
+    --c-company:#c5cfd9; --c-model:#3cc4ae; --c-app:#8ea8ff; --c-cat:#e2a64c; --c-concept:#e57cc3;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151a; --surface:#171f27; --ink:#e5eaee; --muted:#9aa6b1; --line:#36424d;
+  --accent:#72b2ff; --hover:#22303c;
+  --c-company:#c5cfd9; --c-model:#3cc4ae; --c-app:#8ea8ff; --c-cat:#e2a64c; --c-concept:#e57cc3;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
+.page{max-width:1240px;margin:0 auto;padding:28px 20px 40px;display:flex;flex-direction:column;gap:18px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* Intro */
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
+.lede{max-width:68ch;margin:0;color:var(--ink)}
+.lede + .lede{margin-top:6px;color:var(--muted)}
+
+/* Controls */
+.controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;list-style:none;margin:0;padding:0;font-size:13.5px}
+.key li{display:inline-flex;align-items:center;gap:7px}
+.search{position:relative;min-width:260px;flex:0 1 320px}
+.search label{display:block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.search input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;font-size:14.5px}
+.search input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.results{position:absolute;z-index:20;left:0;right:0;top:100%;margin:4px 0 0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:320px;overflow:auto}
+.results li{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;cursor:pointer;font-size:14px}
+.results li .rt{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.results li[aria-selected="true"],.results li:hover{background:var(--hover)}
+.results .none{color:var(--muted);cursor:default}
+
+/* Skills bar */
+.skills-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.bar-label{font-family:var(--font-display);font-weight:700;font-size:15px;margin:0}
+.skill-chips{display:flex;flex-wrap:wrap;gap:6px}
+.skill-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px 5px 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:13.5px}
+.skill-chip:hover{background:var(--hover)}
+.skill-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.skill-chip .ic{width:15px;height:15px}
+
+/* Markers (shape + color encode type) */
+.mk{display:inline-block;flex:none}
+.mk-company{width:11px;height:11px;border:2px solid var(--c-company);border-radius:2px;background:var(--surface)}
+.mk-model{width:11px;height:11px;border-radius:50%;background:var(--c-model)}
+.mk-app{width:12px;height:12px;border-radius:50%;border:2.5px solid var(--c-app);background:var(--surface)}
+.mk-category{width:15px;height:9px;border-radius:3px;background:var(--c-cat)}
+.mk-concept{width:10px;height:10px;background:var(--c-concept);transform:rotate(45deg);margin:1px}
+.mk-skill{width:12px;height:12px;border-radius:3px;background:var(--accent)}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.map-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;min-width:0;overflow:hidden}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;padding:8px 10px 0;border-bottom:1px solid var(--line)}
+.tab{border:0;border-bottom:3px solid transparent;background:none;margin-bottom:-1px;padding:9px 14px 8px;font-family:var(--font-display);font-weight:700;font-size:14.5px;color:var(--muted);cursor:pointer;border-radius:6px 6px 0 0}
+.tab:hover{color:var(--ink);background:var(--hover)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.view-intro{margin:14px 18px 0;max-width:72ch;font-size:14px;color:var(--muted)}
+.map-scroll{overflow-x:auto}
+.canvas{position:relative;min-width:780px}
+.canvas svg.edges{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.colhead{position:absolute;top:16px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.divider{position:absolute;left:16px;right:16px;border-top:1px dashed var(--line)}
+.region-label{position:absolute;left:16px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.edge{fill:none;stroke:var(--line);stroke-width:1.2;transition:opacity .15s}
+.edge.on{stroke:var(--accent);stroke-width:2}
+.has-focus .edge:not(.on){opacity:.3}
+
+.node{position:absolute;display:inline-flex;align-items:center;gap:6px;padding:2px 7px 2px 3px;margin:0;border:0;border-radius:6px;background:transparent;cursor:pointer;white-space:nowrap;font-size:13.5px;line-height:1.25;transform:translateY(-50%);transition:opacity .15s}
+.node:hover{background:var(--hover)}
+.node .lbl{font-weight:500}
+.has-focus .node:not(.on){opacity:.28}
+.node.sel{background:var(--hover)}
+.node.sel .lbl{font-weight:700}
+.node.sel .mk-company{background:var(--c-company)}
+.node.sel .mk-app{background:var(--c-app)}
+.node.pulse{animation:pulse 1s ease-out 2}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--accent)}100%{box-shadow:0 0 0 8px transparent}}
+.node .icons{display:inline-flex;gap:2px;margin-left:2px;color:var(--muted)}
+.node .icons .ic{width:13px;height:13px}
+.node .io .arr{font-size:11px;margin:0 2px;line-height:1}
+.node.on .icons,.node.sel .icons{color:var(--ink)}
+.node.cat .lbl{font-weight:600}
+.node.concept{flex-direction:column;gap:4px;transform:translate(-50%,-50%);padding:4px 8px;background:var(--surface);white-space:normal;text-align:center;width:max-content;max-width:120px;font-size:13px}
+.node.concept:hover,.node.concept.sel{background:var(--hover)}
+.node.hub{font-family:var(--font-display);font-weight:700;font-size:14.5px;max-width:220px}
+.node.hub .mk-concept{width:15px;height:15px}
+
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* Panel */
+.panel{position:sticky;top:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;max-height:calc(100vh - 32px);overflow:auto}
+.p-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.p-type{display:inline-flex;align-items:center;gap:8px;margin:0;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.p-close{display:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:3px 10px;cursor:pointer;font-size:13px}
+.panel h2{font-family:var(--font-display);font-weight:800;font-size:24px;line-height:1.15;margin:6px 0 8px;text-wrap:balance}
+.p-desc{margin:0 0 14px;max-width:60ch}
+.p-group{margin-top:12px}
+.p-group h3{margin:0 0 6px;font-family:var(--font-mono);font-weight:500;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:13.5px;cursor:pointer;line-height:1.3;text-align:left}
+button.chip:hover{background:var(--hover)}
+.chip.static{cursor:default}
+.chip .tabhint{font-size:11.5px;color:var(--muted)}
+.p-text{margin:0;font-size:14px}
+.p-note{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+.note-box{margin:0;padding:10px 12px;border-left:3px solid var(--c-cat);background:var(--hover);border-radius:0 8px 8px 0;font-size:14px}
+.mod-row{display:grid;grid-template-columns:92px 1fr;gap:6px 8px;align-items:center}
+.mod-row .lab{font-size:13px;color:var(--muted)}
+.p-clear{margin-top:16px;border:0;background:none;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:13.5px}
+.guide{margin:4px 0 0;padding-left:20px}
+.guide li{margin-bottom:6px}
+
+/* Footer */
+footer{font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px;max-width:80ch}
+footer p{margin:0}
+footer details summary{cursor:pointer;color:var(--ink)}
+footer ul{margin:6px 0 0;padding-left:18px}
+footer a{color:var(--accent)}
+
+@media (max-width:1139px){
+  .layout{grid-template-columns:1fr}
+  .panel{position:fixed;z-index:30;left:12px;right:12px;bottom:12px;top:auto;max-height:52vh;box-shadow:0 12px 40px rgba(0,0,0,.25);transform:translateY(calc(100% + 30px));transition:transform .2s ease;visibility:hidden}
+  .panel.open{transform:none;visibility:visible}
+  .p-close{display:inline-block}
+  .page{padding-bottom:56vh}
+}
+@media (max-width:480px){
+  .page{padding:20px 16px 56vh}
+  .search{flex-basis:100%}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="eyebrow">AI map</p>
+    <h1>Who makes what in AI</h1>
+    <p class="lede">Companies train models. Apps and tools put those models in front of you. One model often sits behind many apps, so a chatbot, a school tool and a coding assistant can share the same engine. Read the map from left to right and select any name to see what it connects to. The ideas at the bottom explain how it all works.</p>
+    <p class="lede">Icons after a model show what it can produce. Icons after an app show what it can do. The second tab maps the other kinds of AI that rank, sort, listen and translate, mostly out of sight.</p>
+  </header>
+
+  <section class="controls" aria-label="Key and search">
+    <ul class="key" id="key-main" aria-label="Key">
+      <li><span class="mk mk-company"></span>Companies</li>
+      <li><span class="mk mk-model"></span>Models</li>
+      <li><span class="mk mk-app"></span>Apps and tools</li>
+      <li><span class="mk mk-category"></span>Uses</li>
+      <li><span class="mk mk-concept"></span>Concepts</li>
+    </ul>
+    <ul class="key" id="key-other" aria-label="Key" hidden>
+      <li><span class="mk mk-company"></span>Makers</li>
+      <li><span class="mk mk-model"></span>Models and tools</li>
+      <li><span class="mk mk-category"></span>Kinds of model</li>
+    </ul>
+    <div class="search">
+      <label for="find">Find on the map</label>
+      <input id="find" type="search" autocomplete="off" placeholder="Try Gemini, video, Turnitin…" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="results">
+      <ul id="results" class="results" role="listbox" aria-label="Matches" hidden></ul>
+    </div>
+  </section>
+
+  <section class="skills-bar" id="skillsBar" aria-labelledby="skills-h">
+    <h2 id="skills-h" class="bar-label">What can it do?</h2>
+    <div class="skill-chips" id="skillChips"></div>
+  </section>
+
+  <div class="layout">
+    <div class="map-card">
+      <div class="tabs" role="tablist" aria-label="Map views">
+        <button type="button" class="tab" role="tab" id="tab-main" data-tab="main" aria-controls="view-main" aria-selected="true">AI you talk to and make with</button>
+        <button type="button" class="tab" role="tab" id="tab-other" data-tab="other" aria-controls="view-other" aria-selected="false" tabindex="-1">Other kinds of AI</button>
+      </div>
+      <div class="map-scroll" id="view-main" role="tabpanel" aria-labelledby="tab-main">
+        <div class="canvas" id="canvas-main">
+          <svg class="edges" aria-hidden="true"><g class="gBase"></g><g class="gTop"></g></svg>
+        </div>
+      </div>
+      <div id="view-other" role="tabpanel" aria-labelledby="tab-other" hidden>
+        <p class="view-intro">Most AI is not a chatbot. These models rank feeds, sort and score, turn speech into text, translate, and predict, often where nobody sees them. Each kind shows what it takes in and what it gives back.</p>
+        <div class="map-scroll">
+          <div class="canvas" id="canvas-other">
+            <svg class="edges" aria-hidden="true"><g class="gBase"></g><g class="gTop"></g></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite" aria-label="Details"></aside>
+  </div>
+
+  <footer>
+    <p>As of November 2026. Names, models and partnerships change every few months, so check before you teach from this map.</p>
+    <p>Idea adapted from the AI map in ThinkBeyondAI's AI Basics course.</p>
+    <details>
+      <summary>Sources for recent changes</summary>
+      <ul>
+        <li><a href="https://about.fb.com/news/2026/04/introducing-muse-spark/">Meta: Introducing Muse Spark (April 2026)</a></li>
+        <li><a href="https://microsoft.ai/news/hill-climbing-mai-models-for-github-copilot-and-excel/">Microsoft AI: MAI models in GitHub Copilot and Excel (July 2026)</a></li>
+        <li><a href="https://blog.google/innovation-and-ai/products/gemini-notebook/notebooklm-gemini-notebook/">Google: NotebookLM is now Gemini Notebook (July 2026)</a></li>
+        <li><a href="https://workspaceupdates.googleblog.com/2026/06/updates-to-gemini-in-google-classroom.html">Google Workspace Updates: Gemini in Google Classroom (June 2026)</a></li>
+        <li><a href="https://blog.google/products-and-platforms/products/education/khan-academy-back-to-school/">Google: Khan Academy tools built with Gemini (August 2026)</a></li>
+        <li><a href="https://intercom.help/magic-school-inc/en/articles/9940100-what-llm-does-magicschool-use">MagicSchool: What LLM does MagicSchool use?</a></li>
+        <li><a href="https://www.briskteaching.com/schools-and-districts">Brisk Teaching: Schools and districts FAQ</a></li>
+        <li><a href="https://openai.com/index/bringing-chatgpt-for-teachers-to-more-us-school-districts/">OpenAI: ChatGPT for Teachers (August 2026)</a></li>
+        <li><a href="https://9to5google.com/2026/03/24/openai-shutting-down-sora-video-generation-app-but-without-explaining-why/">9to5Google: OpenAI shutting down the Sora app (March 2026)</a></li>
+        <li><a href="https://www.engadget.com/ai/deepseek-promises-its-new-ai-model-has-world-class-reasoning-115733512.html">Engadget: DeepSeek V4 (April 2026)</a></li>
+        <li><a href="https://x.ai/news">xAI news</a></li>
+        <li><a href="https://www.turnitin.com/products/features/ai-writing-detection/">Turnitin: AI writing detection FAQ</a></li>
+        <li><a href="https://support.gptzero.me/hc/en-us/articles/15130070230551-How-do-I-interpret-burstiness-or-perplexity">GPTZero: How do I interpret burstiness or perplexity?</a></li>
+        <li><a href="https://blog.google/intl/en-africa/products/explore-get-answers/were-making-it-easier-to-identify-ai-generated-content-globally/">Google: SynthID Detector opens to everyone (October 2026)</a></li>
+        <li><a href="https://fastcompany.com/91598497/pangram-is-here-to-call-out-your-ai-slop-habit">Fast Company: Pangram</a></li>
+        <li><a href="https://themarkup.org/the-breakdown/2023/04/27/takeaways-from-our-investigation-into-wisconsins-racially-inequitable-dropout-algorithm">The Markup: Wisconsin’s dropout algorithm (2023)</a></li>
+        <li><a href="https://powerschoolstg.powerschool.com/solutions/unified-insights/risk-analysis">PowerSchool: Risk Analysis</a></li>
+        <li><a href="https://docs.goguardian.com/products/beacon">GoGuardian: Beacon documentation</a></li>
+        <li><a href="https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/">Google DeepMind: WeatherNext cyclone forecasting (August 2026)</a></li>
+        <li><a href="https://ppc.land/googles-lyria-3-5-puts-full-length-ai-songs-in-gemini-and-the-api/">PPC Land: Lyria 3.5 in the Gemini app (September 2026)</a></li>
+        <li><a href="https://www.engadget.com/entertainment/music/warner-music-drops-lawsuit-against-ai-music-platform-suno-in-exchange-for-licensing-agreement-224619025.html">Engadget: Warner Music and Suno licensing deal (November 2025)</a></li>
+      </ul>
+    </details>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Icons ---------- */
+const ICONS = {
+  text:'<path d="M3.5 3.5h9M8 3.5v9.5"/>',
+  chat:'<path d="M2.5 3.5h11v7H7l-3.2 2.8v-2.8H2.5z"/>',
+  web:'<circle cx="8" cy="8" r="5.6"/><path d="M2.4 8h11.2M8 2.4c2.3 2.2 2.3 9 0 11.2M8 2.4c-2.3 2.2-2.3 9 0 11.2"/>',
+  files:'<path d="M4 2h5l3.2 3.2V14H4z"/><path d="M9 2v3.2h3.2"/>',
+  image:'<rect x="2.2" y="3.2" width="11.6" height="9.6" rx="1.2"/><path d="M2.6 11.4l3.6-3.6 3 3 2-2 2.4 2.4"/><circle cx="10.6" cy="6.1" r="1"/>',
+  video:'<rect x="1.8" y="4.2" width="8.6" height="7.6" rx="1.2"/><path d="M10.4 7l3.8-2.2v6.4L10.4 9z"/>',
+  audio:'<path d="M2.5 7v2M5 4.5v7M7.5 2.5v11M10 4.5v7M12.5 6.5v3"/>',
+  voice:'<rect x="5.8" y="2" width="4.4" height="7.6" rx="2.2"/><path d="M3.6 7.6a4.4 4.4 0 0 0 8.8 0M8 12v2"/>',
+  code:'<path d="M5.6 4.6L2.4 8l3.2 3.4M10.4 4.6L13.6 8l-3.2 3.4"/>',
+  agent:'<path d="M3 2.6l4.6 10.6 1.6-4.2 4.2-1.6z"/>',
+  teach:'<path d="M1.4 6.4L8 3.4l6.6 3L8 9.4z"/><path d="M4.4 7.8v3.1c1 .9 2.2 1.5 3.6 1.5s2.6-.6 3.6-1.5V7.8"/>',
+  local:'<rect x="3.2" y="3.4" width="9.6" height="6.8" rx="1"/><path d="M1.4 12.6h13.2"/>',
+  data:'<path d="M3 13.2V8.5M6.3 13.2V4.6M9.6 13.2V6.8M12.9 13.2V2.8"/>',
+  score:'<path d="M2.4 2.4h5.3l5.9 5.9-5.3 5.3-5.9-5.9z"/><circle cx="5.3" cy="5.3" r=".9"/>',
+  ranking:'<path d="M6 4h7.6M6 8h7.6M6 12h7.6M2.6 4h.9M2.6 8h.9M2.6 12h.9"/>',
+  numbers:'<path d="M4.6 2.8H3v10.4h1.6M11.4 2.8H13v10.4h-1.6M6.6 6.4v3.2M9.4 6.4v3.2"/>',
+  prediction:'<path d="M2.4 12.4l3.6-3.6 2.6 2.6 5-5.6M10.6 5.8h3v3"/>',
+  world:'<path d="M8 1.8l5.6 3.1v6.2L8 14.2l-5.6-3.1V4.9z"/><path d="M2.4 4.9L8 8l5.6-3.1M8 8v6.2"/>',
+  actions:'<path d="M8 1.8v12.4M1.8 8h12.4M5.8 3.8L8 1.8l2.2 2M5.8 12.2L8 14.2l2.2-2M3.8 5.8L1.8 8l2 2.2M12.2 5.8l2 2.2-2 2.2"/>'
+};
+function icon(name){ return '<svg class="ic" viewBox="0 0 16 16" aria-hidden="true">'+(ICONS[name]||'')+'</svg>'; }
+
+/* ---------- Vocabulary ---------- */
+const MODALITY = {text:'Text', image:'Images', audio:'Audio', video:'Video', data:'Data', score:'A label or score', ranking:'A ranked list', numbers:'Numbers', prediction:'A prediction', world:'A simulated world', actions:'Robot actions'};
+const SKILLS = {
+  chat:{label:'Chat and write', desc:'Hold a conversation and write or rewrite text, such as emails, explanations and feedback drafts.'},
+  web:{label:'Search the web', desc:'Look things up online during the conversation and show links, so answers can include recent information.'},
+  files:{label:'Work with your files', desc:'Read documents, slides, spreadsheets or images you provide, and answer from them.'},
+  image:{label:'Make images', desc:'Create or edit pictures from a written description.'},
+  video:{label:'Make video', desc:'Create short video clips from a description or an image.'},
+  audio:{label:'Make audio', desc:'Turn material into spoken audio or music, such as podcast-style overviews or songs.'},
+  voice:{label:'Talk by voice', desc:'Hold a spoken conversation, so you can talk instead of type.'},
+  code:{label:'Write and run code', desc:'Write computer code and run it, for example to analyse a spreadsheet or build a small app.'},
+  agent:{label:'Do tasks for you', desc:'Carry out multi-step tasks, such as browsing sites or editing a project, often with a person approving along the way. These are called agents.'},
+  teach:{label:'Plan and adapt lessons', desc:'Ready-made teaching tasks: lesson plans, quizzes, rubrics, levelled texts and feedback.'},
+  local:{label:'Run on your own computer', desc:'Download open-weight models and run them on your own machine, so nothing you type leaves it.'}
+};
+const SKILL_TO_MOD = {image:'image', video:'video', audio:'audio', voice:'audio'};
+const TYPE_LABEL = {company:'Company', model:'Model', app:'App or tool', category:'Use', concept:'Concept', example:'Model or tool', kind:'Kind of model'};
+const MARKER = {company:'company', model:'model', app:'app', category:'category', concept:'concept', example:'model', kind:'category'};
+
+/* ---------- Main tab data (as of November 2026) ---------- */
+const COMPANIES = [
+  {id:'openai', name:'OpenAI', desc:'US company that makes the GPT models, ChatGPT and Codex.'},
+  {id:'anthropic', name:'Anthropic', desc:'US company that makes the Claude models, the Claude app and Claude Code.'},
+  {id:'google', name:'Google', aliases:['Google DeepMind','DeepMind','Alphabet'], desc:'Makes the Gemini models, Nano Banana for images and Veo for video, and builds Gemini into Search, Workspace and Classroom. Its AI lab is Google DeepMind.'},
+  {id:'meta', name:'Meta', aliases:['Facebook','Instagram','WhatsApp','Meta Superintelligence Labs'], desc:'Owner of Facebook, Instagram and WhatsApp. Its newer Muse models are closed. Its earlier Llama models are open-weight.'},
+  {id:'microsoft', name:'Microsoft', aliases:['GitHub'], desc:'Puts Copilot into Windows, Office and GitHub. It uses OpenAI’s and Anthropic’s models alongside its own MAI models.'},
+  {id:'xai', name:'xAI', aliases:['SpaceX','SpaceXAI','Elon Musk','X','Twitter'], desc:'Elon Musk’s AI company, which became part of SpaceX in 2026. It makes the Grok models and the Grok app.'},
+  {id:'mistral', name:'Mistral AI', aliases:['Mistral'], desc:'French company that makes Mistral models, several of them open-weight, and the Le Chat app.'},
+  {id:'deepseek', name:'DeepSeek', desc:'Chinese company whose free app topped download charts in January 2025. It publishes its models as open weights.'},
+  {id:'alibaba', name:'Alibaba', aliases:['Qwen'], desc:'Chinese tech company whose Qwen models are a widely used open-weight family.'},
+  {id:'perplexity', name:'Perplexity', desc:'US company that makes the Perplexity answer engine and its own Sonar models.'},
+  {id:'midjourney', name:'Midjourney', desc:'Small independent lab that makes its own image and video models.'},
+  {id:'runway', name:'Runway', desc:'US company that makes video generation models and editing tools.'},
+  {id:'adobe', name:'Adobe', aliases:['Photoshop','Firefly'], desc:'Maker of Photoshop, Illustrator and Adobe Express. Its Firefly models generate images and video.'}
+];
+
+const MODELS = [
+  {id:'m-gpt', name:'GPT models', company:'openai', in:['text','image','audio'], out:['text','image','audio'], aliases:['GPT','GPT-5','GPT-6','GPT Image'], desc:'OpenAI’s family of large language models. A new version arrives every few months, so the number after “GPT” keeps changing. The family also includes the image model behind ChatGPT’s pictures.'},
+  {id:'m-claude', name:'Claude models', company:'anthropic', in:['text','image'], out:['text'], aliases:['Claude','Opus','Sonnet','Haiku'], desc:'Anthropic’s family of large language models. They come in sizes (Haiku, Sonnet, Opus) that trade speed and cost for capability.'},
+  {id:'m-gemini', name:'Gemini models', company:'google', in:['text','image','audio','video'], out:['text','audio'], aliases:['Gemini'], desc:'Google’s family of large language models, built from the start to take in text, images, audio and video together.'},
+  {id:'m-nanobanana', name:'Nano Banana', company:'google', in:['text','image'], out:['image'], aliases:['Gemini image','Imagen'], desc:'Google’s image generation and editing model. It makes the pictures in the Gemini app and the visuals in Google Classroom.'},
+  {id:'m-veo', name:'Veo', company:'google', in:['text','image'], out:['video'], desc:'Google’s video generation model. It makes short clips, with sound, from a text description or an image.'},
+  {id:'m-muse', name:'Muse models', company:'meta', in:['text','image','audio','video'], out:['text','image'], aliases:['Muse','Muse Spark','Muse Wonder'], desc:'Meta’s newer family of models, first released in April 2026. Unlike Llama, Muse models are closed: Meta does not publish the weights.'},
+  {id:'m-llama', name:'Llama', company:'meta', in:['text','image'], out:['text'], desc:'Meta’s earlier family of open-weight models. Anyone can download and run them, and many other products were built on them.'},
+  {id:'m-grok', name:'Grok models', company:'xai', in:['text','image'], out:['text','image','video'], aliases:['Grok Imagine'], desc:'xAI’s family of models, including Grok Imagine for images and video. Also offered inside Cursor, GitHub Copilot and Perplexity.'},
+  {id:'m-mai', name:'MAI models', company:'microsoft', in:['text','audio'], out:['text','image','audio'], aliases:['Microsoft AI'], desc:'Microsoft’s own models, released from 2025 onward. They handle some tasks in Copilot, Excel and GitHub Copilot, alongside GPT and Claude.'},
+  {id:'m-mistral', name:'Mistral models', company:'mistral', in:['text','image','audio'], out:['text'], desc:'Mistral AI’s models. Several are open-weight, so they can also run offline.'},
+  {id:'m-deepseek', name:'DeepSeek models', company:'deepseek', in:['text'], out:['text'], aliases:['DeepSeek V4','R1'], desc:'DeepSeek’s models, published as open weights under a permissive licence. The latest generation, V4, arrived in 2026.'},
+  {id:'m-qwen', name:'Qwen', company:'alibaba', in:['text','image','audio','video'], out:['text','image','audio'], desc:'Alibaba’s family of open-weight models, in many sizes, from small enough for a laptop to very large.'},
+  {id:'m-sonar', name:'Sonar', company:'perplexity', in:['text'], out:['text'], desc:'Perplexity’s own models, tuned to answer from live web search with citations. The first versions were built on Meta’s Llama.'},
+  {id:'m-midjourney', name:'Midjourney models', company:'midjourney', in:['text','image'], out:['image','video'], desc:'Midjourney’s image models, known for a polished, painterly look. Newer versions can animate an image into a short clip.'},
+  {id:'m-runway', name:'Runway models', company:'runway', in:['text','image','video'], out:['video','image'], aliases:['Gen-4'], desc:'Runway’s video models, which turn text, images or existing footage into new clips.'},
+  {id:'m-firefly', name:'Firefly', company:'adobe', in:['text','image'], out:['image','video'], desc:'Adobe’s image and video models. Adobe says they are trained on content it has the rights to use, such as Adobe Stock.'}
+];
+
+const CATS = [
+  {id:'c-chat', name:'Chat assistants', desc:'General-purpose assistants you talk to in a chat window. Most can also search the web, read files and make images.'},
+  {id:'c-work', name:'Work and school apps', desc:'AI added to software you already use, through a school or work account. Your school or district usually decides what is switched on.'},
+  {id:'c-teach', name:'For teachers', aliases:['education','school'], desc:'Tools made for teachers and students. Most run on the same few models as everything else, adding teaching-specific prompts, controls and privacy terms.'},
+  {id:'c-research', name:'Research and study', desc:'Tools that answer from sources, either the web or documents you provide, and show where each answer came from.'},
+  {id:'c-media', name:'Images and video', desc:'Tools that make pictures, video and animation from a description.'},
+  {id:'c-code', name:'Coding', desc:'Tools that write, explain and fix code. Many now work as agents inside a whole project.'},
+  {id:'c-local', name:'Run it yourself', desc:'Ways to download open-weight models and run them on your own computer.'}
+];
+
+const APPS = [
+  {id:'chatgpt', name:'ChatGPT', cat:'c-chat', models:['m-gpt'], maker:'openai', skills:['chat','web','files','image','voice','code','agent'], aliases:['ChatGPT for Teachers'], desc:'OpenAI’s chat assistant and the most widely used. The app is not the model: ChatGPT runs on OpenAI’s GPT models. Verified US K–12 staff can get a free ChatGPT for Teachers plan, currently through June 2028.'},
+  {id:'copilot', name:'Microsoft Copilot', cat:'c-chat', models:['m-gpt','m-mai'], maker:'microsoft', skills:['chat','web','files','image','voice'], aliases:['Copilot','Bing'], desc:'Microsoft’s free assistant in Windows, Edge and the Copilot app. It runs mainly on OpenAI’s GPT models, plus some of Microsoft’s own MAI models for voice and images.'},
+  {id:'claude-app', name:'Claude (app)', cat:'c-chat', models:['m-claude'], maker:'anthropic', skills:['chat','web','files','voice','code','agent'], aliases:['Claude'], desc:'Anthropic’s chat assistant, on the web, desktop and phone. It runs on Anthropic’s Claude models and handles long documents well.'},
+  {id:'gemini-app', name:'Gemini (app)', cat:'c-chat', models:['m-gemini','m-nanobanana','m-veo'], maker:'google', skills:['chat','web','files','image','video','audio','voice','code','agent'], aliases:['Gemini','Bard'], seeAlso:['o-lyria'], desc:'Google’s chat assistant. It shares its name with the models behind it, which adds to the confusion. It uses Gemini models for text, Nano Banana for images, Veo for video and Lyria for music.'},
+  {id:'metaai', name:'Meta AI', cat:'c-chat', models:['m-muse'], maker:'meta', skills:['chat','web','image','voice'], aliases:['WhatsApp','Instagram'], desc:'The assistant inside WhatsApp, Instagram, Facebook and Messenger, and in its own app. Since April 2026 it runs on Meta’s Muse models.'},
+  {id:'grok-app', name:'Grok', cat:'c-chat', models:['m-grok'], maker:'xai', skills:['chat','web','files','image','video','voice'], aliases:['X','Twitter'], desc:'xAI’s assistant, available on its own and inside X (formerly Twitter). It also makes images and video with Grok Imagine.'},
+  {id:'lechat', name:'Le Chat', cat:'c-chat', models:['m-mistral'], maker:'mistral', skills:['chat','web','files','image'], aliases:['Mistral'], desc:'Mistral AI’s chat assistant, a European alternative to the US apps.'},
+  {id:'deepseek-app', name:'DeepSeek (app)', cat:'c-chat', models:['m-deepseek'], maker:'deepseek', skills:['chat','web','files'], desc:'DeepSeek’s free chat app, run from China. Some governments ban it on official devices over data-security concerns.'},
+
+  {id:'m365', name:'Microsoft 365 Copilot', cat:'c-work', models:['m-gpt','m-claude','m-mai'], maker:'microsoft', skills:['chat','web','files','image','agent'], aliases:['Word','Excel','PowerPoint','Outlook','Teams','Office'], desc:'Copilot inside Word, Excel, PowerPoint, Outlook and Teams, used through a school or work account. Microsoft sends each request to GPT, Claude or its own MAI models.'},
+  {id:'workspace', name:'Gemini in Workspace', cat:'c-work', models:['m-gemini'], maker:'google', skills:['chat','files','image'], aliases:['Gmail','Google Docs','Google Slides','Drive'], desc:'Gemini inside Gmail, Docs, Slides and Drive, through a Google Workspace account.'},
+
+  {id:'classroom', name:'Gemini in Classroom', cat:'c-teach', models:['m-gemini','m-nanobanana'], maker:'google', skills:['teach','chat','files','image'], aliases:['Google Classroom'], desc:'A Gemini tab inside Google Classroom for lesson plans, quizzes, rubrics, levelled texts and visuals. It comes with Google Workspace for Education, but your admin decides who can use it.'},
+  {id:'khanmigo', name:'Khanmigo', cat:'c-teach', models:['m-gpt','m-gemini'], maker:'Khan Academy', skills:['teach','chat'], aliases:['Khan Academy'], desc:'Khan Academy’s tutor for students and assistant for teachers. It is designed to guide students with questions rather than hand over answers. It started on OpenAI’s GPT models, and features added for 2026 were built with Gemini.'},
+  {id:'magicschool', name:'MagicSchool', cat:'c-teach', models:['m-gpt','m-claude','m-gemini','m-firefly'], maker:'MagicSchool', skills:['teach','chat','files','image'], desc:'A collection of ready-made tools for teachers, such as lesson plans, rubrics and feedback, with a supervised student version. It uses several companies’ models behind the scenes.'},
+  {id:'brisk', name:'Brisk Teaching', cat:'c-teach', models:['m-gpt','m-claude'], maker:'Brisk Teaching', skills:['teach','files'], aliases:['Brisk'], desc:'A browser extension that adds teaching tools to Google Docs, Slides, YouTube and web pages: levelling a text, drafting feedback, building a quiz. It uses OpenAI and Anthropic models fine-tuned for teaching.'},
+
+  {id:'perplexity-app', name:'Perplexity', cat:'c-research', models:['m-sonar','m-gpt','m-claude','m-gemini','m-grok'], maker:'perplexity', skills:['chat','web','files','agent'], aliases:['Comet'], desc:'An answer engine. It searches the web, then writes an answer with links to its sources. It uses its own Sonar models, and paid users can switch to GPT, Claude, Gemini or Grok.'},
+  {id:'notebook', name:'Gemini Notebook', cat:'c-research', models:['m-gemini'], maker:'google', skills:['files','chat','audio','video','code'], aliases:['NotebookLM'], desc:'Answers questions using only the sources you add, and turns them into study guides and audio or video overviews. Teachers can assign notebooks through Classroom. It was called NotebookLM until July 2026.'},
+
+  {id:'express', name:'Adobe Express', cat:'c-media', models:['m-firefly'], maker:'adobe', skills:['image'], aliases:['Firefly'], desc:'Adobe’s design app, widely used in schools for posters, slides and social graphics, with Firefly image tools built in.'},
+  {id:'midjourney-app', name:'Midjourney', cat:'c-media', models:['m-midjourney'], maker:'midjourney', skills:['image','video'], desc:'Makes detailed, stylised images, and short animations, from a text description.'},
+  {id:'runway-app', name:'Runway', cat:'c-media', models:['m-runway'], maker:'runway', skills:['video','image'], desc:'A tool for generating and editing video clips, used in film and media work.'},
+
+  {id:'ghcopilot', name:'GitHub Copilot', cat:'c-code', models:['m-gpt','m-claude','m-gemini','m-mai','m-grok'], maker:'microsoft', skills:['code','agent','chat'], aliases:['GitHub'], desc:'Suggests and writes code inside coding software, and can work as an agent on a project. GitHub belongs to Microsoft. Users can pick between several companies’ models.'},
+  {id:'cursor', name:'Cursor', cat:'c-code', models:['m-gpt','m-claude','m-gemini','m-grok'], maker:'Anysphere', skills:['code','agent','chat'], desc:'A code editor with AI built in. Users choose between models from several companies.'},
+  {id:'codex', name:'Codex', cat:'c-code', models:['m-gpt'], maker:'openai', skills:['code','agent'], desc:'OpenAI’s coding agent. It writes and runs code in a project, from the terminal, a code editor or the ChatGPT app.'},
+  {id:'claude-code', name:'Claude Code', cat:'c-code', models:['m-claude'], maker:'anthropic', skills:['code','agent','files'], desc:'Anthropic’s coding agent. It reads a project’s files, writes and runs code, and asks before taking bigger steps.'},
+
+  {id:'ollama', name:'Ollama', cat:'c-local', models:['m-llama','m-qwen','m-deepseek','m-mistral'], maker:'Ollama', skills:['local','chat'], desc:'A free app that downloads open-weight models and runs them on your own computer, so nothing you type leaves the machine.'},
+  {id:'lmstudio', name:'LM Studio', cat:'c-local', models:['m-llama','m-qwen','m-deepseek','m-mistral'], maker:null, skills:['local','chat','files'], desc:'A desktop app for finding, downloading and chatting with open-weight models offline, including with your own documents.'},
+  {id:'huggingface', name:'Hugging Face', cat:'c-local', models:['m-llama','m-qwen','m-deepseek','m-mistral'], maker:'Hugging Face', skills:['local'], desc:'The main website where open models are shared and downloaded, like a library for models.'}
+];
+
+const CONCEPTS = [
+  {id:'k-llm', name:'Large language model', hub:true, aliases:['LLM'], rel:['m-gpt','m-claude','m-gemini','m-muse','m-llama','m-grok','m-mai','m-mistral','m-deepseek','m-qwen','m-sonar'], desc:'The kind of model behind most of this map. It learns from huge amounts of text to predict what comes next, one token at a time. That makes it fluent, and fluent is not the same as checked.'},
+  {id:'k-training', name:'Training data', rel:['m-firefly','o-suno'], desc:'The text, images, music and code a model learns from, much of it collected from the web. It shapes what a model knows, how it writes, and whose views and languages it handles well.'},
+  {id:'k-tokens', name:'Tokens', rel:[], desc:'The small chunks of text a model reads and writes, often pieces of words. Usage limits and prices are counted in tokens. As a rough guide, 100 tokens is about 75 English words.'},
+  {id:'k-context', name:'Context window', rel:[], desc:'How much a model can take in at once: your conversation, any files you add and its own replies. Very long chats can push early details out, which is one reason a fresh chat sometimes works better.'},
+  {id:'k-prompt', name:'Prompt', rel:[], desc:'What you type or say to the model. Stating the audience, the task and an example usually helps more than clever wording.'},
+  {id:'k-hallucination', name:'Hallucination', rel:['perplexity-app','notebook'], desc:'When a model states something false with confidence, such as an invented quote, statistic or reference. Tools that show their sources make checking easier, but you still have to check.'},
+  {id:'k-rag', name:'RAG (grounding)', aliases:['retrieval','grounding'], rel:['notebook','perplexity-app','m-sonar','o-k-embed'], desc:'Retrieval-augmented generation. The tool first finds relevant passages, from the web or from documents you provide, then writes its answer from them. Embedding models do the finding. This is how tools answer from your own materials.'},
+  {id:'k-finetune', name:'Fine-tuning', rel:['brisk','m-sonar'], desc:'Extra training that adapts an existing model to a narrower job or style. Many education tools are a general model that has been fine-tuned or given detailed instructions.'},
+  {id:'k-multimodal', name:'Multimodal', aliases:['modality'], rel:['m-gemini','m-gpt','m-muse','m-qwen'], desc:'Able to work with more than text: images, audio or video, going in or coming out. Select any model to see what it takes in and gives back.'},
+  {id:'k-reasoning', name:'Reasoning', aliases:['thinking'], rel:['m-gpt','m-claude','m-gemini','m-deepseek','m-grok'], desc:'Some models work through a problem in steps before answering, often labelled “thinking” in the app. This is slower and costs more, and it usually helps with maths, logic and planning.'},
+  {id:'k-agent', name:'Agent', rel:'skill:agent', desc:'An AI set up to carry out tasks as well as answer: it plans steps, uses tools such as a browser or code, and checks results, often asking a person to approve along the way.'},
+  {id:'k-openweights', name:'Open weights', aliases:['open source','open-weight'], rel:['m-llama','m-deepseek','m-qwen','m-mistral','ollama','lmstudio','huggingface'], desc:'A model whose trained settings (its weights) are published, so anyone can download and run it, even offline. This differs from fully open source, because the training data usually stays private.'},
+  {id:'k-api', name:'API', rel:['magicschool','brisk','khanmigo','cursor','perplexity-app'], desc:'The connection one piece of software uses to request work from another. School tools reach GPT, Claude or Gemini through the companies’ APIs, which is why one model can sit behind many apps.'},
+  {id:'k-data', name:'Your data', aliases:['privacy','student data'], rel:['m365','workspace','classroom'], desc:'What you type may be stored, and on some personal plans used to train future models. School and work accounts usually come with stricter terms. Check your district’s guidance before entering student information.'},
+  {id:'k-detection', name:'AI detection', aliases:['AI detector','plagiarism'], rel:['o-k-detect','o-k-watermark','o-turnitin-ai','o-gptzero-det','o-pangram-det','o-synthid'], desc:'AI detectors are models too, of a different kind. Some are classifiers that judge style and give a likelihood, not proof, and they can flag predictable human writing, including much second-language writing. Others check for hidden watermarks, which only works for content from companies that add them. Both are on the Other kinds of AI tab.'}
+];
+
+/* ---------- Other kinds tab data ---------- */
+const OMAKERS = [
+  {id:'o-google', name:'Google', twin:'google', desc:'Appears on this tab more than anyone: YouTube, Translate, Lens, Gmail, SynthID and Google DeepMind’s science models.'},
+  {id:'o-meta', name:'Meta', twin:'meta', desc:'Its Instagram and Facebook feeds run on recommendation models. It also publishes open safety tools.'},
+  {id:'o-microsoft', name:'Microsoft', twin:'microsoft', desc:'Builds captions and read-aloud into Office, Teams and Edge.'},
+  {id:'o-openai', name:'OpenAI', twin:'openai', desc:'Beyond ChatGPT, it makes speech, embedding and moderation models.'},
+  {id:'o-apple', name:'Apple', desc:'Runs much of its AI on the device itself, from Face ID to Apple Intelligence.'},
+  {id:'o-bytedance', name:'ByteDance', aliases:['TikTok'], desc:'Chinese company that created TikTok and its For You feed.'},
+  {id:'o-turnitin', name:'Turnitin', desc:'Long known for plagiarism checking. It added AI writing detection in April 2023.'},
+  {id:'o-gptzero', name:'GPTZero', desc:'Started by Princeton student Edward Tian, who released the first version in January 2023.'},
+  {id:'o-pangram', name:'Pangram Labs', desc:'Brooklyn startup that builds AI writing detection, and is expanding into detecting AI images and video.'},
+  {id:'o-wisconsin', name:'Wisconsin DPI', aliases:['Wisconsin Department of Public Instruction'], desc:'Wisconsin’s Department of Public Instruction, which built its own dropout prediction algorithm and has used it in schools since 2012.'},
+  {id:'o-powerschool', name:'PowerSchool', desc:'Makes student information systems used by many school districts, with add-on analytics.'},
+  {id:'o-goguardian', name:'GoGuardian', desc:'Makes web filtering, classroom management and student-monitoring software for school devices.'},
+  {id:'o-elevenlabs', name:'ElevenLabs', desc:'Company that makes voice and audio models.'},
+  {id:'o-deepl', name:'DeepL', desc:'German company that makes the DeepL translator.'},
+  {id:'o-suno-co', name:'Suno Inc.', desc:'US company that makes the Suno music generator.'}
+];
+
+const KINDS = [
+  {id:'o-k-rec', name:'Recommendation', in:['data'], out:['ranking'], aliases:['algorithm','feed','For You'], desc:'Predicts what you will watch, read or buy next, and ranks a feed to match. It learns from the behaviour of millions of users. Students meet this kind of AI more than any chatbot, and it never chats.', note:'Ask students what their feed seems to think they like, and what it never shows them.'},
+  {id:'o-k-detect', name:'AI detectors', in:['text'], out:['score'], aliases:['AI detection','detector','AI checker','AI writing'], desc:'Classifiers trained to sort writing into human-written or AI-written. They are models too, trained to sort text, not write it, and they give a likelihood, not proof.', note:'A detector score is a likelihood, not proof. Predictable writing, including much second-language writing, is more likely to be flagged.'},
+  {id:'o-k-watermark', name:'AI watermark checkers', in:['image','video','audio'], out:['score'], aliases:['watermark','provenance','AI detection'], desc:'The other way to detect AI content. These look for an invisible mark that an AI system embedded when it made the content. Strong evidence when a mark is found, but only for companies that take part.', note:'“Not detected” does not mean a person made it.'},
+  {id:'o-k-classify', name:'Classifiers', in:['text','image'], out:['score'], aliases:['spam filter','moderation'], desc:'Sort things into categories and give a score: spam or not, harmful or safe. AI detectors, safety filters and risk scores on this tab are all classifiers too.', note:'Every classifier makes two kinds of mistake: missing things and false alarms. Ask which one a tool is tuned to avoid.'},
+  {id:'o-k-safety', name:'Safety filters', in:['text','image'], out:['score'], aliases:['guardrails','content filter'], desc:'Classifiers wrapped around a chatbot that screen prompts and replies before you see them. They are part of why the same model can behave differently in different apps.', note:'School versions of AI tools often add stricter filters on top.'},
+  {id:'o-k-predict', name:'Prediction and risk scores', in:['data'], out:['score'], aliases:['early warning','early alert','risk','analytics','student monitoring','dropout'], desc:'Predict something about a person from records or activity: which students might not graduate on time, or which might be at risk of harm. Usually built into school data or monitoring systems, under names like early warning or risk alerts.', note:'Ask what data a score uses, how often it is wrong, who it is wrong about, and who can see or challenge it.'},
+  {id:'o-k-stt', name:'Speech to text', in:['audio'], out:['text'], aliases:['transcription','captions','dictation'], desc:'Turns speech into written text for captions, dictation and meeting notes.', note:'Useful for accessibility. Accuracy drops with strong accents, background noise and specialist words.'},
+  {id:'o-k-tts', name:'Text to speech', in:['text'], out:['audio'], aliases:['read aloud','voice cloning','voice'], desc:'Reads text aloud in a natural voice. Some can copy a real person’s voice from a short sample.', note:'Read-aloud supports many learners. Voice cloning raises questions of consent.'},
+  {id:'o-k-translate', name:'Translation', in:['text','audio'], out:['text','audio'], desc:'Translates text or speech between languages.', note:'Good for the gist and for everyday family communication. Have a fluent speaker check anything official.'},
+  {id:'o-k-music', name:'Music generation', in:['text','image'], out:['audio'], aliases:['music','songs'], desc:'Makes songs, with vocals and lyrics, from a description. These models were trained on recorded music, which led to lawsuits and then licensing deals with record labels.', note:'A useful case for discussing training data, consent and who gets paid.'},
+  {id:'o-k-vision', name:'Vision', in:['image','video'], out:['text','score'], aliases:['computer vision','OCR','face recognition'], desc:'Recognises what is in an image or video: printed and handwritten text, objects, faces.', note:'Scan-a-problem apps use vision to read maths homework from a photo.'},
+  {id:'o-k-embed', name:'Embeddings', in:['text','image'], out:['numbers'], aliases:['vectors','semantic search'], desc:'Turn text or images into long lists of numbers that capture meaning, so software can match things that mean the same even when the words differ. They power search, recommendations and RAG, out of sight.', note:'This is how a tool finds the right page in your uploaded documents.'},
+  {id:'o-k-ondevice', name:'On-device models', in:['text','image','audio'], out:['text'], aliases:['small models','on device'], desc:'Small models that run on a phone or laptop itself, so some data never leaves the device. They handle autocorrect, summaries, photo search and quick replies.', note:'Running on the device is often better for privacy, but less capable than large models in the cloud.'},
+  {id:'o-k-science', name:'Science and forecasting', in:['data'], out:['prediction'], aliases:['weather','protein'], desc:'Models trained on scientific data instead of language, such as protein structures or weather observations.', note:'A good example for science classes of AI that is not about words at all.'},
+  {id:'o-k-world', name:'World and robot models', in:['text','image'], out:['world','actions'], aliases:['robotics','simulation'], desc:'Models that simulate how a world behaves, used to train AI agents and robots before they act in the real world.', note:'Still mostly in research labs.'}
+];
+
+const EXAMPLES = [
+  {id:'o-tiktok', name:'TikTok For You feed', kind:'o-k-rec', maker:'o-bytedance', aliases:['TikTok'], desc:'Learns from what you watch, replay, skip and like, then ranks an endless feed for you. It is known for picking up a viewer’s tastes quickly.'},
+  {id:'o-youtube', name:'YouTube recommendations', kind:'o-k-rec', maker:'o-google', aliases:['YouTube'], desc:'Chooses the next video and the home page for each viewer. A large share of what people watch on YouTube comes from these recommendations.'},
+  {id:'o-instagram', name:'Instagram feed and Reels', kind:'o-k-rec', maker:'o-meta', aliases:['Instagram','Reels'], desc:'Ranks posts, Reels and Explore for each person, using many separate models.'},
+
+  {id:'o-turnitin-ai', name:'Turnitin AI detection', kind:'o-k-detect', maker:'o-turnitin', aliases:['Turnitin'], desc:'Scores each sentence of a submission for how likely it is to be AI-written, using a transformer model trained on human and AI text. Turnitin says the score is information for teachers, not a finding of misconduct.'},
+  {id:'o-gptzero-det', name:'GPTZero detector', kind:'o-k-detect', maker:'o-gptzero', aliases:['GPTZero'], desc:'An AI writing detector. It began by using an older language model (GPT-2) to measure how predictable a text is, and now uses a deep-learning classifier. Predictable human writing can be flagged too.'},
+  {id:'o-pangram-det', name:'Pangram detector', kind:'o-k-detect', maker:'o-pangram', aliases:['Pangram','Pangram Labs'], desc:'A newer AI writing detector. In an independent University of Chicago study it had the lowest false-positive rate of the commercial detectors tested. Low is not zero: across thousands of essays, even rare errors mean some students are wrongly flagged.'},
+  {id:'o-gmail-spam', name:'Gmail spam filter', kind:'o-k-classify', maker:'o-google', aliases:['spam'], desc:'One of the oldest everyday classifiers. It sorts incoming mail into inbox or spam, and learns from what people mark.'},
+
+  {id:'o-synthid', name:'SynthID Detector', kind:'o-k-watermark', maker:'o-google', aliases:['SynthID'], seeAlso:['gemini-app'], desc:'Checks images, video and audio for an invisible watermark from Google or partners, including OpenAI, NVIDIA and Kakao. Open to everyone since October 2026, and also built into Search, Chrome and the Gemini app. It is not a general detector: it says nothing about content from companies that don’t use SynthID.'},
+
+  {id:'o-dews', name:'Wisconsin DEWS', kind:'o-k-predict', maker:'o-wisconsin', aliases:['Dropout Early Warning System','Wisconsin'], desc:'Wisconsin’s Dropout Early Warning System labels middle schoolers low, moderate or high risk of not graduating on time, using test scores, attendance, discipline, lunch-price status and race. A 2023 investigation by The Markup found it was wrong nearly three-quarters of the time when it predicted a student would not graduate, and wrong more often for Black and Hispanic students.'},
+  {id:'o-psrisk', name:'PowerSchool Risk Analysis', kind:'o-k-predict', maker:'o-powerschool', aliases:['PowerSchool','early warning'], desc:'Uses machine-learning models built on a district’s own data to estimate each student’s chance of graduating on time, and groups students into high, medium and low risk.'},
+  {id:'o-beacon', name:'GoGuardian Beacon', kind:'o-k-predict', maker:'o-goguardian', aliases:['GoGuardian','student monitoring'], desc:'Scans student activity on school-issued devices, including searches, email and AI chat sites, and alerts staff when its AI detects signs of self-harm, suicide risk or threats of violence. GoGuardian’s own guidance says an alert does not confirm a student is in danger.'},
+
+  {id:'o-llamaguard', name:'Llama Guard', kind:'o-k-safety', maker:'o-meta', desc:'An open safety classifier from Meta that developers can place around their own chatbot to screen prompts and replies.'},
+  {id:'o-oai-mod', name:'OpenAI moderation', kind:'o-k-safety', maker:'o-openai', desc:'Flags harmful text and images for developers building on OpenAI’s platform.'},
+
+  {id:'o-whisper', name:'Whisper', kind:'o-k-stt', maker:'o-openai', desc:'OpenAI’s open speech-recognition model, built into many captioning and transcription tools.'},
+  {id:'o-captions', name:'Live captions in Teams', kind:'o-k-stt', maker:'o-microsoft', aliases:['PowerPoint subtitles','Teams'], desc:'Turns speech into on-screen captions during meetings, and in PowerPoint during presentations.'},
+
+  {id:'o-immersive', name:'Immersive Reader', kind:'o-k-tts', maker:'o-microsoft', aliases:['read aloud'], desc:'Reads text aloud with word-by-word highlighting in Word, OneNote, Teams and Edge. Widely used for reading support.'},
+  {id:'o-eleven', name:'ElevenLabs voices', kind:'o-k-tts', maker:'o-elevenlabs', desc:'Natural-sounding voices and voice cloning from short samples, also used to dub audio into other languages.'},
+
+  {id:'o-gtranslate', name:'Google Translate', kind:'o-k-translate', maker:'o-google', desc:'Translates text, speech, images and conversations across more than 200 languages.'},
+  {id:'o-deepl-tr', name:'DeepL Translator', kind:'o-k-translate', maker:'o-deepl', desc:'A translator known for natural-sounding results, especially in European languages.'},
+
+  {id:'o-suno', name:'Suno', kind:'o-k-music', maker:'o-suno-co', desc:'Makes full songs, with vocals and lyrics, from a text prompt. Major labels sued Suno in 2024. Warner settled in November 2025, and Suno agreed to move to licensed models in 2026.'},
+  {id:'o-lyria', name:'Lyria', kind:'o-k-music', maker:'o-google', seeAlso:['gemini-app'], desc:'Google DeepMind’s music model. Since September 2026 its newest version makes songs inside the Gemini app, with a SynthID watermark.'},
+
+  {id:'o-lens', name:'Google Lens', kind:'o-k-vision', maker:'o-google', aliases:['Photomath'], desc:'Point a camera at a page, a plant or a maths problem to read, translate or search it.'},
+  {id:'o-faceid', name:'Face ID', kind:'o-k-vision', maker:'o-apple', desc:'Unlocks an iPhone by recognising its owner’s face. The model runs on the phone itself.'},
+
+  {id:'o-oai-embed', name:'OpenAI embeddings', kind:'o-k-embed', maker:'o-openai', desc:'Turn text into numbers that capture meaning. Developers use them to build search and RAG features.'},
+  {id:'o-gem-embed', name:'Gemini embeddings', kind:'o-k-embed', maker:'o-google', desc:'Google’s embedding models, used for search by meaning in tools built on Gemini.'},
+
+  {id:'o-apple-fm', name:'Apple on-device model', kind:'o-k-ondevice', maker:'o-apple', aliases:['Apple Intelligence','Siri'], desc:'The small model inside Apple Intelligence that runs on iPhones, iPads and Macs for summaries, writing tools and quick replies.'},
+  {id:'o-gemini-nano', name:'Gemini Nano', kind:'o-k-ondevice', maker:'o-google', desc:'Google’s smallest Gemini model, built into some Android phones and the Chrome browser so it can work without sending data to the cloud.'},
+
+  {id:'o-alphafold', name:'AlphaFold', kind:'o-k-science', maker:'o-google', desc:'Predicts the 3D shape of a protein from its sequence. Its creators shared the 2024 Nobel Prize in Chemistry.'},
+  {id:'o-weathernext', name:'WeatherNext', kind:'o-k-science', maker:'o-google', aliases:['weather'], desc:'Google DeepMind’s weather models. A 2026 study in Nature found they give about a day’s extra warning for cyclones. Google calls them experimental: official forecasts still come from weather services.'},
+
+  {id:'o-genie', name:'Genie', kind:'o-k-world', maker:'o-google', desc:'Generates explorable 3D worlds from a prompt, used to train AI agents in simulation.'}
+];
+
+/* ---------- Index ---------- */
+const N = {};
+COMPANIES.forEach(c => { c.type='company'; c.tab='main'; c.models=[]; c.ownApps=[]; N[c.id]=c; });
+MODELS.forEach(m => { m.type='model'; m.tab='main'; m.apps=[]; N[m.id]=m; N[m.company].models.push(m); });
+CATS.forEach(c => { c.type='category'; c.tab='main'; c.apps=[]; N[c.id]=c; });
+APPS.forEach(a => {
+  a.type='app'; a.tab='main'; N[a.id]=a; N[a.cat].apps.push(a);
+  a.models.forEach(mid => N[mid].apps.push(a));
+  if (a.maker && N[a.maker]) N[a.maker].ownApps.push(a);
+});
+CONCEPTS.forEach(k => {
+  k.type='concept'; k.tab='main'; N[k.id]=k;
+  if (k.rel === 'skill:agent') k.rel = APPS.filter(a => a.skills.includes('agent')).map(a => a.id);
+});
+OMAKERS.forEach(c => { c.type='company'; c.tab='other'; c.examples=[]; N[c.id]=c; if (c.twin) N[c.twin].twin = c.id; });
+KINDS.forEach(k => { k.type='kind'; k.tab='other'; k.examples=[]; N[k.id]=k; });
+EXAMPLES.forEach(e => { e.type='example'; e.tab='other'; N[e.id]=e; N[e.kind].examples.push(e); N[e.maker].examples.push(e); });
+
+const EDGES = {main:[], other:[]};
+const ekey = (a,b) => a+'>'+b;
+function addEdge(tab,a,b){ EDGES[tab].push({a,b,key:ekey(a,b)}); }
+MODELS.forEach(m => addEdge('main', m.company, m.id));
+APPS.forEach(a => { a.models.forEach(m => addEdge('main', m, a.id)); addEdge('main', a.id, a.cat); });
+CONCEPTS.forEach(k => { if (!k.hub) addEdge('main', 'k-llm', k.id); });
+EXAMPLES.forEach(e => { addEdge('other', e.maker, e.id); addEdge('other', e.id, e.kind); });
+
+/* ---------- Build DOM ---------- */
+const VIEWS = {
+  main:{canvas:document.getElementById('canvas-main'), heads:['Companies','make models','that run apps and tools','used for']},
+  other:{canvas:document.getElementById('canvas-other'), heads:['Makers','build models and tools','of this kind']}
+};
+const panel = document.getElementById('panel');
+const els = {};
+const edgeEls = {};
+
+function markerFor(type){ return '<span class="mk mk-'+MARKER[type]+'" aria-hidden="true"></span>'; }
+function names(list){ return list.map(x => (MODALITY[x]||SKILLS[x].label).toLowerCase()).join(', '); }
+
+function makeNode(n){
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'node' + (n.type==='category'||n.type==='kind' ? ' cat' : '') + (n.type==='concept' ? ' concept' : '') + (n.hub ? ' hub' : '');
+  b.dataset.id = n.id;
+  let html = markerFor(n.type) + '<span class="lbl">'+n.name+'</span>';
+  let label = TYPE_LABEL[n.type]+': '+n.name;
+  if (n.type==='app'){
+    html += '<span class="icons">'+n.skills.map(icon).join('')+'</span>';
+    label += '. Can: '+names(n.skills);
+  }
+  if (n.type==='model'){
+    html += '<span class="icons">'+n.out.map(icon).join('')+'</span>';
+    label += '. Produces: '+names(n.out);
+  }
+  if (n.type==='kind'){
+    html += '<span class="icons io">'+n.in.map(icon).join('')+'<span class="arr">→</span>'+n.out.map(icon).join('')+'</span>';
+    label += '. Takes in '+names(n.in)+'; gives back '+names(n.out);
+  }
+  b.innerHTML = html;
+  b.setAttribute('aria-label', label);
+  b.setAttribute('aria-pressed','false');
+  b.addEventListener('click', e => { e.stopPropagation(); select(state.selected===n.id ? null : n.id); });
+  b.addEventListener('pointerenter', e => { if (e.pointerType==='mouse'){ state.preview=n.id; paint(); } });
+  b.addEventListener('pointerleave', e => { if (e.pointerType==='mouse'){ state.preview=null; paint(); } });
+  VIEWS[n.tab].canvas.appendChild(b);
+  els[n.id] = b;
+}
+
+Object.keys(VIEWS).forEach(t => {
+  const v = VIEWS[t];
+  v.gBase = v.canvas.querySelector('.gBase');
+  v.gTop = v.canvas.querySelector('.gTop');
+  v.headEls = v.heads.map(h => { const d = document.createElement('div'); d.className='colhead'; d.textContent=h; v.canvas.appendChild(d); return d; });
+});
+const divider = document.createElement('div'); divider.className='divider'; VIEWS.main.canvas.appendChild(divider);
+const regionLabel = document.createElement('div'); regionLabel.className='region-label'; regionLabel.textContent='How it works'; VIEWS.main.canvas.appendChild(regionLabel);
+
+[COMPANIES, MODELS, APPS, CATS, CONCEPTS, OMAKERS, EXAMPLES, KINDS].forEach(list => list.forEach(makeNode));
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+Object.keys(EDGES).forEach(t => EDGES[t].forEach(e => {
+  const p = document.createElementNS(SVGNS,'path');
+  p.setAttribute('class','edge');
+  VIEWS[t].gBase.appendChild(p);
+  edgeEls[e.key] = p;
+}));
+
+/* ---------- Layout ---------- */
+const pos = {};
+function place(id, x, y){ pos[id] = pos[id] || {}; pos[id].x = x; if (y !== undefined) pos[id].y = y; }
+const mean = arr => arr.reduce((s,v) => s+v, 0)/arr.length;
+
+function dodge(items, gap, minY, maxY){
+  items.sort((a,b) => a.want-b.want);
+  const blocks = [];
+  items.forEach(it => {
+    blocks.push({items:[it], sum:it.want, start:it.want});
+    while (blocks.length > 1){
+      const cur = blocks[blocks.length-1], prev = blocks[blocks.length-2];
+      if (prev.start + prev.items.length*gap > cur.start){
+        prev.items = prev.items.concat(cur.items); prev.sum += cur.sum;
+        const n = prev.items.length;
+        prev.start = prev.sum/n - (n-1)*gap/2;
+        blocks.pop();
+      } else break;
+    }
+  });
+  const out = [];
+  blocks.forEach(b => b.items.forEach((it,i) => out.push({id:it.id, y:b.start + i*gap})));
+  for (let i=0;i<out.length;i++) out[i].y = Math.max(out[i].y, i ? out[i-1].y+gap : minY);
+  for (let i=out.length-1;i>=0;i--) out[i].y = Math.min(out[i].y, i<out.length-1 ? out[i+1].y-gap : maxY);
+  out.forEach(o => pos[o.id].y = Math.round(o.y));
+}
+
+function curveH(x1,y1,x2,y2){ const dx = (x2-x1)*0.5; return 'M'+x1+' '+y1+' C'+(x1+dx)+' '+y1+' '+(x2-dx)+' '+y2+' '+x2+' '+y2; }
+function curveV(x1,y1,x2,y2){ const dy = (y2-y1)*0.5; return 'M'+x1+' '+y1+' C'+x1+' '+(y1+dy)+' '+x2+' '+(y2-dy)+' '+x2+' '+y2; }
+
+function applyPos(ids){ ids.forEach(id => { els[id].style.left = pos[id].x+'px'; els[id].style.top = pos[id].y+'px'; }); }
+function drawEdges(tab){
+  const right = id => pos[id].x + els[id].offsetWidth + 3;
+  const left = id => pos[id].x + 2;
+  EDGES[tab].forEach(e => {
+    const p = edgeEls[e.key];
+    if (N[e.a].type === 'concept'){
+      p.setAttribute('d', curveV(pos[e.a].x, pos[e.a].y + els[e.a].offsetHeight/2, pos[e.b].x, pos[e.b].y - els[e.b].offsetHeight/2));
+    } else {
+      p.setAttribute('d', curveH(right(e.a), pos[e.a].y, left(e.b), pos[e.b].y));
+    }
+  });
+}
+
+const ROW = 25, GAP = 16, TOP = 58;
+
+function layoutMain(){
+  const v = VIEWS.main, W = v.canvas.clientWidth;
+  if (!W) return;
+  const X = [14, Math.round(W*0.185), Math.round(W*0.43), Math.round(W*0.79)];
+  v.headEls.forEach((h,i) => { h.style.left = (X[i]+3)+'px'; });
+  let y = TOP;
+  CATS.forEach((c,ci) => {
+    if (ci) y += GAP;
+    const start = y;
+    c.apps.forEach(a => { place(a.id, X[2], y); y += ROW; });
+    place(c.id, X[3]); pos[c.id].want = (start + y - ROW)/2;
+  });
+  const bottom = y - ROW;
+  dodge(CATS.map(c => ({id:c.id, want:pos[c.id].want})), 26, TOP, bottom);
+  MODELS.forEach(m => place(m.id, X[1]));
+  dodge(MODELS.map(m => ({id:m.id, want:mean(m.apps.map(a => pos[a.id].y))})), 30, TOP, bottom);
+  COMPANIES.forEach(c => place(c.id, X[0]));
+  dodge(COMPANIES.map(c => ({id:c.id, want:mean(c.models.map(m => pos[m.id].y))})), 32, TOP, bottom);
+  applyPos([...COMPANIES, ...MODELS, ...APPS, ...CATS].map(n => n.id));
+
+  const cTop = bottom + 44;
+  divider.style.top = cTop+'px';
+  regionLabel.style.top = (cTop+12)+'px';
+  const hubY = cTop + 58;
+  place('k-llm', Math.round(W/2), hubY);
+  const rest = CONCEPTS.filter(k => !k.hub);
+  const perRow = Math.ceil(rest.length/2);
+  rest.forEach((k,i) => {
+    const row = i < perRow ? 0 : 1;
+    const j = row ? i-perRow : i;
+    const count = row ? rest.length-perRow : perRow;
+    const x = row ? W*(j+1)/(count+1) : W*(j+0.5)/count;
+    place(k.id, Math.round(x), hubY + (row ? 150 : 92));
+  });
+  applyPos(CONCEPTS.map(k => k.id));
+  v.canvas.style.height = (hubY + 196)+'px';
+  drawEdges('main');
+}
+
+function layoutOther(){
+  const v = VIEWS.other, W = v.canvas.clientWidth;
+  if (!W) return;
+  const X = [14, Math.round(W*0.24), Math.round(W*0.6)];
+  v.headEls.forEach((h,i) => { h.style.left = (X[i]+3)+'px'; });
+  let y = TOP;
+  KINDS.forEach((k,ki) => {
+    if (ki) y += GAP;
+    const start = y;
+    if (k.examples.length) k.examples.forEach(e => { place(e.id, X[1], y); y += ROW; });
+    else y += ROW;
+    place(k.id, X[2]); pos[k.id].want = (start + y - ROW)/2;
+  });
+  const bottom = y - ROW;
+  dodge(KINDS.map(k => ({id:k.id, want:pos[k.id].want})), 26, TOP, bottom);
+  OMAKERS.forEach(c => place(c.id, X[0]));
+  dodge(OMAKERS.map(c => ({id:c.id, want:mean(c.examples.map(e => pos[e.id].y))})), 32, TOP, bottom);
+  applyPos([...OMAKERS, ...EXAMPLES, ...KINDS].map(n => n.id));
+  v.canvas.style.height = (bottom + 36)+'px';
+  drawEdges('other');
+}
+function layout(){ if (state.tab === 'main') layoutMain(); else layoutOther(); }
+
+/* ---------- State + highlighting ---------- */
+const state = {tab:'main', selected:null, preview:null, skill:null};
+
+function related(id){
+  const nodes = new Set([id]), edges = new Set();
+  const n = N[id];
+  const down = a => { nodes.add(a.id); nodes.add(a.cat); edges.add(ekey(a.id,a.cat)); };
+  const up = (mid, aid) => { nodes.add(mid); edges.add(ekey(mid,aid)); nodes.add(N[mid].company); edges.add(ekey(N[mid].company, mid)); };
+  const exPath = e => { nodes.add(e.id); nodes.add(e.kind); nodes.add(e.maker); edges.add(ekey(e.maker,e.id)); edges.add(ekey(e.id,e.kind)); };
+  if (n.type==='company' && n.tab==='other'){
+    n.examples.forEach(exPath);
+  } else if (n.type==='company'){
+    n.models.forEach(m => { nodes.add(m.id); edges.add(ekey(n.id,m.id)); m.apps.forEach(a => { edges.add(ekey(m.id,a.id)); down(a); }); });
+  } else if (n.type==='model'){
+    nodes.add(n.company); edges.add(ekey(n.company,n.id));
+    n.apps.forEach(a => { edges.add(ekey(n.id,a.id)); down(a); });
+  } else if (n.type==='app'){
+    down(n); n.models.forEach(mid => up(mid, n.id));
+  } else if (n.type==='category'){
+    n.apps.forEach(a => { nodes.add(a.id); edges.add(ekey(a.id,n.id)); a.models.forEach(mid => up(mid, a.id)); });
+  } else if (n.type==='concept'){
+    if (n.hub){ CONCEPTS.forEach(k => { if (!k.hub){ nodes.add(k.id); edges.add(ekey('k-llm',k.id)); } }); }
+    else { nodes.add('k-llm'); edges.add(ekey('k-llm',n.id)); }
+    n.rel.forEach(r => { if (N[r] && N[r].tab==='main') nodes.add(r); });
+  } else if (n.type==='example'){
+    exPath(n);
+  } else if (n.type==='kind'){
+    n.examples.forEach(exPath);
+  }
+  return {nodes, edges};
+}
+
+function producers(a, sk){
+  const mod = SKILL_TO_MOD[sk];
+  if (!mod) return a.models;
+  const p = a.models.filter(mid => N[mid].out.includes(mod));
+  return p.length ? p : a.models;
+}
+function skillApps(sk){ return APPS.filter(a => a.skills.includes(sk)); }
+function relatedSkill(sk){
+  const nodes = new Set(), edges = new Set();
+  skillApps(sk).forEach(a => {
+    nodes.add(a.id); nodes.add(a.cat); edges.add(ekey(a.id,a.cat));
+    producers(a, sk).forEach(mid => { nodes.add(mid); edges.add(ekey(mid,a.id)); const c = N[mid].company; nodes.add(c); edges.add(ekey(c,mid)); });
+  });
+  return {nodes, edges};
+}
+
+function paint(){
+  let rel = null;
+  const focus = state.preview || state.selected;
+  if (focus) rel = related(focus);
+  else if (state.skill && state.tab==='main') rel = relatedSkill(state.skill);
+  Object.keys(VIEWS).forEach(t => VIEWS[t].canvas.classList.toggle('has-focus', !!rel && state.tab===t));
+  Object.keys(els).forEach(id => {
+    const el = els[id];
+    el.classList.toggle('on', !!rel && rel.nodes.has(id));
+    const sel = state.selected === id;
+    el.classList.toggle('sel', sel);
+    el.setAttribute('aria-pressed', sel ? 'true' : 'false');
+  });
+  Object.keys(EDGES).forEach(t => EDGES[t].forEach(e => {
+    const p = edgeEls[e.key];
+    const on = !!rel && rel.edges.has(e.key);
+    p.classList.toggle('on', on);
+    const target = on ? VIEWS[t].gTop : VIEWS[t].gBase;
+    if (p.parentNode !== target) target.appendChild(p);
+  }));
+  document.querySelectorAll('.skill-chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.skill === state.skill ? 'true' : 'false'));
+}
+
+/* ---------- Panel ---------- */
+function chip(id){
+  const n = N[id];
+  const hint = n.tab !== state.tab ? ' <span class="tabhint">'+(n.tab==='other' ? 'other tab' : 'main map')+'</span>' : '';
+  return '<button type="button" class="chip" data-go="'+id+'">'+markerFor(n.type)+n.name+hint+'</button>';
+}
+function skillChip(sk){ return '<button type="button" class="chip" data-skill="'+sk+'">'+icon(sk)+SKILLS[sk].label+'</button>'; }
+function modChip(m){ return '<span class="chip static">'+icon(m)+MODALITY[m]+'</span>'; }
+function group(title, inner){ return inner ? '<div class="p-group"><h3>'+title+'</h3>'+inner+'</div>' : ''; }
+function chips(ids){ return ids && ids.length ? '<div class="chips">'+ids.map(chip).join('')+'</div>' : ''; }
+function uniq(arr){ return [...new Set(arr)]; }
+function modality(n, note){
+  return group('Modality', '<div class="mod-row"><span class="lab">Takes in</span><div class="chips">'+n.in.map(modChip).join('')+'</div><span class="lab">Gives back</span><div class="chips">'+n.out.map(modChip).join('')+'</div></div>' + (note ? '<p class="p-note">'+note+'</p>' : ''));
+}
+function header(typeHtml, typeLabel, name){
+  return '<div class="p-top"><p class="p-type">'+typeHtml+typeLabel+'</p><button type="button" class="p-close" data-close>Close</button></div><h2>'+name+'</h2>';
+}
+
+function renderPanel(){
+  let html = '';
+  if (state.skill && state.tab==='main' && !state.selected){
+    const sk = state.skill, apps = skillApps(sk);
+    const models = uniq(apps.flatMap(a => producers(a, sk)));
+    html = header('<span class="mk mk-skill" aria-hidden="true"></span>', 'What can it do?', SKILLS[sk].label)
+      + '<p class="p-desc">'+SKILLS[sk].desc+'</p>'
+      + '<p class="p-text">'+apps.length+' of the '+APPS.length+' apps and tools on this map can do this.</p>'
+      + group('Apps and tools', chips(apps.map(a => a.id)))
+      + group(SKILL_TO_MOD[sk] ? 'Models that do the work' : 'Models behind them', chips(models));
+  } else if (state.selected){
+    const n = N[state.selected];
+    html = header(markerFor(n.type), TYPE_LABEL[n.type], n.name) + '<p class="p-desc">'+n.desc+'</p>';
+    if (n.type==='company' && n.tab==='main'){
+      html += group('Models', chips(n.models.map(m => m.id)));
+      html += group('Its own apps and tools', chips(n.ownApps.map(a => a.id)));
+      const others = uniq(n.models.flatMap(m => m.apps.map(a => a.id))).filter(id => !n.ownApps.some(a => a.id===id));
+      html += group('Other apps that use its models', chips(others));
+      if (n.twin) html += group('Also on the Other kinds tab', chips([n.twin]));
+    } else if (n.type==='company'){
+      html += group('Models and tools', chips(n.examples.map(e => e.id)));
+      html += group('Kinds', chips(uniq(n.examples.map(e => e.kind))));
+      if (n.twin) html += group('Also on the main map', chips([n.twin]));
+    } else if (n.type==='model'){
+      html += modality(n, 'A family includes several versions, and not every version handles every type.');
+      html += group('Made by', chips([n.company]));
+      html += group('Used in', chips(n.apps.map(a => a.id)));
+    } else if (n.type==='app'){
+      html += group('Can do', '<div class="chips">'+n.skills.map(skillChip).join('')+'</div>');
+      html += group('Runs on', chips(n.models));
+      if (n.maker) html += group('Made by', N[n.maker] ? chips([n.maker]) : '<p class="p-text">'+n.maker+', which builds on other companies’ models.</p>');
+      html += group('Use', chips([n.cat]));
+      html += group('See also', chips(n.seeAlso));
+    } else if (n.type==='category'){
+      html += group('Apps and tools', chips(n.apps.map(a => a.id)));
+      html += group('Models behind them', chips(uniq(n.apps.flatMap(a => a.models))));
+    } else if (n.type==='concept'){
+      html += group('See it on the map', chips(n.rel));
+    } else if (n.type==='kind'){
+      html += modality(n);
+      html += group('Where you meet it', n.examples.length ? chips(n.examples.map(e => e.id)) : '<p class="p-text">Usually a feature inside a larger system, so there is no single product to point to.</p>');
+      html += group('Made by', chips(uniq(n.examples.map(e => e.maker))));
+      if (n.note) html += group('For the classroom', '<p class="note-box">'+n.note+'</p>');
+    } else if (n.type==='example'){
+      html += group('Kind of model', chips([n.kind]));
+      html += group('Made by', chips([n.maker]));
+      html += group('See also', chips(n.seeAlso));
+    }
+    html += '<button type="button" class="p-clear" data-close>Clear selection</button>';
+  } else if (state.tab==='other'){
+    html = header('', 'How to read this tab', 'AI you don’t chat with')
+      + '<ol class="guide"><li>Select a kind of model on the right to see what it takes in, what it gives back and where you meet it.</li><li>Select a maker to see everything it builds on this tab.</li><li>Google, Meta, Microsoft and OpenAI also appear on the main map.</li></ol>';
+  } else {
+    html = header('', 'How to read the map', 'Start anywhere')
+      + '<ol class="guide"><li>Select a company to see its models and every app they power.</li><li>Select an app to see which models it runs on and what it can do.</li><li>Use <b>What can it do?</b> to find tools by skill, such as making video.</li><li>Select an idea under <b>How it works</b> to see where it shows up.</li></ol>';
+  }
+  panel.innerHTML = html;
+  panel.classList.toggle('open', !!(state.selected || (state.skill && state.tab==='main')));
+}
+
+panel.addEventListener('click', e => {
+  const go = e.target.closest('[data-go]');
+  const sk = e.target.closest('[data-skill]');
+  const close = e.target.closest('[data-close]');
+  if (go){ select(go.dataset.go, true); }
+  else if (sk){ setSkill(sk.dataset.skill); }
+  else if (close){ select(null); }
+});
+
+/* ---------- Tabs ---------- */
+const tabBtns = [...document.querySelectorAll('[role="tab"]')];
+const skillsBar = document.getElementById('skillsBar');
+function setTab(t){
+  if (state.tab === t) return;
+  state.tab = t;
+  tabBtns.forEach(b => { const on = b.dataset.tab === t; b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; });
+  document.getElementById('view-main').hidden = t !== 'main';
+  document.getElementById('view-other').hidden = t !== 'other';
+  document.getElementById('key-main').hidden = t !== 'main';
+  document.getElementById('key-other').hidden = t !== 'other';
+  skillsBar.hidden = t !== 'main';
+  if (state.selected && N[state.selected].tab !== t) state.selected = null;
+  if (t !== 'main') state.skill = null;
+  state.preview = null;
+  layout();
+}
+const DEFAULT = {main:'chatgpt', other:'o-k-detect'};
+const isWide = () => window.matchMedia('(min-width: 1140px)').matches;
+tabBtns.forEach((b,i) => {
+  b.addEventListener('click', () => {
+    setTab(b.dataset.tab);
+    if (!state.selected && !state.skill && isWide()) select(DEFAULT[state.tab]);
+    else { setHash(state.selected); paint(); renderPanel(); }
+  });
+  b.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const next = tabBtns[(i + (e.key==='ArrowRight' ? 1 : tabBtns.length-1)) % tabBtns.length];
+    next.focus(); next.click();
+  });
+});
+
+/* ---------- Actions ---------- */
+function setHash(id){
+  try { history.replaceState(null, '', id ? '#'+id : location.pathname + location.search); } catch(_){}
+}
+function reveal(id){
+  const el = els[id]; if (!el) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try { el.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center', inline:'center'}); } catch(_){ el.scrollIntoView(); }
+  el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
+}
+function select(id, scroll){
+  if (id && N[id].tab !== state.tab) setTab(N[id].tab);
+  state.selected = id; state.skill = null; state.preview = null;
+  setHash(id);
+  paint(); renderPanel();
+  if (id && scroll) reveal(id);
+}
+function setSkill(sk){
+  if (state.tab !== 'main') setTab('main');
+  state.skill = state.skill === sk ? null : sk;
+  state.selected = null; state.preview = null;
+  setHash(null);
+  paint(); renderPanel();
+}
+
+/* ---------- Skill chips ---------- */
+const skillBar = document.getElementById('skillChips');
+skillBar.innerHTML = Object.keys(SKILLS).map(sk => '<button type="button" class="skill-chip" data-skill="'+sk+'" aria-pressed="false">'+icon(sk)+SKILLS[sk].label+'</button>').join('');
+skillBar.addEventListener('click', e => { const b = e.target.closest('[data-skill]'); if (b) setSkill(b.dataset.skill); });
+
+Object.keys(VIEWS).forEach(t => VIEWS[t].canvas.addEventListener('click', e => { if (e.target === VIEWS[t].canvas || e.target.closest('svg')) select(null); }));
+
+/* ---------- Search ---------- */
+const input = document.getElementById('find');
+const list = document.getElementById('results');
+let matches = [], active = -1;
+const searchable = Object.values(N).map(n => ({kind:'node', id:n.id, name:n.name, type:TYPE_LABEL[n.type] + (n.tab==='other' ? ' · Other kinds' : ''), mk:markerFor(n.type), terms:[n.name].concat(n.aliases||[]).map(s => s.toLowerCase())}))
+  .concat(Object.keys(SKILLS).map(sk => ({kind:'skill', id:sk, name:SKILLS[sk].label, type:'Can do', mk:icon(sk), terms:[SKILLS[sk].label.toLowerCase(), sk]})));
+
+function runSearch(){
+  const q = input.value.trim().toLowerCase();
+  if (!q){ closeList(); return; }
+  const scored = [];
+  searchable.forEach(s => {
+    let best = 99;
+    s.terms.forEach(t => { const i = t.indexOf(q); if (i === 0) best = Math.min(best, 0); else if (i > 0) best = Math.min(best, t[i-1] === ' ' ? 1 : 2); });
+    if (best < 99) scored.push({s, best});
+  });
+  scored.sort((a,b) => a.best-b.best || a.s.name.localeCompare(b.s.name));
+  matches = scored.slice(0,8).map(x => x.s);
+  active = matches.length ? 0 : -1;
+  drawList();
+}
+function drawList(){
+  list.innerHTML = matches.length
+    ? matches.map((m,i) => '<li role="option" id="opt-'+i+'" aria-selected="'+(i===active)+'" data-i="'+i+'">'+m.mk+'<span>'+m.name+'</span><span class="rt">'+m.type+'</span></li>').join('')
+    : '<li class="none" role="option" aria-disabled="true">No matches on the map</li>';
+  list.hidden = false;
+  input.setAttribute('aria-expanded','true');
+  if (active >= 0) input.setAttribute('aria-activedescendant','opt-'+active); else input.removeAttribute('aria-activedescendant');
+}
+function closeList(){ list.hidden = true; input.setAttribute('aria-expanded','false'); input.removeAttribute('aria-activedescendant'); }
+function choose(i){
+  const m = matches[i]; if (!m) return;
+  closeList(); input.value = m.name;
+  if (m.kind === 'skill'){ state.skill = null; setSkill(m.id); }
+  else select(m.id, true);
+}
+input.addEventListener('input', runSearch);
+input.addEventListener('focus', () => { if (input.value.trim()) runSearch(); });
+input.addEventListener('keydown', e => {
+  if (list.hidden && e.key === 'ArrowDown'){ runSearch(); return; }
+  if (e.key === 'ArrowDown'){ e.preventDefault(); if (matches.length){ active = (active+1) % matches.length; drawList(); } }
+  else if (e.key === 'ArrowUp'){ e.preventDefault(); if (matches.length){ active = (active-1+matches.length) % matches.length; drawList(); } }
+  else if (e.key === 'Enter'){ e.preventDefault(); if (active >= 0) choose(active); }
+  else if (e.key === 'Escape'){ closeList(); }
+});
+list.addEventListener('mousedown', e => { const li = e.target.closest('[data-i]'); if (li){ e.preventDefault(); choose(+li.dataset.i); } });
+document.addEventListener('click', e => { if (!e.target.closest('.search')) closeList(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.activeElement !== input && (state.selected || state.skill)) select(null); });
+
+/* ---------- Init ---------- */
+layout();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+if ('ResizeObserver' in window){
+  Object.keys(VIEWS).forEach(t => { let w = 0; new ResizeObserver(() => { const cw = VIEWS[t].canvas.clientWidth; if (cw && cw !== w){ w = cw; if (state.tab === t) layout(); } }).observe(VIEWS[t].canvas); });
+} else window.addEventListener('resize', layout);
+
+const fromHash = (location.hash || '').slice(1);
+if (fromHash && N[fromHash]) select(fromHash, true);
+else if (isWide()) select('chatgpt');
+else { paint(); renderPanel(); }
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (N[h] && h !== state.selected) select(h, true); });
+})();
+</script>
+</body>
+</html>

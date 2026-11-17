@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Readings · AI literacy for teachers</title>
+<meta name="description" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Site frame: same tokens as the AI map so every page reads as one family. */
+:root{--bg:#edf0ef;--surface:#fbfcfc;--ink:#17202a;--muted:#5a6570;--line:#c3cbcf;--accent:#0b5cad;--hover:#e6ecf1;
+--c-company:#2f3b48;--c-model:#0b7a6a;--c-app:#2b52c4;--c-cat:#9c5a05;--c-concept:#99286f;
+--font-display:"Archivo","Helvetica Neue",Arial,sans-serif;--font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10151a;--surface:#171f27;--ink:#e5eaee;--muted:#9aa6b1;--line:#36424d;--accent:#72b2ff;--hover:#22303c;--c-company:#c5cfd9;--c-model:#3cc4ae;--c-app:#8ea8ff;--c-cat:#e2a64c;--c-concept:#e57cc3;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:6px;z-index:50}
+.skip:focus{left:12px}
+
+.site-header{background:var(--surface);border-bottom:1px solid var(--line)}
+.site-header .inner{max-width:1240px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;letter-spacing:-.01em;margin-right:auto}
+.brand small{display:block;font-family:var(--font-mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.site-nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+.site-nav a{display:block;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--muted);font-size:14.5px;font-weight:500}
+.site-nav a:hover{background:var(--hover);color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);background:var(--hover);font-weight:600}
+@media (max-width:860px){
+  .menu-btn{display:inline-block}
+  .site-nav{flex-basis:100%;display:none}
+  .site-nav.open{display:block}
+  .site-nav ul{flex-direction:column;padding:4px 0 6px}
+}
+
+.doc{max-width:780px;margin:0 auto;padding:32px 20px 56px}
+.doc.wide{max-width:1100px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:700;font-size:23px;line-height:1.2;margin:36px 0 10px;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.3;margin:24px 0 6px}
+.lede{font-size:18px;max-width:65ch}
+.doc p,.doc li{max-width:68ch}
+.doc ul,.doc ol{padding-left:22px}
+.doc li{margin-bottom:6px}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0 20px;font-size:15px}
+.doc th,.doc td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.doc th{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.note{border-left:3px solid var(--accent);background:var(--hover);padding:10px 14px;border-radius:0 8px 8px 0;margin:18px 0}
+.meta{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin:0 4px 4px 0}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--hover)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:18px 0}
+.tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--accent)}
+.tile h3{margin:0 0 4px}
+.tile p{margin:0;font-size:14.5px;color:var(--muted)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0;break-inside:avoid;page-break-inside:avoid}
+.card h3{margin:0 0 6px}
+.card .num{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.card dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:15px}
+.card dt{font-weight:600}
+.card dd{margin:0}
+.cards{columns:2 340px;column-gap:16px}
+.cards .card{display:inline-block;width:100%;margin:0 0 16px}
+
+.site-footer{border-top:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--muted)}
+.site-footer .inner{max-width:1240px;margin:0 auto;padding:16px 20px;display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+.site-footer a{color:var(--muted)}
+
+@media print{
+  .site-header,.site-footer,.tools,.skip,.no-print{display:none!important}
+  body{background:#fff;color:#000;font-size:12pt}
+  .doc{max-width:none;padding:0}
+  .card{border:1px solid #888;background:#fff}
+  a{color:#000;text-decoration:none}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">AI literacy for teachers<small>Professional learning · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="map.html">AI map</a></li><li><a href="cards.html">Scenario cards</a></li><li><a href="activities.html">Activities</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="readings.html" aria-current="page">Readings</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="frameworks.html">Frameworks</a></li></ul></nav></div></header>
+<main id="main">
+
+<div class="doc">
+<p class="eyebrow">Reading list</p>
+<h1>Readings</h1>
+<p class="lede">Fifteen recent readings on AI in teaching, from 2024 to 2026: assessment and feedback, lesson planning, guiding students' use, and the case for not using it. A mix of studies, practitioner pieces and one book.</p>
+<p>Each entry notes the pair of <a href="frameworks.html">Entangled Dimensions</a> it touches most. Open access is noted where it could be confirmed.</p>
+<h2>Assessment and feedback</h2>
+<article class="card" id="reading-1"><p class="num">1</p><p><strong>Corbin, T., Dawson, P., & Liu, D. (2025). Talk is cheap: Why structural assessment changes are needed for a time of GenAI. <em>Assessment & Evaluation in Higher Education, 50</em>, 1087–1097.</strong></p><p>Separates discursive changes to assessment (telling students what is allowed, declarations, honour statements) from structural ones (changing what the task is, where and when it happens, with whom). Argues the discursive kind depends on students following instructions nobody can enforce, so only structural change holds. Written for higher education, but the distinction transfers directly to a secondary classroom and is the cleanest way to explain why “just tell them not to” fails.</p><p><a href="https://doi.org/10.1080/02602938.2025.2503964">https://doi.org/10.1080/02602938.2025.2503964</a></p><p><span class="tag">Open access</span><span class="tag">relational + creative</span></p></article>
+<article class="card" id="reading-2"><p class="num">2</p><p><strong>Bearman, M., Tai, J., Dawson, P., Boud, D., & Ajjawi, R. (2024). Developing evaluative judgement for a time of generative artificial intelligence. <em>Assessment & Evaluation in Higher Education, 49</em>(6), 893–905.</strong></p><p>The positive answer to “what do we assess, then?” The capacity students most need is evaluative judgement: telling good work from bad, including AI output, and knowing why. Offers design moves teachers can use tomorrow: exemplars, feedback on students' judgements, calibration against criteria.</p><p><a href="https://doi.org/10.1080/02602938.2024.2335321">https://doi.org/10.1080/02602938.2024.2335321</a></p><p><span class="tag">Open access</span><span class="tag">epistemic + knowledge construction</span></p></article>
+<article class="card" id="reading-3"><p class="num">3</p><p><strong>Webb, M., & Galamba, A. (2026). Transforming pedagogy with GenAI-supported formative assessment: Challenges for teacher education. <em>British Journal of Educational Technology, 57</em>(3), 690–706.</strong></p><p>Written for teacher educators. Reads GenAI against established formative assessment theory and asks what teacher preparation now has to include. Their line that “AI agency is agency without intelligence” is a good provocation for a room. Also honest that digital technologies have historically had only moderate effects on learning.</p><p><a href="https://doi.org/10.1111/bjet.70051">https://doi.org/10.1111/bjet.70051</a></p><p><span class="tag">May need library access</span><span class="tag">epistemic + knowledge construction; disciplinary + futures</span></p></article>
+<article class="card" id="reading-4"><p class="num">4</p><p><strong>Meyer, J., Steinbach, M., Schiller, R., Mertens, U., Schaller, N.-J., Horbach, A., Fleckenstein, J., Köller, O., Kizilcec, R. F., & Jansen, T. (2026). Comparing teacher and AI-generated feedback in the writing classroom: Experimental results from secondary school classrooms. <em>Proceedings of the Thirteenth ACM Conference on Learning @ Scale</em>.</strong></p><p>Secondary English-as-a-foreign-language classrooms, 391 students. Teacher-written feedback was compared with immediate and delayed AI feedback on essay revision and later writing. The differences were small and not significant; students rated immediate feedback as more useful and motivating. The authors see the value of AI feedback in redistributing teacher effort, not in beating teachers. Worth reading against the grain: what counts as feedback here, and what is missing from the measure?</p><p><a href="https://doi.org/10.1145/3774398.3811602">https://doi.org/10.1145/3774398.3811602</a></p><p><span class="tag">Open access</span><span class="tag">relational + creative</span></p></article>
+<article class="card" id="reading-5"><p class="num">5</p><p><strong>Zhan, Y., & Yan, Z. (2025). Students' engagement with ChatGPT feedback: Implications for student feedback literacy in the context of generative artificial intelligence. <em>Assessment & Evaluation in Higher Education</em>. Advance online publication.</strong></p><p>Watched 16 undergraduates use ChatGPT feedback on writing tasks, then interviewed them. Most accepted suggestions without judging them. Proposes an AI feedback literacy (prompting, evaluative judgement, emotional reflexivity, ethical decision-making, metacognition) that reads as a list of what to teach students before they ask a bot for feedback.</p><p><a href="https://doi.org/10.1080/02602938.2025.2471821">https://doi.org/10.1080/02602938.2025.2471821</a></p><p><span class="tag">May need library access</span><span class="tag">epistemic + knowledge construction</span></p></article>
+<h2>Lesson planning and teachers' own use</h2>
+<article class="card" id="reading-6"><p class="num">6</p><p><strong>National Foundation for Educational Research. (2024, December). <em>ChatGPT in lesson preparation: A Teacher Choices trial</em>. Education Endowment Foundation.</strong></p><p>A randomised trial with 259 science teachers in 68 English secondary schools. ChatGPT plus a short guide cut weekly planning time by 31 percent, about 25 minutes, and an expert panel judging resources blind found no drop in quality. The best current evidence for the time-saving claim. Pair it with Selwyn and colleagues below: the number, and what the number leaves out.</p><p><a href="https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/choices-in-edtech-using-generative-ai-chatgpt-for-ks3-science-lesson-preparation-2024-teacher-choices-trial">https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/choices-in-edtech-using-generative-ai-chatgpt-for-ks3-science-lesson-preparation-2024-teacher-choices-trial</a></p><p><span class="tag">Free</span><span class="tag">data + algorithmic; political + ecological</span></p></article>
+<article class="card" id="reading-7"><p class="num">7</p><p><strong>Selwyn, N., Ljungqvist, M., & Sonesson, A. (2025). When the prompting stops: Exploring teachers' work around the educational frailties of generative AI tools. <em>Learning, Media and Technology, 50</em>(3), 310–323.</strong></p><p>Interviews with 57 teachers across eight schools in Sweden and Australia. Teachers spend real time reviewing, repairing and reworking AI output. The paper reads this as hidden labour that props up the illusion of automation, not as a prompting problem. The clearest recent statement of the labour question.</p><p><a href="https://doi.org/10.1080/17439884.2025.2537959">https://doi.org/10.1080/17439884.2025.2537959</a></p><p><span class="tag">May need library access</span><span class="tag">political + ecological; relational</span></p></article>
+<article class="card" id="reading-8"><p class="num">8</p><p><strong>Common Sense Media. (2025, August). <em>AI risk assessment: AI teacher assistants</em>.</strong></p><p>Assessed Gemini in Google Classroom, Khanmigo Teacher Assistant, Curipod and MagicSchool, with an overall rating of moderate risk. Two findings matter for teachers: the tools quietly shape what gets taught, and their IEP and behaviour-plan generators are not fit for high-stakes use and show bias tied to perceived student background.</p><p><a href="https://www.commonsensemedia.org/sites/default/files/featured-content/files/csm-ai-risk-assessment-ai-teacher-assistants-final.pdf">https://www.commonsensemedia.org/sites/default/files/featured-content/files/csm-ai-risk-assessment-ai-teacher-assistants-final.pdf</a></p><p><span class="tag">Free</span><span class="tag">data + algorithmic</span></p></article>
+<h2>Guiding students' use</h2>
+<article class="card" id="reading-9"><p class="num">9</p><p><strong>Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., & Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. <em>Proceedings of the National Academy of Sciences, 122</em>(26), e2422633122.</strong></p><p>A randomised trial with nearly 1,000 high school students in Turkey. Unrestricted GPT-4 access improved practice performance, but students then did about 17 percent worse on the unassisted exam than peers with no AI. A version with tutor-style guardrails (hints, no direct answers) removed the harm but produced no gain. The most useful single study for the “how should students use it” conversation.</p><p><a href="https://doi.org/10.1073/pnas.2422633122">https://doi.org/10.1073/pnas.2422633122</a></p><p><span class="tag">Open access</span><span class="tag">epistemic + knowledge construction</span></p></article>
+<article class="card" id="reading-10"><p class="num">10</p><p><strong>Kestin, G., Miller, K., Klales, A., Milbourne, T., & Ponti, G. (2025). AI tutoring outperforms in-class active learning: An RCT introducing a novel research-based design in an authentic educational setting. <em>Scientific Reports, 15</em>.</strong></p><p>Introductory university physics. An AI tutor built on explicit teaching principles (answers held back, load managed, scripted scaffolding) produced larger gains than active-learning classes covering the same content, in less time. Read alongside Bastani: what matters is the design of the constraint, not AI yes or no. One course, one discipline, university students.</p><p><a href="https://doi.org/10.1038/s41598-025-97652-6">https://doi.org/10.1038/s41598-025-97652-6</a></p><p><span class="tag">Open access</span><span class="tag">data + algorithmic</span></p></article>
+<article class="card" id="reading-11"><p class="num">11</p><p><strong>Fan, Y., Tang, L., Le, H., Shen, K., Tan, S., Zhao, Y., Shen, Y., Li, X., & Gašević, D. (2025). Beware of metacognitive laziness: Effects of generative artificial intelligence on learning motivation, processes, and performance. <em>British Journal of Educational Technology, 56</em>(2), 489–530.</strong></p><p>Compared ChatGPT, a human expert, a checklist and no support on an essay task. ChatGPT raised essay scores but not knowledge gain or transfer, and learners handed off the work of managing their own learning. Gives teachers a vocabulary for what students can lose, without the neuro-hype of some recent preprints.</p><p><a href="https://doi.org/10.1111/bjet.13544">https://doi.org/10.1111/bjet.13544</a></p><p><span class="tag">Open access</span><span class="tag">epistemic + knowledge construction</span></p></article>
+<h2>Not using AI: refusal and critique</h2>
+<article class="card" id="reading-12"><p class="num">12</p><p><strong>Sano-Franchini, J., McIntyre, M., & Fernandes, M. (2024, November). <em>Refusing GenAI in writing studies: A quickstart guide</em>.</strong></p><p>Short, practical and principled. Frames refusal as an informed teaching position rather than technophobia, with reasons (labour, environment, bias, surveillance, the economics of the tools) and concrete classroom moves. Written for university writing teachers and transferable to secondary English and humanities.</p><p><a href="https://refusal.blog/">https://refusal.blog/</a></p><p><span class="tag">Free</span><span class="tag">political + ecological; relational</span></p></article>
+<article class="card" id="reading-13"><p class="num">13</p><p><strong>Warner, J. (2025). <em>More than words: How to think about writing in the age of AI</em>. Basic Books.</strong></p><p>The strongest long-form argument that writing is thinking and feeling, and that automating it hollows out the practice it claims to assist. The later chapters are practical: process, reflection, unassisted writing, what to stop assigning. Pairs with <a href="cards.html#card-4">scenario card 4</a>, the un-AI-able task.</p><p><a href="https://teachinginhighered.com/podcast/564-how-to-think-about-writing-in-the-age-of-ai/">https://teachinginhighered.com/podcast/564-how-to-think-about-writing-in-the-age-of-ai/</a></p><p><span class="tag">Book; link is a podcast interview</span><span class="tag">relational + creative</span></p></article>
+<article class="card" id="reading-14"><p class="num">14</p><p><strong>Costa, C., & Murphy, M. (2025). Generative artificial intelligence in education: (What) are we thinking? <em>Learning, Media and Technology</em>. Advance online publication.</strong></p><p>Uses Arendt on thoughtlessness and Freire on critical pedagogy to argue that GenAI puts intellectual development at risk unless education makes thinking itself a form of accountability. Theoretical but short and usable.</p><p><a href="https://doi.org/10.1080/17439884.2025.2518258">https://doi.org/10.1080/17439884.2025.2518258</a></p><p><span class="tag">Open access</span><span class="tag">epistemic + knowledge construction; political</span></p></article>
+<article class="card" id="reading-15"><p class="num">15</p><p><strong>Worrell, T., & Roberts, Z. (2026). Bringing Uncle Chatty Gee (ChatGPT) into the classroom: A lens from Critical Indigenous Studies. <em>Curriculum Perspectives</em>.</strong></p><p>Two Indigenous academics in Australia, three classroom cases. Argues AI is not neutral, that it threatens Indigenous cultural and intellectual property through misappropriation and homogenisation, and models critiquing outputs and relational learning over convenience. Tertiary and Australian, so not a template for Canadian schools, but the clearest recent statement of the knowledge-sovereignty problem from Indigenous educators.</p><p><a href="https://doi.org/10.1007/s41297-026-00321-5">https://doi.org/10.1007/s41297-026-00321-5</a></p><p><span class="tag">Open access</span><span class="tag">political + ecological; disciplinary + futures</span></p></article>
+<h2>Six more worth knowing</h2><ul>
+<li>Knox, J. (2025). Critiquing AI in education. <em>Postdigital Science and Education</em>. <a href="https://doi.org/10.1007/s42438-025-00606-4">Link</a>. Why critique should aim at education's own infrastructures and not only at the technology.</li>
+<li>UNESCO. (2025). <em>AI and the future of education: Disruptions, dilemmas and directions</em>. <a href="https://www.unesco.org/en/articles/ai-and-future-education-disruptions-dilemmas-and-directions-0">Link</a>. A policy collection from Digital Learning Week 2025, useful for its framing of dilemmas.</li>
+<li>OECD. (2026). <em>OECD Digital Education Outlook 2026: Exploring effective uses of generative AI in education</em>. <a href="https://doi.org/10.1787/062a7394-en">Link</a>. The most current policy view of effective uses.</li>
+<li>Doss, C. J., Bozick, R., Schwartz, H. L., Chu, L., Rainey, L. R., Woo, A., Reich, J., & Dukes, J. (2025). <em>AI use in schools is quickly increasing but guidance lags behind</em>. RAND. <a href="https://www.rand.org/pubs/research_reports/RRA4180-1.html">Link</a>. US figures: about half of students and teachers used AI for school in 2025, and over 80 percent of students had no explicit instruction on it.</li>
+<li>Williamson, B., Molnar, A., & Boninger, F. (2024). <em>Time for a pause: Without effective public oversight, AI in schools will do more harm than good</em>. National Education Policy Center. <a href="https://nepc.colorado.edu/publication/ai">Link</a>. The case for a pause, made at policy level.</li>
+<li>BC Ministry of Education and Child Care. (n.d.). <em>Considerations for using AI tools in K-12 schools</em>. <a href="https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/ai-in-education/considerations-for-using-ai-tools-in-k-12-schools.pdf">Link</a>. The BC context. Short.</li>
+</ul>
+<p class="meta">Compiled September 2026. Each reference was checked against the publisher or repository page.</p>
+</div>
+
+</main>
+<footer class="site-footer"><div class="inner"><span>© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</span><span>Updated November 2026 · <a href="https://github.com/rshorst/ai-literacy-pd">Source and offline copy</a></span></div></footer>
+<script>(function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>
+</body>
+</html>
