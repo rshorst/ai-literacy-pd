@@ -83,7 +83,7 @@ HOME = f"""
 <li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="talk.html">Talk slides</a><a href="map.html">AI map</a></p></div></li>
 <li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="scenarios.html">Classroom situations</a><a href="responses.html">Shared board</a></p></div></li>
 <li class="pause"><time>10:25</time><span>Break</span></li>
-<li><time>10:40</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="policies.html">Policy examples</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
+<li><time>10:40</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="aias.html">AI Assessment Scale</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
 <li><time>11:25</time><div><h3>Some things worth trying in Copilot</h3><p>A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.</p><p class="res"><a href="copilot-and-prompting.html">Copilot and prompting</a><a href="practical-moves.html">Practical moves</a></p></div></li>
 <li class="pause"><time>11:55</time><span>Lunch</span></li>
 <li><time>12:45</time><div><h3>Rethinking something you already teach</h3><p>Bring a lesson, activity, assignment, or unit you already teach. We use what we have explored so far to reconsider where AI might support the learning, where it might change or bypass something important, and where it may not belong at all.</p><p class="res"><a href="activities.html#activity-11">Activities for educators</a><a href="readings.html">Readings on assessment</a></p></div></li>
@@ -97,7 +97,7 @@ HOME = f"""
 <ul class="leave">
 <li>The Entangled Dimensions of AI Literacy framework with prompts for exploring AI as more than a tool. <a href="frameworks.html">Frameworks</a></li>
 <li>A simple “with, about, or without?” planning guide for deciding whether, where, and why AI belongs in a particular learning activity.</li>
-<li>A small collection of approaches for thinking about AI use in teaching and assessment including a collaborative decision-making protocol adaptable across grades and contexts. <a href="policies.html">Policy examples</a> · <a href="class-ai-agreement.html">Protocol</a></li>
+<li>A small collection of approaches for thinking about AI use in teaching and assessment including a collaborative decision-making protocol adaptable across grades and contexts. <a href="aias.html">AI Assessment Scale</a> · <a href="class-ai-agreement.html">Protocol</a></li>
 <li>A set of practical Copilot ideas and prompts to experiment with in planning and teaching. <a href="copilot-and-prompting.html">Copilot and prompting</a></li>
 <li>Adaptable K-12 activities for teaching about AI including options that do not require students to have AI accounts. <a href="activities.html">Activities</a></li>
 <li>One lesson, activity, or assignment of their own reconsidered or redesigned in light of the day.</li>
@@ -773,6 +773,51 @@ QUICKDRAW_PAGE = f"""
 </div>
 """
 
+# ---------------------------------------------------------------- AI Assessment Scale (10:40)
+AIAS = "https://aiassessmentscale.com/"
+
+AIAS_PAGE = f"""
+<style>
+.levels{{list-style:none;padding:0!important;margin:20px 0;counter-reset:lvl}}
+.levels li{{display:grid;grid-template-columns:52px 1fr;gap:4px 14px;align-items:start;background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:12px 14px;margin:0 0 10px;max-width:68ch}}
+.levels .n{{grid-row:span 2;font-family:var(--font-display);font-weight:900;font-size:30px;line-height:1;text-align:center;padding-top:2px}}
+.levels h3{{margin:0;font-size:18px;text-transform:uppercase}}
+.levels p{{margin:0}}
+</style>
+<div class="doc">
+<p class="eyebrow">10:40 · How should AI fit into classroom work?</p>
+<h1>The AI Assessment Scale</h1>
+<p class="lede">Instead of a yes or no on AI, the AI Assessment Scale (AIAS) names five kinds of task, from no AI to AI exploration. It was developed by Mike Perkins, Leon Furze, Jasper Roe and Jason MacVaugh, and is widely used in schools and universities.</p>
+<div class="tools no-print"><a class="btn" href="{AIAS}" target="_blank" rel="noopener">The AIAS site ↗</a><a class="btn" href="class-ai-agreement.html">Collaborative protocol</a></div>
+
+<h2>The five levels</h2>
+<ol class="levels">
+<li><span class="n">1</span><h3>No AI</h3><p>The task is done without AI, somewhere AI can’t be used, so it shows what students know and can do on their own.</p></li>
+<li><span class="n">2</span><h3>AI Planning</h3><p>AI can help with brainstorming, outlining and early research. What counts is how students develop and refine the ideas themselves.</p></li>
+<li><span class="n">3</span><h3>AI Collaboration</h3><p>AI can help with drafting, feedback and revision. Students evaluate and change what it suggests, and show their own understanding.</p></li>
+<li><span class="n">4</span><h3>Full AI</h3><p>AI can be used throughout, as students choose or as the teacher directs. The focus is on directing it well and judging what it produces.</p></li>
+<li><span class="n">5</span><h3>AI Exploration</h3><p>AI is used creatively to tackle the task, sometimes in ways the teacher and students work out together.</p></li>
+</ol>
+
+<h2>Things to notice</h2>
+<ul>
+<li>No level is the best one. The 2024 version dropped its traffic-light colours so the higher levels wouldn’t look like the goal.</li>
+<li>A level is only as real as the conditions around it. “No AI” holds for work done in class, not for work done at home.</li>
+<li>One unit can use several levels, one task at a time.</li>
+</ul>
+
+<h2>At 10:40</h2>
+<p>Bring an assignment or activity you actually teach. Decide which level it should sit at and why, then try the <a href="class-ai-agreement.html">collaborative protocol</a> to make the same decision with students.</p>
+
+<h2>Sources</h2>
+<ul class="meta">
+<li><a href="{AIAS}">aiassessmentscale.com</a>: the current scale, translations and resources.</li>
+<li>Perkins, M., Roe, J., &amp; Furze, L. (2024). <a href="https://arxiv.org/abs/2412.09029">The AI Assessment Scale revisited: A framework for educational assessment</a>.</li>
+<li>Perkins, M., Furze, L., Roe, J., &amp; MacVaugh, J. (2024). The AI Assessment Scale (AIAS): A framework for ethical integration of generative AI in educational assessment. <em>Journal of University Teaching and Learning Practice, 21</em>(6).</li>
+</ul>
+</div>
+"""
+
 # ---------------------------------------------------------------- Talk slides (9:15)
 # Paste the slides' embed link (the src of the iframe your slide tool gives you) into
 # SLIDES_EMBED. SLIDES_FILE is optional: a link to a PDF copy for offline or printing.
@@ -807,6 +852,7 @@ PAGES = [
     {"file": "cards.html", "nav": "scenarios", "title": "More scenario cards · Teaching with, about, and without AI", "desc": "Ten more classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
     {"file": "metaphor.html", "nav": "home", "title": "My AI Metaphor · Teaching with, about, and without AI", "desc": "Opening activity: add a metaphor for AI to the shared board.", "html": METAPHOR_PAGE},
     {"file": "quickdraw.html", "nav": "home", "title": "Quick, Draw! · Teaching with, about, and without AI", "desc": "A sketch game with a neural network, and what it shows about how machine learning learns.", "html": QUICKDRAW_PAGE},
+    {"file": "aias.html", "nav": "home", "title": "The AI Assessment Scale · Teaching with, about, and without AI", "desc": "The five levels of the AI Assessment Scale, for deciding how AI fits a task.", "html": AIAS_PAGE},
     {"file": "talk.html", "nav": "home", "title": "Talk slides · Teaching with, about, and without AI", "desc": "Slides for the opening talk: what are these strange systems, anyway?", "html": TALK_PAGE},
     {"file": "activities.html", "nav": "activities", "title": "Activities · Teaching with, about, and without AI", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
     {"file": "handouts.html", "nav": "handouts", "title": "Handouts · Teaching with, about, and without AI", "html": HANDOUTS_INDEX},
