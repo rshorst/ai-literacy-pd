@@ -79,7 +79,7 @@ HOME = f"""
 <h2>The day</h2>
 <p>Every block has something to try and something to discuss. Timings and emphasis can shift in response to the pre-session input and the conversation in the room.</p>
 <ol class="agenda">
-<li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p></div></li>
+<li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p><p class="res"><a href="metaphor.html">My AI Metaphor</a></p></div></li>
 <li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="talk.html">Talk slides</a><a href="map.html">AI map</a></p></div></li>
 <li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="scenarios.html">Classroom situations</a><a href="responses.html">Shared board</a></p></div></li>
 <li class="pause"><time>10:25</time><span>Break</span></li>
@@ -687,6 +687,28 @@ FRAMEWORKS_PAGE = f"""
 </div>
 """
 
+# ---------------------------------------------------------------- My AI Metaphor (9:00)
+PADLET = "https://padlet.com/embed/s025k2ljostv9t2zbjfr"
+
+METAPHOR_PAGE = f"""
+<style>
+.board{{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:20px 0 10px}}
+.board iframe{{display:block;width:100%;height:640px;border:0}}
+@media (max-width:700px){{.board iframe{{height:520px}}}}
+.btn.primary{{background:var(--yellow)}}
+</style>
+<div class="doc wide">
+<p class="eyebrow">9:00 · Welcome</p>
+<h1>My AI Metaphor</h1>
+<p class="lede">AI is like… because… Add your metaphor to the board and place it where it sits for you: personal or collective, opening possibilities or raising concerns.</p>
+<div class="tools"><a class="btn primary" href="{PADLET}" target="_blank" rel="noopener">Open the board ↗</a><a class="btn" href="assets/my-ai-metaphor-paper.pdf">Paper version (PDF)</a></div>
+<div class="board"><iframe src="{PADLET}" title="My AI Metaphor board" allow="camera;microphone;geolocation;display-capture;clipboard-write" loading="lazy"></iframe></div>
+<p class="meta">On a phone, the board is easier to use in its own tab.</p>
+<h2>On paper</h2>
+<p>The paper version has the same board as a poster and a card for each table. Write your metaphor on a sticky note and place it on the poster. The table card also has a QR code to the online board.</p>
+</div>
+"""
+
 # ---------------------------------------------------------------- Talk slides (9:15)
 # Paste the slides' embed link (the src of the iframe your slide tool gives you) into
 # SLIDES_EMBED. SLIDES_FILE is optional: a link to a PDF copy for offline or printing.
@@ -719,6 +741,7 @@ TALK_PAGE = f"""
 PAGES = [
     {"file": "index.html", "nav": "home", "title": "Teaching with, about, and without AI", "desc": "A professional learning day for K-12 educators, with Dr. Rachel Horst: the day, an AI map, classroom situations, activities, handouts, readings and policy examples.", "html": HOME},
     {"file": "cards.html", "nav": "scenarios", "title": "More scenario cards · Teaching with, about, and without AI", "desc": "Ten more classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
+    {"file": "metaphor.html", "nav": "home", "title": "My AI Metaphor · Teaching with, about, and without AI", "desc": "Opening activity: add a metaphor for AI to the shared board.", "html": METAPHOR_PAGE},
     {"file": "talk.html", "nav": "home", "title": "Talk slides · Teaching with, about, and without AI", "desc": "Slides for the opening talk: what are these strange systems, anyway?", "html": TALK_PAGE},
     {"file": "activities.html", "nav": "activities", "title": "Activities · Teaching with, about, and without AI", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
     {"file": "handouts.html", "nav": "handouts", "title": "Handouts · Teaching with, about, and without AI", "html": HANDOUTS_INDEX},
