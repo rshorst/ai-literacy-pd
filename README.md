@@ -1,6 +1,6 @@
-# AI literacy for teachers
+# Teaching with, about, and without AI
 
-Free professional learning resources on AI for teachers, by Rachel Horst (University of British Columbia).
+A professional learning day for K-12 educators, with Rachel Horst (University of British Columbia), and the resources that go with it.
 
 **Site:** https://rshorst.github.io/ai-literacy-pd/
 
@@ -8,9 +8,9 @@ Free professional learning resources on AI for teachers, by Rachel Horst (Univer
 
 | Page | File |
 |---|---|
-| Home | `index.html` |
+| The day (home) | `index.html` |
 | AI map: who makes what in AI | `map.html` |
-| Scenario cards | `cards.html` |
+| Classroom situations (scenario cards) | `cards.html` |
 | Activities | `activities.html` |
 | Handouts | `handouts.html`, `what-these-systems-are.html`, `practical-moves.html`, `class-ai-agreement.html`, `copilot-and-prompting.html` |
 | Readings | `readings.html` |
@@ -19,11 +19,11 @@ Free professional learning resources on AI for teachers, by Rachel Horst (Univer
 
 ## Offline use
 
-Every page is a single self-contained HTML file and runs offline in any browser. To keep the links between pages working, download this repository as a zip (green **Code** button, then **Download ZIP**), unzip it, and open `index.html`.
+Every page is a single self-contained HTML file and runs offline in any browser. The collage images live in `assets/` and drop out if a page is copied on its own. To keep the links between pages working, download this repository as a zip (green **Code** button, then **Download ZIP**), unzip it, and open `index.html`.
 
 ## Editing
 
-The pages are generated from `_build/content.py` (all page text) and `_build/map-source.html` (the AI map). To change something, edit those files and run:
+The pages are generated from `_build/content.py` (all page text), `_build/build.py` (layout and styles) and `_build/map-source.html` (the AI map). To change something, edit those files and run:
 
 ```
 python3 _build/build.py
