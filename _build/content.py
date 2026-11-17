@@ -14,7 +14,7 @@ SITE = {
 NAV = [
     ("home", "The day", "index.html"),
     ("map", "AI map", "map.html"),
-    ("cards", "Classroom situations", "cards.html"),
+    ("scenarios", "Classroom situations", "scenarios.html"),
     ("policies", "Policy examples", "policies.html"),
     ("handouts", "Handouts", "handouts.html"),
     ("activities", "Activities", "activities.html"),
@@ -24,7 +24,7 @@ NAV = [
 
 # Tape colour behind each page title, and one collage cut-out per page.
 PAGE_STYLE = {
-    "cards": {"tape": "pink", "deco": "lightbulb.webp"},
+    "scenarios": {"tape": "pink", "deco": "lightbulb.webp"},
     "policies": {"tape": "teal", "deco": "sticker-collective.webp"},
     "handouts": {"tape": "yellow", "deco": "laptop.webp"},
     "activities": {"tape": "pink", "deco": "plant.webp"},
@@ -77,8 +77,8 @@ HOME = f"""
 <p>Every block has something to try and something to discuss. Timings and emphasis can shift in response to the pre-session input and the conversation in the room.</p>
 <ol class="agenda">
 <li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p></div></li>
-<li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="what-these-systems-are.html">What these systems are</a><a href="map.html">AI map</a></p></div></li>
-<li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="cards.html">Classroom situations</a></p></div></li>
+<li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="talk.html">Talk slides</a><a href="map.html">AI map</a></p></div></li>
+<li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="scenarios.html">Classroom situations</a><a href="responses.html">Shared board</a></p></div></li>
 <li class="pause"><time>10:25</time><span>Break</span></li>
 <li><time>10:40</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="policies.html">Policy examples</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
 <li><time>11:25</time><div><h3>Some things worth trying in Copilot</h3><p>A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.</p><p class="res"><a href="copilot-and-prompting.html">Copilot and prompting</a><a href="practical-moves.html">Practical moves</a></p></div></li>
@@ -128,7 +128,7 @@ HOME = f"""
 <h2>Everything on this site</h2>
 <div class="grid">
 <a class="tile" href="map.html"><h3>AI map</h3><p>Who makes what in AI: companies, models, apps, and the other kinds of AI that rank, sort and predict.</p></a>
-<a class="tile" href="cards.html"><h3>Classroom situations</h3><p>Ten scenario cards for small-group discussion, each with a move to try with a chatbot.</p></a>
+<a class="tile" href="scenarios.html"><h3>Classroom situations</h3><p>Ten fictional cases grounded in research and reporting, with Copilot prompts and a group response.</p></a>
 <a class="tile" href="policies.html"><h3>Policy examples</h3><p>Twenty K to 12 AI policies to examine, not templates to adopt.</p></a>
 <a class="tile" href="handouts.html"><h3>Handouts</h3><p>What these systems are, practical moves, the collaborative protocol, and Copilot and prompting.</p></a>
 <a class="tile" href="activities.html"><h3>Activities</h3><p>Twenty short moves for students and for staff, about AI and with AI.</p></a>
@@ -211,15 +211,15 @@ def cards_html():
 
 CARDS_PAGE = f"""
 <div class="doc wide">
-<p class="eyebrow">Scenario cards</p>
-<h1>Classroom situations</h1>
+<p class="eyebrow">Classroom situations</p>
+<h1>More scenario cards</h1>
 <p class="lede">Ten classroom situations for discussion. Each pulls on two or three dimensions of the <a href="frameworks.html">Entangled Dimensions</a> framework and suggests one move to try with a chatbot, read through one of the four Cs of Computational Sense-Making.</p>
 <p><strong>How to run them.</strong> Groups of three or four take one card each. Discuss for ten minutes, try the move for five, then report one tension back to the room in two. If there is no connection, run the move on one screen, read out a saved output, or skip it.</p>
 {PRINT}
 <div class="cards">
 {cards_html()}
 </div>
-<p class="meta">Free to reuse and adapt under CC BY 4.0. Cards to write next: a deepfake of a student; a parent who forbids AI; a student who refuses AI on principle.</p>
+<p class="meta">Free to reuse and adapt under CC BY 4.0. Cards to write next: a parent who forbids AI.</p>
 </div>
 """
 
@@ -684,9 +684,39 @@ FRAMEWORKS_PAGE = f"""
 </div>
 """
 
+# ---------------------------------------------------------------- Talk slides (9:15)
+# Paste the slides' embed link (the src of the iframe your slide tool gives you) into
+# SLIDES_EMBED. SLIDES_FILE is optional: a link to a PDF copy for offline or printing.
+SLIDES_EMBED = ""
+SLIDES_FILE = ""
+
+if SLIDES_EMBED:
+    _slides = f'<div class="slides"><iframe src="{html.escape(SLIDES_EMBED)}" title="Talk slides" allowfullscreen loading="lazy"></iframe></div>'
+else:
+    _slides = '<div class="slides empty"><p>The slides will be added here before the day.</p></div>'
+_slides_file = f'<div class="tools"><a class="btn" href="{html.escape(SLIDES_FILE)}">Download the slides</a></div>' if SLIDES_FILE else ""
+
+TALK_PAGE = f"""
+<style>
+.slides{{position:relative;aspect-ratio:16/9;width:100%;border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:var(--surface);margin:22px 0 10px}}
+.slides iframe{{position:absolute;inset:0;width:100%;height:100%;border:0}}
+.slides.empty{{display:grid;place-items:center;text-align:center;padding:20px}}
+.slides.empty p{{font-family:var(--font-mono);font-size:14px;letter-spacing:.06em;color:var(--muted);margin:0}}
+</style>
+<div class="doc wide">
+<p class="eyebrow">9:15 · Talk slides</p>
+<h1>What are these strange systems, anyway?</h1>
+<p class="lede">A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p>
+{_slides}
+{_slides_file}
+<p class="res"><a href="map.html">AI map</a><a href="scenarios.html">Next: Classroom situations</a></p>
+</div>
+"""
+
 PAGES = [
     {"file": "index.html", "nav": "home", "title": "Teaching with, about, and without AI", "desc": "A professional learning day for K-12 educators, with Dr. Rachel Horst: the day, an AI map, classroom situations, activities, handouts, readings and policy examples.", "html": HOME},
-    {"file": "cards.html", "nav": "cards", "title": "Classroom situations · Teaching with, about, and without AI", "desc": "Ten classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
+    {"file": "cards.html", "nav": "scenarios", "title": "More scenario cards · Teaching with, about, and without AI", "desc": "Ten more classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
+    {"file": "talk.html", "nav": "home", "title": "Talk slides · Teaching with, about, and without AI", "desc": "Slides for the opening talk: what are these strange systems, anyway?", "html": TALK_PAGE},
     {"file": "activities.html", "nav": "activities", "title": "Activities · Teaching with, about, and without AI", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
     {"file": "handouts.html", "nav": "handouts", "title": "Handouts · Teaching with, about, and without AI", "html": HANDOUTS_INDEX},
     {"file": "what-these-systems-are.html", "nav": "handouts", "title": "What these systems are · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + SYSTEMS_MD + "\n</div>"},
