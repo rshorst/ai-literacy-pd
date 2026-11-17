@@ -19,7 +19,7 @@ The ten cases below are **fictional classroom adaptations grounded in published 
 
 *Shared whole-room demonstration*
 
-A Grade 7 teacher asks an AI assistant for a historical quotation and a source for a class inquiry. The response provides a compelling quotation, a named historical figure, and a plausible-sounding publication. The teacher is ready to include it in the lesson. A colleague tries to locate the publication and cannot find it. What should happen next?
+A Grade 7 teacher asks an AI assistant for a historical quotation and a source for a class inquiry. The response provides a compelling quotation, a named historical figure, and a plausible-sounding publication. The teacher is ready to include it in the lesson. A colleague tries to locate the publication and cannot find it. What should happen next? What changes if the publication can be found but the quotation is paraphrased or attributed to the wrong figure? What changes if it happens to be perfectly correct?
 
 **Questions:** What counts as evidence that something is true? What does the apparent confidence of the output do to our judgment? How could this become a learning opportunity rather than only an error to correct?
 
