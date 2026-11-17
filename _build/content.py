@@ -2,23 +2,35 @@
 import html
 
 SITE = {
-    "name": "AI literacy for teachers",
-    "byline": "Professional learning · Rachel Horst",
+    "name": "Teaching with, about, and without AI",
+    "byline": "A professional learning day · Rachel Horst",
     "credit": '© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.',
     "updated": "Updated November 2026",
     "repo": "https://github.com/rshorst/ai-literacy-pd",
+    "url": "https://rshorst.github.io/ai-literacy-pd/",
 }
 
+# Nav follows the order of the day.
 NAV = [
-    ("home", "Home", "index.html"),
+    ("home", "The day", "index.html"),
     ("map", "AI map", "map.html"),
-    ("cards", "Scenario cards", "cards.html"),
-    ("activities", "Activities", "activities.html"),
-    ("handouts", "Handouts", "handouts.html"),
-    ("readings", "Readings", "readings.html"),
+    ("cards", "Classroom situations", "cards.html"),
     ("policies", "Policy examples", "policies.html"),
+    ("handouts", "Handouts", "handouts.html"),
+    ("activities", "Activities", "activities.html"),
     ("frameworks", "Frameworks", "frameworks.html"),
+    ("readings", "Readings", "readings.html"),
 ]
+
+# Tape colour behind each page title, and one collage cut-out per page.
+PAGE_STYLE = {
+    "cards": {"tape": "pink", "deco": "lightbulb.webp"},
+    "policies": {"tape": "teal", "deco": "sticker-collective.webp"},
+    "handouts": {"tape": "yellow", "deco": "laptop.webp"},
+    "activities": {"tape": "pink", "deco": "plant.webp"},
+    "frameworks": {"tape": "yellow", "deco": "collage-ai.webp"},
+    "readings": {"tape": "blue", "deco": "sticker-critical.webp"},
+}
 
 ZIP = "https://github.com/rshorst/ai-literacy-pd/archive/refs/heads/main.zip"
 ED = "https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/"
@@ -34,27 +46,100 @@ def esc(s):
 
 # ---------------------------------------------------------------- Home
 HOME = f"""
-<div class="doc wide">
-<p class="eyebrow">Professional learning</p>
-<h1>AI literacy for teachers</h1>
-<p class="lede">Generative AI is already in classrooms, whether or not a school has decided anything about it. These resources are about what these systems actually do, what that means for assessment and teaching, and how a class can decide together how AI gets used in the room.</p>
-<p>They come from discussion-led sessions with teachers and teacher candidates. The approach is not a tool demonstration, and it is not an argument that AI should be kept out. Both of those leave teachers with less than they need. Everything here is free to use and adapt.</p>
+<section class="hero">
+<img class="deco-corner" src="assets/pink-paper-corner.webp" alt="">
+<div class="hero-inner">
+<div class="hero-text">
+<h1 class="title"><span class="l">Teaching</span><span class="l tape pink">with,</span><span class="l tape teal">about,</span><span class="l and">and</span><span class="l tape yellow">without</span><span class="l ai">AI</span></h1>
+<p class="byline"><span class="tape teal">with Dr. Rachel Horst</span></p>
+<p class="kicker">A professional learning day for K-12 educators</p>
+<p class="when">Friday 20 November 2026 · 9:00 to 3:00</p>
+</div>
+<div class="hero-art" aria-hidden="true">
+<img class="a-bulb" src="assets/lightbulb-with-rays.webp" alt="">
+<img class="a-plant" src="assets/plant.webp" alt="">
+<img class="a-laptop" src="assets/laptop.webp" alt="">
+<img class="a-critical" src="assets/sticker-critical.webp" alt="">
+<img class="a-creative" src="assets/sticker-creative.webp" alt="">
+<img class="a-practical" src="assets/sticker-practical.webp" alt="">
+<img class="a-collective" src="assets/sticker-collective.webp" alt="">
+</div>
+</div>
+<img class="deco-mountains" src="assets/mountains-and-sun.webp" alt="">
+<img class="deco-forest" src="assets/forest-corner.webp" alt="">
+</section>
 
+<div class="doc wide">
+<p class="lede">Generative AI is already in classrooms, whether or not a school has decided anything about it. This professional development day will be about what these systems actually are and do, what this means for teaching and assessment, and how educators and students can make more deliberate choices about where and how AI belongs, and where it does not.</p>
+<p>The day will be discussion-led. We’ll work through real classroom situations, try a few things in Microsoft Copilot, and reconsider something you already teach. We’ll also begin gathering questions and priorities that could inform future classroom- and school-level guidance around AI. (You’ll notice I don’t love the “tool” metaphor, but we’ll talk about that.)</p>
+
+<h2>The day</h2>
+<p>Every block has something to try and something to discuss. Timings and emphasis can shift in response to the pre-session input and the conversation in the room.</p>
+<ol class="agenda">
+<li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p></div></li>
+<li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="what-these-systems-are.html">What these systems are</a><a href="map.html">AI map</a></p></div></li>
+<li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="cards.html">Classroom situations</a></p></div></li>
+<li class="pause"><time>10:25</time><span>Break</span></li>
+<li><time>10:40</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="policies.html">Policy examples</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
+<li><time>11:25</time><div><h3>Some things worth trying in Copilot</h3><p>A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.</p><p class="res"><a href="copilot-and-prompting.html">Copilot and prompting</a><a href="practical-moves.html">Practical moves</a></p></div></li>
+<li class="pause"><time>11:55</time><span>Lunch</span></li>
+<li><time>12:45</time><div><h3>Rethinking something you already teach</h3><p>Bring a lesson, activity, assignment, or unit you already teach. We use what we have explored so far to reconsider where AI might support the learning, where it might change or bypass something important, and where it may not belong at all.</p><p class="res"><a href="activities.html#activity-11">Activities for educators</a><a href="readings.html">Readings on assessment</a></p></div></li>
+<li><time>1:45</time><div><h3>Looking at the bigger picture</h3><p>We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.</p><p class="res"><a href="frameworks.html">Frameworks</a><a href="map.html#o-k-rec">Other kinds of AI</a></p></div></li>
+<li class="pause"><time>2:15</time><span>Break</span></li>
+<li><time>2:25</time><div><h3>From classroom choices to collective decisions</h3><p>We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.</p><p><em>What needs to be decided here, who needs to be part of that decision, and what should remain open?</em></p><p class="res"><a href="policies.html">Policy examples</a><a href="activities.html#activity-13">The document audit</a></p></div></li>
+<li><time>2:50</time><div><h3>Close</h3><p>We close by imagining the kinds of futures with AI we would want to move toward, and the ones we would want to resist.</p><p class="res"><a href="{FUT}">AI Futures map</a></p></div></li>
+</ol>
+
+<h2>What educators leave with</h2>
+<ul class="leave">
+<li>The Entangled Dimensions of AI Literacy framework with prompts for exploring AI as more than a tool. <a href="frameworks.html">Frameworks</a></li>
+<li>A simple “with, about, or without?” planning guide for deciding whether, where, and why AI belongs in a particular learning activity.</li>
+<li>A small collection of approaches for thinking about AI use in teaching and assessment including a collaborative decision-making protocol adaptable across grades and contexts. <a href="policies.html">Policy examples</a> · <a href="class-ai-agreement.html">Protocol</a></li>
+<li>A set of practical Copilot ideas and prompts to experiment with in planning and teaching. <a href="copilot-and-prompting.html">Copilot and prompting</a></li>
+<li>Adaptable K-12 activities for teaching about AI including options that do not require students to have AI accounts. <a href="activities.html">Activities</a></li>
+<li>One lesson, activity, or assignment of their own reconsidered or redesigned in light of the day.</li>
+<li>A staff-generated set of questions and priorities to carry forward into future classroom, school, and community conversations about AI guidance and policy.</li>
+</ul>
+
+<div class="two">
+<div>
+<h2>After the day</h2>
+<p>If it would be useful, we can keep some of these conversations going after November. Possible next steps might include:</p>
+<ul>
+<li><strong>A policy session:</strong> a 60-90 minute online session in the new year, working from the questions that emerge during the day toward classroom- or school-level guidance.</li>
+<li><strong>A short check-in:</strong> a few weeks later, a chance to share what you tried, what happened, and what questions are still hanging around.</li>
+<li><strong>An ongoing AI literacy partnership:</strong> continued planning support, conversation, and another session later in the year.</li>
+</ul>
+</div>
+<div>
+<h2>A note on context</h2>
+<p>I am coming to this as an educator, researcher, and lecturer in UBC’s Master of Educational Technology program. When I work with a school community I am not part of, questions involving local knowledge, language, data, and protocols carry particular significance. Some questions about AI can be worked through at the classroom level; others may belong at the school or community level. Where those boundaries arise, we can name them together, and leave them with the people they belong to.</p>
+</div>
+</div>
+
+<h2>Frameworks we’ll use</h2>
+<p>The day draws on two open frameworks developed through work at UBC:</p>
+<div class="grid">
+<a class="tile" href="{ED}"><h3>Entangled Dimensions of AI Literacy</h3><p>A way of looking beyond the immediate use of an AI system to the wider questions of knowledge, relationships, institutions, resources, values, and planetary systems.</p></a>
+<a class="tile" href="{CSM}"><h3>Computational Sense-Making</h3><p>A way of looking more closely at what computational systems are doing, how they produce outputs, and how we make sense of them.</p></a>
+</div>
+<p>Both are freely available and will remain available after the session.</p>
+
+<h2>Everything on this site</h2>
 <div class="grid">
 <a class="tile" href="map.html"><h3>AI map</h3><p>Who makes what in AI: companies, models, apps, and the other kinds of AI that rank, sort and predict.</p></a>
-<a class="tile" href="cards.html"><h3>Scenario cards</h3><p>Ten classroom situations for small-group discussion, each with a move to try with a chatbot.</p></a>
+<a class="tile" href="cards.html"><h3>Classroom situations</h3><p>Ten scenario cards for small-group discussion, each with a move to try with a chatbot.</p></a>
+<a class="tile" href="policies.html"><h3>Policy examples</h3><p>Twenty K to 12 AI policies to examine, not templates to adopt.</p></a>
+<a class="tile" href="handouts.html"><h3>Handouts</h3><p>What these systems are, practical moves, the collaborative protocol, and Copilot and prompting.</p></a>
 <a class="tile" href="activities.html"><h3>Activities</h3><p>Twenty short moves for students and for staff, about AI and with AI.</p></a>
-<a class="tile" href="handouts.html"><h3>Handouts</h3><p>What these systems are, practical moves, the class AI agreement, and Copilot and prompting.</p></a>
-<a class="tile" href="readings.html"><h3>Readings</h3><p>Fifteen recent readings on assessment, feedback, lesson planning, students' use and refusal.</p></a>
-<a class="tile" href="policies.html"><h3>Policy examples</h3><p>Twenty K to 12 AI policies, secondary and elementary, to argue with rather than adopt.</p></a>
-<a class="tile" href="frameworks.html"><h3>Frameworks</h3><p>Entangled Dimensions of AI Literacy and Computational Sense-Making, the two frameworks behind it all.</p></a>
+<a class="tile" href="readings.html"><h3>Readings</h3><p>Fifteen recent readings on assessment, feedback, lesson planning, students’ use and refusal.</p></a>
 </div>
 
 <h2>Use it offline</h2>
-<p>Every page works on its own. Open it, then save it from your browser, and it will run without an internet connection. To keep the whole site with its links working, <a href="{ZIP}">download it as a zip</a>, unzip it, and open <code>index.html</code>. The cards, activities and handouts also print cleanly.</p>
+<p>Every page works on its own: open it, save it from your browser, and it runs without an internet connection. To keep the whole site with its links and images, <a href="{ZIP}">download it as a zip</a>, unzip it, and open <code>index.html</code>. The cards, activities and handouts also print cleanly.</p>
 
-<h2>About</h2>
-<p>Rachel Horst is a writer, arts-based researcher and educator, and Lecturer and Academic Advisor in the Master of Educational Technology program at the University of British Columbia. She developed the Entangled Dimensions of AI Literacy framework.</p>
+<h2>Contact</h2>
+<p class="contact">Rachel Horst, PhD<br>University of British Columbia<br>rachel.horst@ubc.ca</p>
 </div>
 """
 
@@ -126,8 +211,8 @@ def cards_html():
 
 CARDS_PAGE = f"""
 <div class="doc wide">
-<p class="eyebrow">For small groups</p>
-<h1>Scenario cards</h1>
+<p class="eyebrow">Scenario cards</p>
+<h1>Classroom situations</h1>
 <p class="lede">Ten classroom situations for discussion. Each pulls on two or three dimensions of the <a href="frameworks.html">Entangled Dimensions</a> framework and suggests one move to try with a chatbot, read through one of the four Cs of Computational Sense-Making.</p>
 <p><strong>How to run them.</strong> Groups of three or four take one card each. Discuss for ten minutes, try the move for five, then report one tension back to the room in two. If there is no connection, run the move on one screen, read out a saved output, or skip it.</p>
 {PRINT}
@@ -571,15 +656,15 @@ FRAMEWORKS_PAGE = f"""
 <div class="doc">
 <p class="eyebrow">Behind the resources</p>
 <h1>Frameworks</h1>
-<p class="lede">Two open frameworks developed at the University of British Columbia shape everything on this site. One asks what is at stake. The other asks how to read what a system is doing.</p>
+<p class="lede">The day draws on two open frameworks developed through work at UBC. Both are freely available.</p>
 
 <h2>Entangled Dimensions of AI Literacy</h2>
-<p>What is at stake in any use of AI. There are ten dimensions, and they work as threads, not a checklist. Each scenario card pulls on two or three.</p>
+<p>A way of looking beyond the immediate use of an AI system to the wider questions of knowledge, relationships, institutions, resources, values, and planetary systems. There are ten dimensions, and they work as threads, not a checklist. Each classroom situation card pulls on two or three.</p>
 <p><span class="tag">data</span><span class="tag">algorithmic</span><span class="tag">knowledge-construction</span><span class="tag">disciplinary</span><span class="tag">epistemic</span><span class="tag">political</span><span class="tag">ecological</span><span class="tag">relational</span><span class="tag">creative</span><span class="tag">futures</span></p>
 <p><a class="btn" href="{ED}">Open the Entangled Dimensions site</a></p>
 
 <h2>Computational Sense-Making</h2>
-<p>How to read what a system does. The four Cs give the practical moves when a chatbot is brought into the conversation.</p>
+<p>A way of looking more closely at what computational systems are doing, how they produce outputs, and how we make sense of them. The four Cs give the practical moves when a chatbot is brought into the conversation.</p>
 <table>
 <thead><tr><th>C</th><th>What it reads</th></tr></thead>
 <tbody>
@@ -592,7 +677,7 @@ FRAMEWORKS_PAGE = f"""
 <p><a class="btn" href="{CSM}">Open the Computational Sense-Making site</a></p>
 
 <h2>Used together</h2>
-<p>The dimensions give a discussion its questions. The four Cs give the moves to try. In the <a href="cards.html">scenario cards</a>, each card names its threads and pairs a question with a move.</p>
+<p>The dimensions give a discussion its questions. The four Cs give the moves to try. In the <a href="cards.html">classroom situation cards</a>, each card names its threads and pairs a question with a move.</p>
 
 <h2>Related</h2>
 <p><a href="{FUT}">AI Futures</a>: an interactive map of positions on AI's future, from automated utopia to defiant resistance, built from published quotations.</p>
@@ -600,15 +685,15 @@ FRAMEWORKS_PAGE = f"""
 """
 
 PAGES = [
-    {"file": "index.html", "nav": "home", "title": "AI literacy for teachers", "desc": "Free professional learning resources on AI for teachers: an AI map, scenario cards, activities, handouts, readings and policy examples.", "html": HOME},
-    {"file": "cards.html", "nav": "cards", "title": "Scenario cards · AI literacy for teachers", "desc": "Ten classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
-    {"file": "activities.html", "nav": "activities", "title": "Activities · AI literacy for teachers", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
-    {"file": "handouts.html", "nav": "handouts", "title": "Handouts · AI literacy for teachers", "html": HANDOUTS_INDEX},
-    {"file": "what-these-systems-are.html", "nav": "handouts", "title": "What these systems are · AI literacy for teachers", "md": '<div class="doc" markdown="1">\n' + SYSTEMS_MD + "\n</div>"},
-    {"file": "practical-moves.html", "nav": "handouts", "title": "Practical moves · AI literacy for teachers", "md": '<div class="doc" markdown="1">\n' + MOVES_MD + "\n</div>"},
-    {"file": "class-ai-agreement.html", "nav": "handouts", "title": "The class AI agreement · AI literacy for teachers", "md": '<div class="doc" markdown="1">\n' + AGREEMENT_MD + "\n</div>"},
-    {"file": "copilot-and-prompting.html", "nav": "handouts", "title": "Copilot and prompting · AI literacy for teachers", "md": '<div class="doc" markdown="1">\n' + COPILOT_MD + "\n</div>"},
-    {"file": "readings.html", "nav": "readings", "title": "Readings · AI literacy for teachers", "html": READINGS_PAGE},
-    {"file": "policies.html", "nav": "policies", "title": "Policy examples · AI literacy for teachers", "html": POLICIES_PAGE},
-    {"file": "frameworks.html", "nav": "frameworks", "title": "Frameworks · AI literacy for teachers", "html": FRAMEWORKS_PAGE},
+    {"file": "index.html", "nav": "home", "title": "Teaching with, about, and without AI", "desc": "A professional learning day for K-12 educators, with Dr. Rachel Horst: the day, an AI map, classroom situations, activities, handouts, readings and policy examples.", "html": HOME},
+    {"file": "cards.html", "nav": "cards", "title": "Classroom situations · Teaching with, about, and without AI", "desc": "Ten classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
+    {"file": "activities.html", "nav": "activities", "title": "Activities · Teaching with, about, and without AI", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
+    {"file": "handouts.html", "nav": "handouts", "title": "Handouts · Teaching with, about, and without AI", "html": HANDOUTS_INDEX},
+    {"file": "what-these-systems-are.html", "nav": "handouts", "title": "What these systems are · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + SYSTEMS_MD + "\n</div>"},
+    {"file": "practical-moves.html", "nav": "handouts", "title": "Practical moves · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + MOVES_MD + "\n</div>"},
+    {"file": "class-ai-agreement.html", "nav": "handouts", "title": "The class AI agreement · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + AGREEMENT_MD + "\n</div>"},
+    {"file": "copilot-and-prompting.html", "nav": "handouts", "title": "Copilot and prompting · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + COPILOT_MD + "\n</div>"},
+    {"file": "readings.html", "nav": "readings", "title": "Readings · Teaching with, about, and without AI", "html": READINGS_PAGE},
+    {"file": "policies.html", "nav": "policies", "title": "Policy examples · Teaching with, about, and without AI", "html": POLICIES_PAGE},
+    {"file": "frameworks.html", "nav": "frameworks", "title": "Frameworks · Teaching with, about, and without AI", "html": FRAMEWORKS_PAGE},
 ]
