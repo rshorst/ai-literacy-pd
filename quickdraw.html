@@ -172,9 +172,10 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <main id="main">
 
 <style>
-.board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#fff;overflow:hidden;margin:20px 0 10px}
-.board iframe{display:block;width:100%;height:600px;border:0}
-.btn.primary{background:var(--yellow)}
+.launch{display:block;text-decoration:none;color:var(--ink);background:var(--yellow);border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);padding:34px 24px;margin:22px 0 10px;text-align:center;transition:transform .12s}
+.launch:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.launch .big{display:block;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,4vw,40px);line-height:1.05}
+.launch .small{display:block;margin-top:10px;font-size:14.5px}
 .facts li{margin-bottom:10px}
 .sources{font-size:14px;color:var(--muted)}
 .sources li{margin-bottom:4px}
@@ -183,8 +184,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <p class="eyebrow">9:00 · Welcome</p>
 <h1>Quick, Draw!</h1>
 <p class="lede">You get a word and 20 seconds to draw it. While you draw, a neural network guesses what it is.</p>
-<div class="tools"><a class="btn primary" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener">Play Quick, Draw! ↗</a></div>
-<div class="board" id="qd-board"><iframe src="https://quickdraw.withgoogle.com/" title="Quick, Draw!" loading="lazy"></iframe></div>
+<a class="launch" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><span class="big">Play Quick, Draw! ↗</span><span class="small">Opens in a new tab. Google doesn't let the game run inside other sites.</span></a>
 
 <h2>Why we play it</h2>
 <p>It is a quick way to watch machine learning work, with no account needed. It also shows what that learning takes: millions of people drawing for free, and a system that learns the most common way to draw a thing.</p>
