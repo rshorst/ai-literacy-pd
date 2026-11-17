@@ -33,7 +33,7 @@ PAGE_STYLE = {
 }
 
 ZIP = "https://github.com/rshorst/ai-literacy-pd/archive/refs/heads/main.zip"
-ED = "https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/"
+ED = "https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N"  # interactive version
 CSM = "https://rshorst.github.io/computational-sense-making/"
 FUT = "https://rshorst.github.io/AI-Futures/"
 
@@ -51,9 +51,12 @@ HOME = f"""
 <div class="hero-inner">
 <div class="hero-text">
 <h1 class="title"><span class="l">Teaching</span><span class="l tape pink">with,</span><span class="l tape teal">about,</span><span class="l and">and</span><span class="l tape yellow">without</span><span class="l ai">AI</span></h1>
+<div class="hero-meta"><div>
 <p class="byline"><span class="tape teal">with Dr. Rachel Horst</span></p>
 <p class="kicker">A professional learning day for K-12 educators</p>
 <p class="when">Friday 20 November 2026 · 9:00 to 3:00</p>
+</div>
+<figure class="access"><img src="assets/qr-materials.png" alt="QR code for bit.ly/ai-literacy-pd" width="132" height="132"><figcaption>Scan for the materials<br><a href="https://bit.ly/ai-literacy-pd">bit.ly/ai-literacy-pd</a></figcaption></figure></div>
 </div>
 <div class="hero-art" aria-hidden="true">
 <img class="a-bulb" src="assets/lightbulb-with-rays.webp" alt="">
@@ -661,7 +664,7 @@ FRAMEWORKS_PAGE = f"""
 <h2>Entangled Dimensions of AI Literacy</h2>
 <p>A way of looking beyond the immediate use of an AI system to the wider questions of knowledge, relationships, institutions, resources, values, and planetary systems. There are ten dimensions, and they work as threads, not a checklist. Each classroom situation card pulls on two or three.</p>
 <p><span class="tag">data</span><span class="tag">algorithmic</span><span class="tag">knowledge-construction</span><span class="tag">disciplinary</span><span class="tag">epistemic</span><span class="tag">political</span><span class="tag">ecological</span><span class="tag">relational</span><span class="tag">creative</span><span class="tag">futures</span></p>
-<p><a class="btn" href="{ED}">Open the Entangled Dimensions site</a></p>
+<p><a class="btn" href="{ED}">Open the interactive Entangled Dimensions</a></p>
 
 <h2>Computational Sense-Making</h2>
 <p>A way of looking more closely at what computational systems are doing, how they produce outputs, and how we make sense of them. The four Cs give the practical moves when a chatbot is brought into the conversation.</p>

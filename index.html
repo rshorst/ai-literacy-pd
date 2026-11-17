@@ -104,6 +104,11 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .kicker{font-family:var(--font-mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;margin:22px 0 0;max-width:34ch;line-height:1.5}
 .kicker::after{content:"";display:block;width:64px;height:4px;background:var(--ink);margin-top:14px}
 .when{font-weight:600;margin:12px 0 0}
+.hero-meta{display:flex;flex-wrap:wrap;align-items:flex-start;gap:18px 36px}
+.access{margin:14px 0 0;text-align:center}
+.access img{display:block;margin:0 auto;width:132px;height:132px;background:#fff;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);image-rendering:pixelated}
+.access figcaption{margin-top:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;line-height:1.6}
+.access a{color:var(--ink);font-weight:500;text-transform:none;letter-spacing:0;font-size:15px}
 .hero-art{position:relative;aspect-ratio:1/1.08;width:100%;max-width:560px;justify-self:center}
 .hero-art img{position:absolute;height:auto}
 .a-bulb{left:20%;top:0;width:40%;z-index:3}
@@ -171,9 +176,12 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <div class="hero-inner">
 <div class="hero-text">
 <h1 class="title"><span class="l">Teaching</span><span class="l tape pink">with,</span><span class="l tape teal">about,</span><span class="l and">and</span><span class="l tape yellow">without</span><span class="l ai">AI</span></h1>
+<div class="hero-meta"><div>
 <p class="byline"><span class="tape teal">with Dr. Rachel Horst</span></p>
 <p class="kicker">A professional learning day for K-12 educators</p>
 <p class="when">Friday 20 November 2026 · 9:00 to 3:00</p>
+</div>
+<figure class="access"><img src="assets/qr-materials.png" alt="QR code for bit.ly/ai-literacy-pd" width="132" height="132"><figcaption>Scan for the materials<br><a href="https://bit.ly/ai-literacy-pd">bit.ly/ai-literacy-pd</a></figcaption></figure></div>
 </div>
 <div class="hero-art" aria-hidden="true">
 <img class="a-bulb" src="assets/lightbulb-with-rays.webp" alt="">
@@ -240,7 +248,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <h2>Frameworks we’ll use</h2>
 <p>The day draws on two open frameworks developed through work at UBC:</p>
 <div class="grid">
-<a class="tile" href="https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/"><h3>Entangled Dimensions of AI Literacy</h3><p>A way of looking beyond the immediate use of an AI system to the wider questions of knowledge, relationships, institutions, resources, values, and planetary systems.</p></a>
+<a class="tile" href="https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N"><h3>Entangled Dimensions of AI Literacy</h3><p>A way of looking beyond the immediate use of an AI system to the wider questions of knowledge, relationships, institutions, resources, values, and planetary systems.</p></a>
 <a class="tile" href="https://rshorst.github.io/computational-sense-making/"><h3>Computational Sense-Making</h3><p>A way of looking more closely at what computational systems are doing, how they produce outputs, and how we make sense of them.</p></a>
 </div>
 <p>Both are freely available and will remain available after the session.</p>
