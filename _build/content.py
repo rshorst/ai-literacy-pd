@@ -79,7 +79,7 @@ HOME = f"""
 <h2>The day</h2>
 <p>Every block has something to try and something to discuss. Timings and emphasis can shift in response to the pre-session input and the conversation in the room.</p>
 <ol class="agenda">
-<li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p><p class="res"><a href="metaphor.html">My AI Metaphor</a></p></div></li>
+<li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p><p class="res"><a href="metaphor.html">My AI Metaphor</a><a href="quickdraw.html">Quick, Draw!</a></p></div></li>
 <li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="talk.html">Talk slides</a><a href="map.html">AI map</a></p></div></li>
 <li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="scenarios.html">Classroom situations</a><a href="responses.html">Shared board</a></p></div></li>
 <li class="pause"><time>10:25</time><span>Break</span></li>
@@ -709,6 +709,66 @@ METAPHOR_PAGE = f"""
 </div>
 """
 
+# ---------------------------------------------------------------- Quick, Draw! (9:00)
+QD = "https://quickdraw.withgoogle.com/"
+
+QUICKDRAW_PAGE = f"""
+<style>
+.board{{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#fff;overflow:hidden;margin:20px 0 10px}}
+.board iframe{{display:block;width:100%;height:600px;border:0}}
+.btn.primary{{background:var(--yellow)}}
+.facts li{{margin-bottom:10px}}
+.sources{{font-size:14px;color:var(--muted)}}
+.sources li{{margin-bottom:4px}}
+</style>
+<div class="doc">
+<p class="eyebrow">9:00 · Welcome</p>
+<h1>Quick, Draw!</h1>
+<p class="lede">You get a word and 20 seconds to draw it. While you draw, a neural network guesses what it is.</p>
+<div class="tools"><a class="btn primary" href="{QD}" target="_blank" rel="noopener">Play Quick, Draw! ↗</a></div>
+<div class="board" id="qd-board"><iframe src="{QD}" title="Quick, Draw!" loading="lazy"></iframe></div>
+
+<h2>Why we play it</h2>
+<p>It is a quick way to watch machine learning work, with no account needed. It also shows what that learning takes: millions of people drawing for free, and a system that learns the most common way to draw a thing.</p>
+
+<h2>How it learns</h2>
+<p>The game does not see your drawing the way a person would. It compares your strokes with the patterns in drawings other players made for the same word. Google Creative Lab launched it in 2016, and it has collected over a billion drawings across 345 words. Each one was saved with the word, the order of the strokes, whether the game guessed it, and the player’s country.</p>
+
+<h2>What gets lost or left out</h2>
+<ul class="facts">
+<li><strong>The usual way wins.</strong> When Google looked at more than 115,000 shoe drawings, one style that looks like a sneaker dominated. The game struggled to recognize high heels or sandals as shoes.</li>
+<li><strong>Culture is in the strokes.</strong> In the data, 86% of circles drawn in the US went counterclockwise, while 80% of circles drawn in Japan went clockwise. Players in Korea and Russia were more likely to draw a chair sideways.</li>
+<li><strong>Someone chose the words.</strong> The game asks for 345 things that can be drawn in 20 seconds. Whatever is not on the list, or is drawn differently here, is not what the system learns.</li>
+<li><strong>Odd drawings get corrected.</strong> A drawing network trained on these doodles, given a cat with three eyes, draws it back with two.</li>
+</ul>
+
+<h2>What Google did with the drawings</h2>
+<p>In 2017 Google released 50 million of them as an open dataset, with each player’s country and the time of each drawing. Its researchers trained Sketch-RNN, a network that draws and can finish your doodles, on millions of them. Google also used the dataset to study how representative large datasets are, which is where the shoe finding comes from.</p>
+
+<h2>Games that train machines</h2>
+<p>Getting people to play so a system can learn is an old move. In 2004 the ESP Game paired strangers to type words for the same image, and Google licensed it as the Google Image Labeler to improve image search. reCAPTCHA, which Google bought in 2009, had people type words from scanned books and newspapers to prove they were human, which helped digitize Google Books. From 2012 it showed house numbers from Street View, and later it asked people to click on crosswalks and traffic lights.</p>
+
+<h2>To talk about</h2>
+<ul>
+<li>Who did the work in this game, and who benefits from it?</li>
+<li>What did the game reward you for drawing?</li>
+<li>What would it fail to recognize from here?</li>
+</ul>
+
+<h2>Sources</h2>
+<ul class="sources">
+<li><a href="https://opensource.googleblog.com/2018/11/introducing-web-component-and-data-api-for-quick-draw.html">Google Open Source Blog (2018), Quick, Draw! web component and data API</a></li>
+<li><a href="https://research.google/blog/exploring-and-visualizing-an-open-global-dataset/">Google Research (2017), Exploring and visualizing an open global dataset</a></li>
+<li><a href="https://github.com/googlecreativelab/quickdraw-dataset">The Quick, Draw! dataset on GitHub</a></li>
+<li><a href="https://qz.com/994486/the-way-you-draw-circles-says-a-lot-about-you/">Quartz (2017), How do you draw a circle?</a></li>
+<li><a href="https://techcrunch.com/2017/08/25/google-releases-millions-of-bad-drawings-for-you-and-your-ai-to-paw-through">TechCrunch (2017), Google releases millions of bad drawings</a></li>
+<li><a href="https://magenta.tensorflow.org/sketch-rnn-demo">Magenta, Sketch-RNN demo</a> and <a href="https://thenextweb.com/news/google-used-your-pictionary-sketches-to-teach-its-ai-to-draw">The Next Web (2017)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Human-based_computation_game">Games with a purpose and the ESP Game</a> (von Ahn and Dabbish, 2004, 2008)</li>
+<li><a href="https://en.wikipedia.org/wiki/ReCAPTCHA">reCAPTCHA</a></li>
+</ul>
+</div>
+"""
+
 # ---------------------------------------------------------------- Talk slides (9:15)
 # Paste the slides' embed link (the src of the iframe your slide tool gives you) into
 # SLIDES_EMBED. SLIDES_FILE is optional: a link to a PDF copy for offline or printing.
@@ -742,6 +802,7 @@ PAGES = [
     {"file": "index.html", "nav": "home", "title": "Teaching with, about, and without AI", "desc": "A professional learning day for K-12 educators, with Dr. Rachel Horst: the day, an AI map, classroom situations, activities, handouts, readings and policy examples.", "html": HOME},
     {"file": "cards.html", "nav": "scenarios", "title": "More scenario cards · Teaching with, about, and without AI", "desc": "Ten more classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
     {"file": "metaphor.html", "nav": "home", "title": "My AI Metaphor · Teaching with, about, and without AI", "desc": "Opening activity: add a metaphor for AI to the shared board.", "html": METAPHOR_PAGE},
+    {"file": "quickdraw.html", "nav": "home", "title": "Quick, Draw! · Teaching with, about, and without AI", "desc": "A sketch game with a neural network, and what it shows about how machine learning learns.", "html": QUICKDRAW_PAGE},
     {"file": "talk.html", "nav": "home", "title": "Talk slides · Teaching with, about, and without AI", "desc": "Slides for the opening talk: what are these strange systems, anyway?", "html": TALK_PAGE},
     {"file": "activities.html", "nav": "activities", "title": "Activities · Teaching with, about, and without AI", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
     {"file": "handouts.html", "nav": "handouts", "title": "Handouts · Teaching with, about, and without AI", "html": HANDOUTS_INDEX},
