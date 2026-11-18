@@ -183,6 +183,17 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .step{font-family:var(--font-mono);font-weight:500;font-size:14px;letter-spacing:.08em;background:var(--ink);color:var(--surface);padding:1px 8px;margin-right:8px;vertical-align:3px}
 .prompt{background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:14px 16px 10px;margin:14px 0;max-width:72ch}
 .prompt h3{margin:0 0 8px}
+.choose{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.choose label{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);border-radius:999px;padding:5px 14px;background:#fff;cursor:pointer;font-weight:600;font-size:15px}
+.choose label:has(input:checked){background:var(--yellow)}
+.choose input{accent-color:var(--ink);margin:0}
+.ptext{font-family:var(--font-mono);font-size:14px;line-height:1.65;background:var(--bg);border:1px dashed var(--muted);border-radius:4px;padding:12px 14px;color:var(--ink);white-space:pre-wrap;margin:0}
+.ptext .pt-case{font-family:var(--font-body);font-style:italic;font-size:15.5px;background:rgba(245,155,189,.3);padding:1px 4px;border-radius:2px}
+.ptext .pt-first{font-family:var(--font-body);font-style:italic;font-size:15.5px;background:rgba(139,218,211,.45);padding:1px 4px;border-radius:2px}
+.ptext .pt-first.empty,.ptext .pt-own.empty{font-style:normal;color:var(--muted)}
+.ptext .pt-own{font-family:var(--font-body);font-size:15.5px;background:rgba(251,212,65,.45);padding:1px 4px;border-radius:2px}
+.own{margin:12px 0 0}
+.own[hidden]{display:none}
 .prompt pre{white-space:pre-wrap;font-family:var(--font-mono);font-size:13.5px;line-height:1.55;background:var(--bg);border:1px dashed var(--muted);padding:10px 12px;margin:0}
 .prompt .tools{margin:10px 0 0}
 .field{display:block;margin:14px 0;max-width:68ch}
@@ -218,7 +229,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <h2>How each case works</h2>
 <ol>
 <li>Read the situation and the question to sit with. Talk first, and note your first response.</li>
-<li>If you like, try the Copilot prompt. The copy button puts the case and your first response into it.</li>
+<li>If you like, pick a Copilot prompt or write your own. The case and your first response are already in it.</li>
 <li>Write your group’s response and add it to the <a href="responses.html">shared board</a>.</li>
 </ol>
 <p>You don’t need a Copilot account to read the cases. Each case page prints on its own.</p>

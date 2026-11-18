@@ -183,6 +183,17 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .step{font-family:var(--font-mono);font-weight:500;font-size:14px;letter-spacing:.08em;background:var(--ink);color:var(--surface);padding:1px 8px;margin-right:8px;vertical-align:3px}
 .prompt{background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:14px 16px 10px;margin:14px 0;max-width:72ch}
 .prompt h3{margin:0 0 8px}
+.choose{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.choose label{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);border-radius:999px;padding:5px 14px;background:#fff;cursor:pointer;font-weight:600;font-size:15px}
+.choose label:has(input:checked){background:var(--yellow)}
+.choose input{accent-color:var(--ink);margin:0}
+.ptext{font-family:var(--font-mono);font-size:14px;line-height:1.65;background:var(--bg);border:1px dashed var(--muted);border-radius:4px;padding:12px 14px;color:var(--ink);white-space:pre-wrap;margin:0}
+.ptext .pt-case{font-family:var(--font-body);font-style:italic;font-size:15.5px;background:rgba(245,155,189,.3);padding:1px 4px;border-radius:2px}
+.ptext .pt-first{font-family:var(--font-body);font-style:italic;font-size:15.5px;background:rgba(139,218,211,.45);padding:1px 4px;border-radius:2px}
+.ptext .pt-first.empty,.ptext .pt-own.empty{font-style:normal;color:var(--muted)}
+.ptext .pt-own{font-family:var(--font-body);font-size:15.5px;background:rgba(251,212,65,.45);padding:1px 4px;border-radius:2px}
+.own{margin:12px 0 0}
+.own[hidden]{display:none}
 .prompt pre{white-space:pre-wrap;font-family:var(--font-mono);font-size:13.5px;line-height:1.55;background:var(--bg);border:1px dashed var(--muted);padding:10px 12px;margin:0}
 .prompt .tools{margin:10px 0 0}
 .field{display:block;margin:14px 0;max-width:68ch}
@@ -227,8 +238,8 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 
 <section class="try">
 <h2><span class="step">2</span>Try Copilot</h2>
-<p>Only paste fictional scenario text and your own group ideas. The copy button puts the case and your first response into the prompt. You don’t need Copilot to work through the case.</p>
-<div class="prompt" data-copybox><pre>We are educators discussing a fictional classroom dilemma. Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Do not decide for us. Identify one assumption about learning, knowing, creating or relating; a plausible perspective we have overlooked; and two questions worth discussing. Do not invent missing facts. Under 180 words.</pre><div class="tools"><button class="btn primary" type="button" data-copy="case">Copy case + prompt</button><a class="btn" href="https://copilot.cloud.microsoft/" target="_blank" rel="noopener">Open Copilot ↗</a></div><p class="status" aria-live="polite"></p></div>
+<p>Pick a prompt or write your own. The case and your first response are already in it. Only paste fictional scenario text and your own group ideas. You don’t need Copilot to work through the case.</p>
+<div class="prompt" data-copybox><div class="choose" role="radiogroup" aria-label="Choose a prompt"><label><input type="radio" name="pick" value="0" checked>Argue with us</label><label><input type="radio" name="pick" value="1">Two futures</label><label><input type="radio" name="pick" value="2">Write your own</label></div><p class="ptext" id="ptext" aria-live="polite"><span class="pt-a"></span><span class="pt-case">An overworked teacher uses AI to draft comments on student essays. They read the work and review the generated comments before returning them. Feedback arrives quickly and is generally specific. One student asks: “Did you really read this?” Another appreciates getting advice in time to revise. The teacher wonders what students expect from feedback beyond useful suggestions.</span><span class="pt-b"></span><span class="pt-first"></span><span class="pt-c"></span></p><label class="field own" hidden><span>Our question for Copilot</span><textarea name="ownq" rows="2"></textarea></label><div class="tools"><button class="btn primary" type="button" data-copy="ptext">Copy prompt</button><a class="btn" href="https://copilot.cloud.microsoft/" target="_blank" rel="noopener">Open Copilot ↗</a></div><p class="status" aria-live="polite"></p></div><script type="application/json" id="templates">[{"a": "We are teachers discussing a fictional classroom situation: ", "b": " Our first response: ", "c": " Be the colleague who disagrees with us. Give the strongest case against our response, name one thing we have assumed about learning, knowing, creating or relating, and say whose view we have left out. Then tell us one way you, as an AI, might be shaping this answer. End with one question for us. Do not decide for us. Do not invent facts. Under 180 words."}, {"a": "We are teachers discussing a fictional classroom situation: ", "b": " Our first response: ", "c": " Imagine it is 2036 and this situation is ordinary in schools. Describe two short futures: one where schools did what we suggest, and one where they did the opposite. What did each make possible, what did it cost, and for whom? End with one question for us. Do not decide for us. Do not invent facts. Under 180 words."}, {"a": "We are teachers discussing a fictional classroom situation: ", "b": " Our first response: ", "c": ""}]</script>
 </section>
 
 <section class="respond" data-copybox>
@@ -272,16 +283,34 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
       copy(lines.join('\n'),btn,'Copied. Paste it into the shared board.');
       return;
     }
-    var prompt=btn.closest('.prompt').querySelector('pre').textContent;
-    if(kind==='prompt'){copy(prompt,btn);return;}
-    var first=val('first'),text=prompt.replace('[PASTE CASE]',caseText);
-    if(first)text=text.replace('[OUR THINKING]',first);
-    var note='Copied with the case filled in.';
-    if(prompt.indexOf('[OUR THINKING]')>-1)note=first?'Copied with the case and your first response filled in.':'Copied with the case filled in. Replace [OUR THINKING] in Copilot, or write your first response above first.';
-    copy(text,btn,note);
+    if(kind==='ptext'){copy(promptText(),btn,val('first')?'Copied. Paste it into Copilot.':'Copied. Your first response is still blank, so add it in Copilot.');}
   });
+  var T=[];try{T=JSON.parse(document.getElementById('templates').textContent);}catch(e){}
+  var pt=document.getElementById('ptext'),pkey=key+'-prompt',own=root.querySelector('.own'),ownq=root.querySelector('[name=ownq]');
+  function pick(){var r=root.querySelector('input[name=pick]:checked');return r?+r.value:0;}
+  function isOwn(){return pick()===T.length-1;}
+  function q(sel){return pt.querySelector(sel);}
+  function render(){
+    if(!pt||!T.length)return;var p=T[pick()]||T[0],f=val('first'),o=ownq?ownq.value.trim():'';
+    q('.pt-a').textContent=p.a;q('.pt-b').textContent=p.b;
+    q('.pt-first').textContent=f||'[add your first response above]';q('.pt-first').classList.toggle('empty',!f);
+    var c=q('.pt-c');c.textContent='';
+    if(isOwn()){c.appendChild(document.createTextNode('\n\nOur question: '));var s=document.createElement('span');s.className='pt-own'+(o?'':' empty');s.textContent=o||'[write your question below]';c.appendChild(s);}
+    else c.textContent=p.c;
+    if(own)own.hidden=!isOwn();
+  }
+  function promptText(){var p=T[pick()]||T[0];var t=p.a+caseText+p.b+(val('first')||'[add your first response]');return isOwn()?t+'\n\nOur question: '+(ownq?ownq.value.trim():''):t+p.c;}
+  function savePrompt(){if(!store)return;try{store.setItem(pkey,JSON.stringify({pick:pick(),own:ownq?ownq.value:''}));}catch(e){}}
+  if(pt){
+    var ps=null;try{ps=store?JSON.parse(store.getItem(pkey)||'null'):null;}catch(e){}
+    if(ps){var r=root.querySelector('input[name=pick][value="'+ps.pick+'"]');if(r)r.checked=true;if(ownq)ownq.value=ps.own||'';}
+    render();
+    [].forEach.call(root.querySelectorAll('input[name=pick]'),function(r){r.addEventListener('change',function(){render();savePrompt();if(isOwn()&&ownq)ownq.focus();});});
+    var fr=root.querySelector('[name=first]');if(fr)fr.addEventListener('input',render);
+    if(ownq)ownq.addEventListener('input',function(){render();savePrompt();});
+  }
   var clear=root.querySelector('[data-clear]');
-  if(clear)clear.addEventListener('click',function(){fields.forEach(function(f){f.value='';});save();clear.closest('[data-copybox]').querySelector('.status').textContent='Cleared.';});
+  if(clear)clear.addEventListener('click',function(){fields.forEach(function(f){f.value='';});save();try{store&&store.removeItem(pkey);}catch(e){}if(ownq)ownq.value='';render();clear.closest('[data-copybox]').querySelector('.status').textContent='Cleared.';});
   window.addEventListener('beforeprint',function(){[].forEach.call(document.querySelectorAll('details'),function(d){d.open=true;});});
 })();
 </script>

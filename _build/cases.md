@@ -152,10 +152,16 @@ A school encourages Copilot use in research and planning. One teacher designs an
 ## Copilot experiment
 Only paste fictional scenario text and your own group ideas.
 
-### 1. Challenge Our Thinking
+### 1. Argue with us
 
 ```text
-We are educators discussing a fictional classroom dilemma. Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Do not decide for us. Identify one assumption about learning, knowing, creating or relating; a plausible perspective we have overlooked; and two questions worth discussing. Do not invent missing facts. Under 180 words.
+We are teachers discussing a fictional classroom situation: [PASTE CASE] Our first response: [OUR THINKING] Be the colleague who disagrees with us. Give the strongest case against our response, name one thing we have assumed about learning, knowing, creating or relating, and say whose view we have left out. Then tell us one way you, as an AI, might be shaping this answer. End with one question for us. Do not decide for us. Do not invent facts. Under 180 words.
+```
+
+### 2. Two futures
+
+```text
+We are teachers discussing a fictional classroom situation: [PASTE CASE] Our first response: [OUR THINKING] Imagine it is 2036 and this situation is ordinary in schools. Describe two short futures: one where schools did what we suggest, and one where they did the opposite. What did each make possible, what did it cost, and for whom? End with one question for us. Do not decide for us. Do not invent facts. Under 180 words.
 ```
 
 ## Group response
