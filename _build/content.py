@@ -83,8 +83,8 @@ HOME = f"""
 <li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="talk.html">Talk slides</a><a href="map.html">AI map</a></p></div></li>
 <li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="scenarios.html">Classroom situations</a><a href="responses.html">Shared board</a></p></div></li>
 <li class="pause"><time>10:25</time><span>Break</span></li>
-<li><time>10:40</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="aias.html">AI Assessment Scale</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
-<li><time>11:25</time><div><h3>Some things worth trying in Copilot</h3><p>A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.</p><p class="res"><a href="copilot-and-prompting.html">Copilot and prompting</a><a href="practical-moves.html">Practical moves</a></p></div></li>
+<li><time>10:40</time><div><h3>Some things worth trying in Copilot</h3><p>A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.</p><p class="res"><a href="copilot-and-prompting.html">Copilot and prompting</a><a href="practical-moves.html">Practical moves</a></p></div></li>
+<li><time>11:25</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="aias.html">AI Assessment Scale</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
 <li class="pause"><time>11:55</time><span>Lunch</span></li>
 <li><time>12:45</time><div><h3>Rethinking something you already teach</h3><p>Bring a lesson, activity, assignment, or unit you already teach. We use what we have explored so far to reconsider where AI might support the learning, where it might change or bypass something important, and where it may not belong at all.</p><p class="res"><a href="activities.html#activity-11">Activities for educators</a><a href="readings.html">Readings on assessment</a></p></div></li>
 <li><time>1:45</time><div><h3>Looking at the bigger picture</h3><p>We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.</p><p class="res"><a href="frameworks.html">Frameworks</a><a href="map.html#o-k-rec">Other kinds of AI</a></p></div></li>
@@ -773,7 +773,7 @@ QUICKDRAW_PAGE = f"""
 </div>
 """
 
-# ---------------------------------------------------------------- AI Assessment Scale (10:40)
+# ---------------------------------------------------------------- AI Assessment Scale (11:25)
 AIAS = "https://aiassessmentscale.com/"
 
 AIAS_PAGE = f"""
@@ -785,7 +785,7 @@ AIAS_PAGE = f"""
 .levels p{{margin:0}}
 </style>
 <div class="doc">
-<p class="eyebrow">10:40 · How should AI fit into classroom work?</p>
+<p class="eyebrow">11:25 · How should AI fit into classroom work?</p>
 <h1>The AI Assessment Scale</h1>
 <p class="lede">Instead of a yes or no on AI, the AI Assessment Scale (AIAS) names five kinds of task, from no AI to AI exploration. It was developed by Mike Perkins, Leon Furze, Jasper Roe and Jason MacVaugh, and is widely used in schools and universities.</p>
 <div class="tools no-print"><a class="btn" href="{AIAS}" target="_blank" rel="noopener">The AIAS site ↗</a><a class="btn" href="class-ai-agreement.html">Collaborative protocol</a></div>
@@ -806,7 +806,7 @@ AIAS_PAGE = f"""
 <li>One unit can use several levels, one task at a time.</li>
 </ul>
 
-<h2>At 10:40</h2>
+<h2>At 11:25</h2>
 <p>Bring an assignment or activity you actually teach. Decide which level it should sit at and why, then try the <a href="class-ai-agreement.html">collaborative protocol</a> to make the same decision with students.</p>
 
 <h2>Sources</h2>
