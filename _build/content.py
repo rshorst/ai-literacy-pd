@@ -700,12 +700,12 @@ METAPHOR_PAGE = f"""
 <div class="doc wide">
 <p class="eyebrow">9:00 · Welcome</p>
 <h1>My AI Metaphor</h1>
-<p class="lede">AI is like… because… Add your metaphor to the board and place it where it sits for you: personal or collective, opening possibilities or raising concerns.</p>
+<p class="lede">What is your AI metaphor, and what emotion or feeling do you associate with it? Add it to the board and place it where it sits for you: personal or collective, opening possibilities or raising concerns.</p>
 <div class="tools"><a class="btn primary" href="{PADLET}" target="_blank" rel="noopener">Open the board ↗</a><a class="btn" href="assets/my-ai-metaphor-paper.pdf">Paper version (PDF)</a></div>
 <div class="board"><iframe src="{PADLET}" title="My AI Metaphor board" allow="camera;microphone;geolocation;display-capture;clipboard-write" loading="lazy"></iframe></div>
 <p class="meta">On a phone, the board is easier to use in its own tab.</p>
 <h2>On paper</h2>
-<p>The paper version has the same board as a poster and a card for each table. Write your metaphor on a sticky note and place it on the poster. The table card also has a QR code to the online board.</p>
+<p>The paper version has the same board as a poster and a card for each table. Write your metaphor and its feeling on a sticky note and place it on the poster. The table card also has a QR code to the online board.</p>
 </div>
 """
 
