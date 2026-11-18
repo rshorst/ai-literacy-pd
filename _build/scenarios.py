@@ -58,12 +58,12 @@ for block in re.split(r"^### ", MD, flags=re.M):
         "link": re.search(r"^\[Read the source\]\((.+?)\)", body, re.M).group(1),
     })
 
-_exp = _between(MD, "## Copilot experiments", "## Group response")
+_exp = _between(MD, "## Copilot experiment", "## Group response")
 COPILOT_INTRO = _exp.strip().split("\n")[0]
 PROMPTS = re.findall(r"^### \d\. (.+?)\n\n```text\n(.+?)\n```", _exp, re.M | re.S)
 FIELDS = [f.rstrip(":").strip() for f in re.findall(r"^- (.+)$", _between(MD, "## Group response"), re.M)]
-FIELD_KEYS = ["group", "first", "copilot", "considered", "change", "open"]
-assert len(CASES) == 11 and len(LENSES) == 4 and len(PROMPTS) == 3 and len(FIELDS) == 6, (len(CASES), len(LENSES), len(PROMPTS), len(FIELDS))
+FIELD_KEYS = ["first", "response"]
+assert len(CASES) == 11 and len(LENSES) == 4 and len(PROMPTS) == 1 and len(FIELDS) == 2, (len(CASES), len(LENSES), len(PROMPTS), len(FIELDS))
 
 LENS_TAPE = ["pink", "teal", "yellow", "blue"]
 
@@ -140,7 +140,7 @@ JS = """<script>
     var first=val('first'),text=prompt.replace('[PASTE CASE]',caseText);
     if(first)text=text.replace('[OUR THINKING]',first);
     var note='Copied with the case filled in.';
-    if(prompt.indexOf('[OUR THINKING]')>-1)note=first?'Copied with the case and your first thought filled in.':'Copied with the case filled in. Replace [OUR THINKING] in Copilot, or write your first thought above first.';
+    if(prompt.indexOf('[OUR THINKING]')>-1)note=first?'Copied with the case and your first response filled in.':'Copied with the case filled in. Replace [OUR THINKING] in Copilot, or write your first response above first.';
     copy(text,btn,note);
   });
   var clear=root.querySelector('[data-clear]');
@@ -171,13 +171,11 @@ def case_page(i):
     c = CASES[i]
     prev_c = CASES[i - 1] if i > 0 else None
     next_c = CASES[i + 1] if i < len(CASES) - 1 else None
-    prompts = "".join(
-        f'<div class="prompt" data-copybox><h3>{n}. {esc(name)}</h3><pre>{esc(text)}</pre>'
-        f'<div class="tools"><button class="btn" type="button" data-copy="prompt">Copy prompt</button>'
-        f'<button class="btn primary" type="button" data-copy="case">Copy case + prompt</button></div>'
-        f'<p class="status" aria-live="polite"></p></div>'
-        for n, (name, text) in enumerate(PROMPTS, 1)
-    )
+    name, text = PROMPTS[0]
+    prompts = (f'<div class="prompt" data-copybox><pre>{esc(text)}</pre>'
+               f'<div class="tools"><button class="btn primary" type="button" data-copy="case">Copy case + prompt</button>'
+               f'<a class="btn" href="{COPILOT_URL}" target="_blank" rel="noopener">Open Copilot ↗</a></div>'
+               f'<p class="status" aria-live="polite"></p></div>')
     lenses = "".join(
         f'<details><summary><span class="tape {LENS_TAPE[k]}">{esc(name)}</span></summary><p>{esc(q)}</p></details>'
         for k, (name, q) in enumerate(LENSES)
@@ -204,22 +202,21 @@ def case_page(i):
 <p><strong>Across all four:</strong> {esc(ACROSS)}</p>
 
 <section class="respond">
-<h2><span class="step">1</span>Talk first</h2>
-<p>Discuss the case and note your first response before you try Copilot.</p>
-{field(0, short=True)}
-{field(1)}
+<h2><span class="step">1</span>First response</h2>
+<p>Talk it through as a group before you try Copilot.</p>
+{field(0)}
 </section>
 
 <section class="try">
 <h2><span class="step">2</span>Try Copilot</h2>
-<p>{esc(COPILOT_INTRO)} You don’t need Copilot to work through the case.</p>
-<div class="tools"><a class="btn" href="{COPILOT_URL}" target="_blank" rel="noopener">Open Copilot ↗</a></div>
+<p>{esc(COPILOT_INTRO)} The copy button puts the case and your first response into the prompt. You don’t need Copilot to work through the case.</p>
 {prompts}
 </section>
 
 <section class="respond" data-copybox>
 <h2><span class="step">3</span>Our response</h2>
-{''.join(field(k) for k in range(2, 6))}
+<p>What do you think now?</p>
+{field(1)}
 <div class="tools"><button class="btn primary" type="button" data-copy="response">Copy our response</button><a class="btn" href="responses.html">Shared board</a><button class="btn" type="button" data-clear>Clear</button></div>
 <p class="status" aria-live="polite"></p>
 <p class="meta">Nothing here is sent anywhere. What you type stays in this browser until you clear it. No names or student information.</p>
@@ -254,8 +251,8 @@ def index_page():
 <div class="grid">{''.join(tile(c) for c in CASES[1:])}</div>
 <h2>How each case works</h2>
 <ol>
-<li>Read the situation and the question to sit with. Talk first, and note your first thought.</li>
-<li>If you like, try one of three Copilot prompts. The copy buttons put the case, and your first thought, into the prompt.</li>
+<li>Read the situation and the question to sit with. Talk first, and note your first response.</li>
+<li>If you like, try the Copilot prompt. The copy button puts the case and your first response into it.</li>
 <li>Write your group’s response and add it to the <a href="responses.html">shared board</a>.</li>
 </ol>
 <p>You don’t need a Copilot account to read the cases. Each case page prints on its own.</p>

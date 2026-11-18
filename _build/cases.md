@@ -149,8 +149,8 @@ A school encourages Copilot use in research and planning. One teacher designs an
 
 [Read the source](https://thetyee.ca/News/2026/05/28/AI-Chatbots-Coming-BC-Classrooms/)
 
-## Copilot experiments
-Choose one. First discuss and record an initial response with your group. Only paste fictional scenario text and your own group ideas.
+## Copilot experiment
+Only paste fictional scenario text and your own group ideas.
 
 ### 1. Challenge Our Thinking
 
@@ -158,22 +158,6 @@ Choose one. First discuss and record an initial response with your group. Only p
 We are educators discussing a fictional classroom dilemma. Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Do not decide for us. Identify one assumption about learning, knowing, creating or relating; a plausible perspective we have overlooked; and two questions worth discussing. Do not invent missing facts. Under 180 words.
 ```
 
-### 2. Imagine Something Different
-
-```text
-Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Suggest three substantively different ways to redesign the learning activity, assessment, available help, relationships or room. Include one without AI. For each, state what it makes possible and what it might compromise. Do not assume AI is needed. Under 220 words.
-```
-
-### 3. Interrogate The Machine
-
-```text
-Situation: [PASTE CASE]. Recommend what a teacher might do in fewer than 120 words. Then identify which missing details or assumptions limit the recommendation. We will critically examine your answer.
-```
-
 ## Group response
-- Group number:
-- Our first thought:
-- What Copilot added or missed, or why we skipped it:
-- Our considered response:
-- Something we would change about the learning environment:
-- A question we are keeping open:
+- Our first response:
+- Our response:

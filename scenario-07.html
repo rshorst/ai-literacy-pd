@@ -220,22 +220,21 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <p><strong>Across all four:</strong> What is the machine doing? What could we redesign?</p>
 
 <section class="respond">
-<h2><span class="step">1</span>Talk first</h2>
-<p>Discuss the case and note your first response before you try Copilot.</p>
-<label class="field"><span>Group number</span><input class="short" name="group" data-field data-label="Group number" inputmode="numeric" autocomplete="off"></label>
-<label class="field"><span>Our first thought</span><textarea name="first" data-field data-label="Our first thought" rows="3"></textarea></label>
+<h2><span class="step">1</span>First response</h2>
+<p>Talk it through as a group before you try Copilot.</p>
+<label class="field"><span>Our first response</span><textarea name="first" data-field data-label="Our first response" rows="3"></textarea></label>
 </section>
 
 <section class="try">
 <h2><span class="step">2</span>Try Copilot</h2>
-<p>Choose one. First discuss and record an initial response with your group. Only paste fictional scenario text and your own group ideas. You don’t need Copilot to work through the case.</p>
-<div class="tools"><a class="btn" href="https://copilot.cloud.microsoft/" target="_blank" rel="noopener">Open Copilot ↗</a></div>
-<div class="prompt" data-copybox><h3>1. Challenge Our Thinking</h3><pre>We are educators discussing a fictional classroom dilemma. Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Do not decide for us. Identify one assumption about learning, knowing, creating or relating; a plausible perspective we have overlooked; and two questions worth discussing. Do not invent missing facts. Under 180 words.</pre><div class="tools"><button class="btn" type="button" data-copy="prompt">Copy prompt</button><button class="btn primary" type="button" data-copy="case">Copy case + prompt</button></div><p class="status" aria-live="polite"></p></div><div class="prompt" data-copybox><h3>2. Imagine Something Different</h3><pre>Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Suggest three substantively different ways to redesign the learning activity, assessment, available help, relationships or room. Include one without AI. For each, state what it makes possible and what it might compromise. Do not assume AI is needed. Under 220 words.</pre><div class="tools"><button class="btn" type="button" data-copy="prompt">Copy prompt</button><button class="btn primary" type="button" data-copy="case">Copy case + prompt</button></div><p class="status" aria-live="polite"></p></div><div class="prompt" data-copybox><h3>3. Interrogate The Machine</h3><pre>Situation: [PASTE CASE]. Recommend what a teacher might do in fewer than 120 words. Then identify which missing details or assumptions limit the recommendation. We will critically examine your answer.</pre><div class="tools"><button class="btn" type="button" data-copy="prompt">Copy prompt</button><button class="btn primary" type="button" data-copy="case">Copy case + prompt</button></div><p class="status" aria-live="polite"></p></div>
+<p>Only paste fictional scenario text and your own group ideas. The copy button puts the case and your first response into the prompt. You don’t need Copilot to work through the case.</p>
+<div class="prompt" data-copybox><pre>We are educators discussing a fictional classroom dilemma. Situation: [PASTE CASE]. Our initial response: [OUR THINKING]. Do not decide for us. Identify one assumption about learning, knowing, creating or relating; a plausible perspective we have overlooked; and two questions worth discussing. Do not invent missing facts. Under 180 words.</pre><div class="tools"><button class="btn primary" type="button" data-copy="case">Copy case + prompt</button><a class="btn" href="https://copilot.cloud.microsoft/" target="_blank" rel="noopener">Open Copilot ↗</a></div><p class="status" aria-live="polite"></p></div>
 </section>
 
 <section class="respond" data-copybox>
 <h2><span class="step">3</span>Our response</h2>
-<label class="field"><span>What Copilot added or missed, or why we skipped it</span><textarea name="copilot" data-field data-label="What Copilot added or missed, or why we skipped it" rows="3"></textarea></label><label class="field"><span>Our considered response</span><textarea name="considered" data-field data-label="Our considered response" rows="3"></textarea></label><label class="field"><span>Something we would change about the learning environment</span><textarea name="change" data-field data-label="Something we would change about the learning environment" rows="3"></textarea></label><label class="field"><span>A question we are keeping open</span><textarea name="open" data-field data-label="A question we are keeping open" rows="3"></textarea></label>
+<p>What do you think now?</p>
+<label class="field"><span>Our response</span><textarea name="response" data-field data-label="Our response" rows="3"></textarea></label>
 <div class="tools"><button class="btn primary" type="button" data-copy="response">Copy our response</button><a class="btn" href="responses.html">Shared board</a><button class="btn" type="button" data-clear>Clear</button></div>
 <p class="status" aria-live="polite"></p>
 <p class="meta">Nothing here is sent anywhere. What you type stays in this browser until you clear it. No names or student information.</p>
@@ -278,7 +277,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
     var first=val('first'),text=prompt.replace('[PASTE CASE]',caseText);
     if(first)text=text.replace('[OUR THINKING]',first);
     var note='Copied with the case filled in.';
-    if(prompt.indexOf('[OUR THINKING]')>-1)note=first?'Copied with the case and your first thought filled in.':'Copied with the case filled in. Replace [OUR THINKING] in Copilot, or write your first thought above first.';
+    if(prompt.indexOf('[OUR THINKING]')>-1)note=first?'Copied with the case and your first response filled in.':'Copied with the case filled in. Replace [OUR THINKING] in Copilot, or write your first response above first.';
     copy(text,btn,note);
   });
   var clear=root.querySelector('[data-clear]');
