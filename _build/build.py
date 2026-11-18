@@ -18,7 +18,7 @@ MAP_SRC = HERE / "map-source.html"
 sys.path.insert(0, str(HERE))
 from content import PAGES, NAV, SITE, PAGE_STYLE  # noqa: E402
 from scenarios import SCENARIO_PAGES  # noqa: E402
-from sections import SECTION_PAGES  # noqa: E402
+from sections import SECTION_PAGES, BLOCKS, block_of  # noqa: E402
 
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">'
 
@@ -55,6 +55,13 @@ img{max-width:100%}
 .site-nav a{display:block;padding:6px 10px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:14.5px;font-weight:500}
 .site-nav a:hover{background:var(--hover)}
 .site-nav a[aria-current="page"]{background:var(--yellow);font-weight:700;clip-path:polygon(0 8%,4% 0,96% 4%,100% 0,100% 92%,95% 100%,4% 96%,0 100%)}
+.day-nav{border-top:1px solid var(--line);background:rgba(244,239,228,.95)}
+.day-nav ul{max-width:1240px;margin:0 auto;padding:6px 20px 7px;display:flex;gap:4px;list-style:none;overflow-x:auto;scrollbar-width:thin}
+.day-nav a{display:block;padding:5px 11px 6px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:14px;font-weight:600;white-space:nowrap;line-height:1.15}
+.day-nav a time{display:block;font-family:var(--font-mono);font-weight:500;font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
+.day-nav a:hover{background:var(--hover)}
+.day-nav a[aria-current="page"]{background:var(--yellow);clip-path:polygon(0 8%,4% 0,96% 4%,100% 0,100% 92%,95% 100%,4% 96%,0 100%)}
+.day-nav a[aria-current="page"] time{color:var(--ink)}
 @media (max-width:900px){
   .menu-btn{display:inline-block}
   .site-nav{flex-basis:100%;display:none}
@@ -190,21 +197,30 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 """
 
-NAV_JS = """<script>(function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>"""
+NAV_JS = """<script>(function(){var u=document.querySelector('.day-nav ul'),c=u&&u.querySelector('[aria-current]');if(c&&u.scrollWidth>u.clientWidth)u.scrollLeft=c.offsetLeft-u.clientWidth/2+c.offsetWidth/2;var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>"""
 
 
-def header(current):
+def header(current, file=None):
+    # Row one: resources. The day and the cases have their own tabs in row two.
     items = "".join(
         f'<li><a href="{href}"{" aria-current=\"page\"" if key == current else ""}>{label}</a></li>'
-        for key, label, href in NAV
+        for key, label, href in NAV if key not in ("home", "scenarios")
+    )
+    here = block_of(file) if file else None
+    tabs = f'<li><a href="index.html"{" aria-current=\"page\"" if file == "index.html" else ""}><time>Overview</time>The day</a></li>'
+    tabs += "".join(
+        f'<li><a href="{b["file"]}"{" aria-current=\"page\"" if b["file"] == here else ""}><time>{b["start"]}</time>{b["tab"]}</a></li>'
+        for b in BLOCKS
     )
     return (
         '<a class="skip" href="#main">Skip to content</a>'
         '<header class="site-header"><div class="inner">'
         f'<a class="brand" href="index.html">{SITE["name"]}<small>{SITE["byline"]}</small></a>'
         '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>'
-        f'<nav class="site-nav" id="site-nav" aria-label="Site"><ul>{items}</ul></nav>'
-        '</div></header>'
+        f'<nav class="site-nav" id="site-nav" aria-label="Resources"><ul>{items}</ul></nav>'
+        '</div>'
+        f'<nav class="day-nav" aria-label="The day"><ul>{tabs}</ul></nav>'
+        '</header>'
     )
 
 
@@ -217,7 +233,7 @@ def footer():
     )
 
 
-def page(title, current, body_html, desc="", og=False):
+def page(title, current, body_html, desc="", og=False, file=None):
     style = PAGE_STYLE.get(current, {})
     tape = f'<style>:root{{--page-tape:var(--{style["tape"]})}}</style>' if style.get("tape") else ""
     deco = f'<img class="page-deco" src="assets/{style["deco"]}" alt="">' if style.get("deco") else ""
@@ -233,7 +249,7 @@ def page(title, current, body_html, desc="", og=False):
         f'<title>{html.escape(title)}</title>\n'
         f'<meta name="description" content="{html.escape(desc)}">{ogtags}\n'
         f'{FONTS}\n<style>{BASE_CSS}</style>{tape}\n</head>\n<body>\n'
-        f'{header(current)}\n<main id="main">{deco}\n{body_html}\n</main>\n{footer()}\n{NAV_JS}\n</body>\n</html>\n'
+        f'{header(current, file)}\n<main id="main">{deco}\n{body_html}\n</main>\n{footer()}\n{NAV_JS}\n</body>\n</html>\n'
     )
 
 
@@ -257,7 +273,7 @@ def build_map():
                 ".tab[aria-selected=\"true\"]{border-bottom-color:var(--ink);background:var(--yellow)}"
                 "</style>\n</head>")
     src = src.replace("</head>", override, 1)
-    src = src.replace("<body>\n", "<body>\n" + header("map") + '\n<main id="main">\n', 1)
+    src = src.replace("<body>\n", "<body>\n" + header("map", "map.html") + '\n<main id="main">\n', 1)
     src = src.replace("\n<script>", "\n</main>\n" + footer() + "\n" + NAV_JS + "\n<script>", 1)
     src = src.replace(
         '<p>Idea adapted from the AI map in ThinkBeyondAI\'s AI Basics course.</p>',
@@ -273,7 +289,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     for p in PAGES + SCENARIO_PAGES + SECTION_PAGES:
         body = p["html"] if "html" in p else md(p["md"])
-        (OUT / p["file"]).write_text(page(p["title"], p["nav"], body, p.get("desc", ""), og=p["file"] == "index.html"))
+        (OUT / p["file"]).write_text(page(p["title"], p["nav"], body, p.get("desc", ""), og=p["file"] == "index.html", file=p["file"]))
     (OUT / "map.html").write_text(build_map())
     for f in OUT.glob("*.html"):
         t = f.read_text()

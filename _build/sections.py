@@ -21,7 +21,7 @@ def esc(s):
 # A pause: {"pause": "Break", "start": "10:25"}.
 DAY = [
     {
-        "file": "welcome.html", "start": "9:00", "end": "9:15", "title": "Welcome",
+        "file": "welcome.html", "tab": "Welcome", "start": "9:00", "end": "9:15", "title": "Welcome",
         "desc": "A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.",
         "chips": [("metaphor.html", "My AI Metaphor"), ("quickdraw.html", "Quick, Draw!")],
         "steps": [
@@ -38,7 +38,7 @@ DAY = [
         ],
     },
     {
-        "file": "systems.html", "start": "9:15", "end": "9:40", "title": "What are these strange systems, anyway?",
+        "file": "systems.html", "tab": "Strange systems", "start": "9:15", "end": "9:40", "title": "What are these strange systems, anyway?",
         "desc": "A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.",
         "chips": [("talk.html", "Talk slides"), ("map.html", "AI map")],
         "steps": [
@@ -56,14 +56,14 @@ DAY = [
         ],
     },
     {
-        "file": "scenarios.html", "start": "9:40", "end": "10:25", "title": "Classroom situations",
+        "file": "scenarios.html", "tab": "Classroom situations", "start": "9:40", "end": "10:25", "title": "Classroom situations",
         "desc": "Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.",
         "chips": [("scenarios.html", "Classroom situations"), ("responses.html", "Shared board")],
         "existing": True,  # the cases page is this block's page
     },
     {"pause": "Break", "start": "10:25"},
     {
-        "file": "copilot.html", "start": "10:40", "end": "11:25", "title": "Some things worth trying in Copilot",
+        "file": "copilot.html", "tab": "Copilot", "start": "10:40", "end": "11:25", "title": "Some things worth trying in Copilot",
         "desc": "A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.",
         "chips": [("copilot-and-prompting.html", "Copilot and prompting"), ("practical-moves.html", "Practical moves")],
         "steps": [
@@ -78,7 +78,7 @@ DAY = [
         ],
     },
     {
-        "file": "fit.html", "start": "11:25", "end": "11:55", "title": "How should AI fit into classroom work?",
+        "file": "fit.html", "tab": "How AI fits", "start": "11:25", "end": "11:55", "title": "How should AI fit into classroom work?",
         "desc": "A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.",
         "chips": [("aias.html", "AI Assessment Scale"), ("class-ai-agreement.html", "Collaborative protocol")],
         "steps": [
@@ -93,7 +93,7 @@ DAY = [
     },
     {"pause": "Lunch", "start": "11:55"},
     {
-        "file": "rethinking.html", "start": "12:45", "end": "1:45", "title": "Rethinking something you already teach",
+        "file": "rethinking.html", "tab": "Rethinking", "start": "12:45", "end": "1:45", "title": "Rethinking something you already teach",
         "desc": "Bring a lesson, activity, assignment, or unit you already teach. We use what we have explored so far to reconsider where AI might support the learning, where it might change or bypass something important, and where it may not belong at all.",
         "chips": [("activities.html#activity-11", "Activities for educators"), ("readings.html", "Readings on assessment")],
         "steps": [
@@ -108,7 +108,7 @@ DAY = [
         ],
     },
     {
-        "file": "bigger-picture.html", "start": "1:45", "end": "2:15", "title": "Looking at the bigger picture",
+        "file": "bigger-picture.html", "tab": "Bigger picture", "start": "1:45", "end": "2:15", "title": "Looking at the bigger picture",
         "desc": "We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.",
         "chips": [("frameworks.html", "Frameworks"), ("map.html#o-k-rec", "Other kinds of AI")],
         "steps": [
@@ -124,7 +124,7 @@ DAY = [
     },
     {"pause": "Break", "start": "2:15"},
     {
-        "file": "collective.html", "start": "2:25", "end": "2:50", "title": "From classroom choices to collective decisions",
+        "file": "collective.html", "tab": "Collective decisions", "start": "2:25", "end": "2:50", "title": "From classroom choices to collective decisions",
         "desc": "We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.",
         "note": "What needs to be decided here, who needs to be part of that decision, and what should remain open?",
         "chips": [("policies.html", "Policy examples"), ("activities.html#activity-13", "The document audit")],
@@ -140,7 +140,7 @@ DAY = [
         ],
     },
     {
-        "file": "close.html", "start": "2:50", "end": "3:00", "title": "Close",
+        "file": "close.html", "tab": "Close", "start": "2:50", "end": "3:00", "title": "Close",
         "desc": "We close by imagining the kinds of futures with AI we would want to move toward, and the ones we would want to resist.",
         "chips": [(FUT, "AI Futures map")],
         "steps": [
@@ -217,6 +217,21 @@ def copilot_demo_html():
 
 
 BLOCKS = [b for b in DAY if "pause" not in b]
+
+# Pages that sit inside a block, so its tab lights up there too.
+BELONGS = {
+    "metaphor.html": "welcome.html", "quickdraw.html": "welcome.html",
+    "talk.html": "systems.html",
+    "responses.html": "scenarios.html", "cards.html": "scenarios.html",
+    "copilot-and-prompting.html": "copilot.html", "practical-moves.html": "copilot.html",
+    "aias.html": "fit.html", "class-ai-agreement.html": "fit.html",
+}
+
+
+def block_of(file):
+    if file.startswith("scenario-"):
+        return "scenarios.html"
+    return BELONGS.get(file, file if any(b["file"] == file for b in BLOCKS) else None)
 
 
 def _href(h):

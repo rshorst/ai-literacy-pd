@@ -35,6 +35,13 @@ img{max-width:100%}
 .site-nav a{display:block;padding:6px 10px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:14.5px;font-weight:500}
 .site-nav a:hover{background:var(--hover)}
 .site-nav a[aria-current="page"]{background:var(--yellow);font-weight:700;clip-path:polygon(0 8%,4% 0,96% 4%,100% 0,100% 92%,95% 100%,4% 96%,0 100%)}
+.day-nav{border-top:1px solid var(--line);background:rgba(244,239,228,.95)}
+.day-nav ul{max-width:1240px;margin:0 auto;padding:6px 20px 7px;display:flex;gap:4px;list-style:none;overflow-x:auto;scrollbar-width:thin}
+.day-nav a{display:block;padding:5px 11px 6px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:14px;font-weight:600;white-space:nowrap;line-height:1.15}
+.day-nav a time{display:block;font-family:var(--font-mono);font-weight:500;font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
+.day-nav a:hover{background:var(--hover)}
+.day-nav a[aria-current="page"]{background:var(--yellow);clip-path:polygon(0 8%,4% 0,96% 4%,100% 0,100% 92%,95% 100%,4% 96%,0 100%)}
+.day-nav a[aria-current="page"] time{color:var(--ink)}
 @media (max-width:900px){
   .menu-btn{display:inline-block}
   .site-nav{flex-basis:100%;display:none}
@@ -171,7 +178,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">Teaching with, about, and without AI<small>A professional learning day · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Site"><ul><li><a href="index.html" aria-current="page">The day</a></li><li><a href="map.html">AI map</a></li><li><a href="scenarios.html">Classroom situations</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="activities.html">Activities</a></li><li><a href="frameworks.html">Frameworks</a></li><li><a href="readings.html">Readings</a></li></ul></nav></div></header>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">Teaching with, about, and without AI<small>A professional learning day · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Resources"><ul><li><a href="map.html">AI map</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="activities.html">Activities</a></li><li><a href="frameworks.html">Frameworks</a></li><li><a href="readings.html">Readings</a></li></ul></nav></div><nav class="day-nav" aria-label="The day"><ul><li><a href="index.html"><time>Overview</time>The day</a></li><li><a href="welcome.html"><time>9:00</time>Welcome</a></li><li><a href="systems.html"><time>9:15</time>Strange systems</a></li><li><a href="scenarios.html"><time>9:40</time>Classroom situations</a></li><li><a href="copilot.html"><time>10:40</time>Copilot</a></li><li><a href="fit.html"><time>11:25</time>How AI fits</a></li><li><a href="rethinking.html"><time>12:45</time>Rethinking</a></li><li><a href="bigger-picture.html" aria-current="page"><time>1:45</time>Bigger picture</a></li><li><a href="collective.html"><time>2:25</time>Collective decisions</a></li><li><a href="close.html"><time>2:50</time>Close</a></li></ul></nav></header>
 <main id="main">
 <style>
 .steps{counter-reset:st;list-style:none;padding:0!important;margin:16px 0 8px;max-width:68ch}
@@ -216,6 +223,6 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 </div>
 </main>
 <footer class="site-footer"><div class="inner"><span>© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</span><span>Updated November 2026 · <a href="https://github.com/rshorst/ai-literacy-pd">Source and offline copy</a></span></div></footer>
-<script>(function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>
+<script>(function(){var u=document.querySelector('.day-nav ul'),c=u&&u.querySelector('[aria-current]');if(c&&u.scrollWidth>u.clientWidth)u.scrollLeft=c.offsetLeft-u.clientWidth/2+c.offsetWidth/2;var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});})();</script>
 </body>
 </html>
