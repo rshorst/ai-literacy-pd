@@ -178,6 +178,10 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .steps li{counter-increment:st;position:relative;padding:4px 0 10px 50px;min-height:40px}
 .steps li::before{content:counter(st);position:absolute;left:0;top:0;width:34px;height:34px;display:grid;place-items:center;background:var(--ink);color:var(--surface);font-family:var(--font-mono);font-weight:500;font-size:15px;border-radius:50%}
 .note-q{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2.4vw,26px);line-height:1.25;background:var(--surface);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--yellow);padding:16px 20px;margin:22px 0;max-width:62ch}
+.launch{display:block;text-decoration:none;color:var(--ink);background:var(--yellow);border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);padding:30px 24px;margin:18px 0 22px;text-align:center}
+.launch:hover{box-shadow:7px 7px 0 var(--ink)}
+.launch .big{display:block;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,3.6vw,36px);line-height:1.05}
+.launch .small{display:block;margin-top:10px;font-size:15px}
 .board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:16px 0 22px}
 .board iframe{display:block;width:100%;height:560px;border:0}
 @media (max-width:700px){.board iframe{height:440px}}
@@ -193,9 +197,9 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 
 <h2>What we’ll do</h2>
 <ol class="steps"><li>A short introduction to the Entangled Dimensions of AI Literacy.</li><li>Explore the framework yourselves.</li><li>Use it to look at a classroom example, question or concern from another angle.</li></ol>
-
+<a class="launch" href="https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N" target="_blank" rel="noopener"><span class="big">Open the Entangled Dimensions ↗</span><span class="small">The interactive framework, with a classroom activity for each dimension.</span></a>
 <h2>Materials</h2>
-<div class="grid"><a class="tile" href="https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N" target="_blank" rel="noopener"><h3>Entangled Dimensions ↗</h3><p>The interactive framework, with a classroom activity for each dimension.</p></a><a class="tile" href="frameworks.html"><h3>Frameworks</h3><p>The frameworks behind the day.</p></a><a class="tile" href="map.html#o-k-rec"><h3>Other kinds of AI</h3><p>The systems around us that are not chatbots.</p></a></div>
+<div class="grid"><a class="tile" href="frameworks.html"><h3>Frameworks</h3><p>The frameworks behind the day.</p></a><a class="tile" href="map.html#o-k-rec"><h3>Other kinds of AI</h3><p>The systems around us that are not chatbots.</p></a></div>
 <nav class="pager" aria-label="The day"><a href="rethinking.html"><small>← 12:45</small>Rethinking something you already teach</a><a href="collective.html"><small>2:25 →</small>From classroom choices to collective decisions</a></nav>
 </div>
 </main>

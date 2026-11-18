@@ -67,8 +67,8 @@ DAY = [
         "desc": "A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.",
         "chips": [("copilot-and-prompting.html", "Copilot and prompting"), ("practical-moves.html", "Practical moves")],
         "steps": [
-            "A quick tour of a few moves: generating alternatives, explaining something in different ways, examples and counterexamples, testing instructions, looking for gaps, and seeing a lesson from another angle.",
-            "Try a few with something you actually teach.",
+            "A short demo of a few things worth trying: generating alternatives, explaining something in different ways, examples and counterexamples, testing instructions, looking for gaps, and seeing a lesson from another angle.",
+            "Try a few yourself with something you actually teach, using the links below.",
             "Decide what was useful, what was not, and what you would want to change.",
         ],
         "tiles": [
@@ -116,8 +116,8 @@ DAY = [
             "Explore the framework yourselves.",
             "Use it to look at a classroom example, question or concern from another angle.",
         ],
+        "embed": f'<a class="launch" href="{ED}" target="_blank" rel="noopener"><span class="big">Open the Entangled Dimensions ↗</span><span class="small">The interactive framework, with a classroom activity for each dimension.</span></a>',
         "tiles": [
-            (ED, "Entangled Dimensions", "The interactive framework, with a classroom activity for each dimension."),
             ("frameworks.html", "Frameworks", "The frameworks behind the day."),
             ("map.html#o-k-rec", "Other kinds of AI", "The systems around us that are not chatbots."),
         ],
@@ -194,6 +194,10 @@ CSS = """<style>
 .steps li{counter-increment:st;position:relative;padding:4px 0 10px 50px;min-height:40px}
 .steps li::before{content:counter(st);position:absolute;left:0;top:0;width:34px;height:34px;display:grid;place-items:center;background:var(--ink);color:var(--surface);font-family:var(--font-mono);font-weight:500;font-size:15px;border-radius:50%}
 .note-q{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2.4vw,26px);line-height:1.25;background:var(--surface);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--yellow);padding:16px 20px;margin:22px 0;max-width:62ch}
+.launch{display:block;text-decoration:none;color:var(--ink);background:var(--yellow);border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);padding:30px 24px;margin:18px 0 22px;text-align:center}
+.launch:hover{box-shadow:7px 7px 0 var(--ink)}
+.launch .big{display:block;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,3.6vw,36px);line-height:1.05}
+.launch .small{display:block;margin-top:10px;font-size:15px}
 .board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:16px 0 22px}
 .board iframe{display:block;width:100%;height:560px;border:0}
 @media (max-width:700px){.board iframe{height:440px}}
