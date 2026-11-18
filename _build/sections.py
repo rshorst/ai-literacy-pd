@@ -71,8 +71,8 @@ DAY = [
             "Try a few yourself with something you actually teach, using the links below.",
             "Decide what was useful, what was not, and what you would want to change.",
         ],
+        "after_steps": "copilot_demo",
         "tiles": [
-            (COPILOT_URL, "Open Copilot", "Opens in a new tab."),
             ("copilot-and-prompting.html", "Copilot and prompting", "Prompting strategies, and the limits of Copilot in a school account."),
             ("practical-moves.html", "Practical moves", "What is worth doing, what to skip, and how to tell."),
         ],
@@ -153,6 +153,69 @@ DAY = [
     },
 ]
 
+
+# ---------------------------------------------------------------- The Copilot demo (10:40)
+MS = "https://support.microsoft.com/"
+DEMOS = [
+    ("Your notebook as a curated knowledge environment", "4 min", "Copilot app → Notebooks",
+     "Open the AI Literacy Notebook. Show its sources, add one, and ask the same question again.",
+     "What changed when the sources changed? What can it not say, because it isn’t in the notebook?",
+     MS + "microsoft-365-copilot/get-started-with-microsoft-365-copilot-notebooks"),
+    ("Citation detective", "3 min", "Notebook → ask → open a citation",
+     "Ask a question, then open the source Copilot cites.",
+     "Does the source really support the answer, or only sit near it?",
+     MS + "microsoft-365-copilot/how-microsoft-365-copilot-notebooks-works"),
+    ("Study guide", "3 min", "Notebook → Create → Study guide",
+     "Turn the same readings into questions, quizzes and flashcards.",
+     "What do these questions assess? What would a student learn by answering them?",
+     MS + "microsoft-365-copilot/create-a-copilot-notebook-study-guide"),
+    ("Infographic", "3 min", "Notebook → Create → Infographic",
+     "Ask Copilot to visualize the main dimensions of AI literacy.",
+     "What does it turn into simple categories? What relationships does it miss? Does the visual look more authoritative than its sources justify?",
+     MS + "en-us/microsoft-365-copilot/infographics-copilot-notebooks"),
+    ("Teach: a lesson plan", "3 min", "Copilot app → Teach → Lesson plan",
+     "Create a lesson for something you teach.",
+     "What does it assume about the students, the place and what counts as learning?",
+     MS + "en-us/education/lesson-plan-creation-with-ai"),
+    ("Teach: modify content", "4 min", "Copilot app → Teach → Modify content",
+     "Change the reading level or language of a text.",
+     "Did it make the text more accessible without removing the intellectual challenge?",
+     "https://learn.microsoft.com/training/modules/create-instructional-materials-teach-microsoft-365-copilot/"),
+    ("Study and Learn agent", "3 min", "Copilot app → Agents → Study and Learn",
+     "Ask it the same question you asked Copilot Chat.",
+     "How does question-led coaching differ from an answer-generating chatbot? Which one would your students choose?",
+     MS + "en-us/education/copilot/study-learn-agent"),
+]
+TUTORIALS = [
+    ("https://learn.microsoft.com/training/modules/enhance-teaching-learning-microsoft-copilot/", "Enhance teaching and learning with Copilot Chat", "Microsoft Learn. A beginner’s guide to prompting and evaluating responses."),
+    ("https://learn.microsoft.com/training/modules/create-instructional-materials-teach-microsoft-365-copilot/", "Create instructional materials with Teach", "Microsoft Learn. Lesson plans, rubrics, quizzes, flashcards and differentiation."),
+    (MS + "en-US/education/copilot/copilot-notebook-study-guide", "Copilot Notebook Study Guide", "Microsoft Support. Summaries, topic pages, quizzes and flashcards from your own materials."),
+    (MS + "en-us/education/copilot/study-learn-agent", "Study and Learn agent", "Microsoft Support. What it is and who can use it."),
+]
+
+
+def copilot_demo_html():
+    items = "".join(
+        f'<li><div class="dh"><h3>{esc(t)}</h3><span class="dmin">{esc(m)}</span></div>'
+        f'<p class="dpath">{esc(path)}</p><p>{esc(do)}</p><p class="dask"><b>Ask:</b> {esc(ask)}</p>'
+        f'<p class="dlink"><a href="{url}" target="_blank" rel="noopener">How to do it ↗</a></p></li>'
+        for t, m, path, do, ask, url in DEMOS)
+    tut = "".join(f'<a class="tile" href="{h}" target="_blank" rel="noopener"><h3>{esc(t)} ↗</h3><p>{esc(d)}</p></a>' for h, t, d in TUTORIALS)
+    return f"""<h2>The demo</h2>
+<p>Seven short demonstrations, each followed straight away by a question. The centre is a Copilot Notebook on AI literacy: what changes when you choose the sources, how it represents knowledge, and how source material becomes a learning activity.</p>
+<ol class="demos">{items}</ol>
+<h2>Before you try it</h2>
+<ul>
+<li>Use your school Microsoft account. Notebooks, Teach and Study and Learn are in the Microsoft 365 Copilot app.</li>
+<li>Your school’s IT has to turn on Copilot Chat. For students aged 13 to 17, IT also has to enable it before they can use Study and Learn.</li>
+<li>Some notebook features, such as audio overviews, need a paid Copilot licence.</li>
+<li>Don’t add personal or student information to a notebook or a chat.</li>
+</ul>
+<div class="tools"><a class="btn primary" href="{COPILOT_URL}" target="_blank" rel="noopener">Open Copilot ↗</a></div>
+<h2>Tutorials</h2>
+<div class="grid">{tut}</div>"""
+
+
 BLOCKS = [b for b in DAY if "pause" not in b]
 
 
@@ -198,6 +261,17 @@ CSS = """<style>
 .launch:hover{box-shadow:7px 7px 0 var(--ink)}
 .launch .big{display:block;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,3.6vw,36px);line-height:1.05}
 .launch .small{display:block;margin-top:10px;font-size:15px}
+.demos{list-style:none;counter-reset:dm;padding:0!important;margin:16px 0 10px;display:grid;gap:12px;max-width:none}
+.demos li{counter-increment:dm;position:relative;background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:14px 16px 10px 64px}
+.demos li::before{content:counter(dm,decimal-leading-zero);position:absolute;left:14px;top:12px;font-family:var(--font-display);font-weight:900;font-size:26px;line-height:1}
+.demos .dh{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.demos h3{margin:0;font-size:18px}
+.demos .dmin{font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;background:var(--yellow);padding:1px 7px}
+.demos .dpath{font-family:var(--font-mono);font-size:13px;color:var(--muted);margin:4px 0 6px}
+.demos p{margin:0 0 6px}
+.demos .dask{background:rgba(139,218,211,.35);padding:6px 9px;border-radius:3px}
+.demos .dlink{font-size:14.5px}
+.btn.primary{background:var(--yellow)}
 .board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:16px 0 22px}
 .board iframe{display:block;width:100%;height:560px;border:0}
 @media (max-width:700px){.board iframe{height:440px}}
@@ -223,6 +297,7 @@ def section_page(i):
 <h2>What we’ll do</h2>
 <ol class="steps">{steps}</ol>
 {b.get('embed', '')}
+{copilot_demo_html() if b.get('after_steps') == 'copilot_demo' else ''}
 <h2>Materials</h2>
 <div class="grid">{tiles}</div>
 {pager(i)}

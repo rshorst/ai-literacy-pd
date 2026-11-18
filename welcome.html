@@ -182,6 +182,17 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .launch:hover{box-shadow:7px 7px 0 var(--ink)}
 .launch .big{display:block;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,3.6vw,36px);line-height:1.05}
 .launch .small{display:block;margin-top:10px;font-size:15px}
+.demos{list-style:none;counter-reset:dm;padding:0!important;margin:16px 0 10px;display:grid;gap:12px;max-width:none}
+.demos li{counter-increment:dm;position:relative;background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:14px 16px 10px 64px}
+.demos li::before{content:counter(dm,decimal-leading-zero);position:absolute;left:14px;top:12px;font-family:var(--font-display);font-weight:900;font-size:26px;line-height:1}
+.demos .dh{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.demos h3{margin:0;font-size:18px}
+.demos .dmin{font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;background:var(--yellow);padding:1px 7px}
+.demos .dpath{font-family:var(--font-mono);font-size:13px;color:var(--muted);margin:4px 0 6px}
+.demos p{margin:0 0 6px}
+.demos .dask{background:rgba(139,218,211,.35);padding:6px 9px;border-radius:3px}
+.demos .dlink{font-size:14.5px}
+.btn.primary{background:var(--yellow)}
 .board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:16px 0 22px}
 .board iframe{display:block;width:100%;height:560px;border:0}
 @media (max-width:700px){.board iframe{height:440px}}
@@ -198,6 +209,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <h2>What we’ll do</h2>
 <ol class="steps"><li>Welcome, introductions, and where I’m coming from.</li><li>A look at the day ahead.</li><li>My AI Metaphor: what is your AI metaphor, and what emotion or feeling do you associate with it? Add it to the board, or to the poster on a sticky note.</li><li>Quick, Draw!: play a round, then look at what the neural network learned from other people’s drawings.</li></ol>
 <div class="board"><iframe src="https://padlet.com/embed/s025k2ljostv9t2zbjfr" title="My AI Metaphor board" allow="clipboard-write" loading="lazy"></iframe></div>
+
 <h2>Materials</h2>
 <div class="grid"><a class="tile" href="metaphor.html"><h3>My AI Metaphor</h3><p>The board, and a paper version with a poster and table cards.</p></a><a class="tile" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><h3>Play Quick, Draw! ↗</h3><p>Opens the game in a new tab.</p></a><a class="tile" href="quickdraw.html"><h3>About Quick, Draw!</h3><p>How it learns, what gets left out, and what Google did with the drawings.</p></a></div>
 <nav class="pager" aria-label="The day"><a href="index.html"><small>← The day</small>Home</a><a href="systems.html"><small>9:15 →</small>What are these strange systems, anyway?</a></nav>
