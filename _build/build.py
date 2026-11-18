@@ -18,6 +18,7 @@ MAP_SRC = HERE / "map-source.html"
 sys.path.insert(0, str(HERE))
 from content import PAGES, NAV, SITE, PAGE_STYLE  # noqa: E402
 from scenarios import SCENARIO_PAGES  # noqa: E402
+from sections import SECTION_PAGES  # noqa: E402
 
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">'
 
@@ -154,6 +155,9 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .agenda li::before{content:"";position:absolute;left:-9px;top:24px;width:15px;height:15px;background:var(--surface);border:3px solid var(--ink);border-radius:50%}
 .agenda time{font-family:var(--font-mono);font-size:15px;font-weight:500;padding-top:3px}
 .agenda h3{margin:0 0 4px;font-size:20px}
+.eyebrow a{color:inherit;text-underline-offset:3px}
+.agenda h3 a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:4px}
+.agenda h3 a:hover{background:var(--yellow)}
 .agenda p{margin:0 0 8px}
 .agenda li.pause{padding:6px 0 6px 18px;color:var(--muted)}
 .agenda li.pause::before{width:11px;height:11px;left:-7px;top:13px;border-width:2px;background:var(--line)}
@@ -267,7 +271,7 @@ FONTS_MAP_OLD = '<link href="https://fonts.googleapis.com/css2?family=Archivo:wg
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    for p in PAGES + SCENARIO_PAGES:
+    for p in PAGES + SCENARIO_PAGES + SECTION_PAGES:
         body = p["html"] if "html" in p else md(p["md"])
         (OUT / p["file"]).write_text(page(p["title"], p["nav"], body, p.get("desc", ""), og=p["file"] == "index.html"))
     (OUT / "map.html").write_text(build_map())

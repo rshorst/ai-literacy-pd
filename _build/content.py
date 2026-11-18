@@ -33,9 +33,8 @@ PAGE_STYLE = {
 }
 
 ZIP = "https://github.com/rshorst/ai-literacy-pd/archive/refs/heads/main.zip"
-ED = "https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N"  # interactive version
 CSM = "https://rshorst.github.io/computational-sense-making/"
-FUT = "https://rshorst.github.io/AI-Futures/"
+from sections import ED, FUT, PADLET, QD, AGENDA  # noqa: E402
 
 PRINT = '<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button></div>'
 
@@ -78,20 +77,7 @@ HOME = f"""
 
 <h2>The day</h2>
 <p>Every block has something to try and something to discuss. Timings and emphasis can shift in response to the pre-session input and the conversation in the room.</p>
-<ol class="agenda">
-<li><time>9:00</time><div><h3>Welcome</h3><p>A chance to reconnect, introduce the day, and begin with what matters to us in teaching and learning.</p><p class="res"><a href="metaphor.html">My AI Metaphor</a><a href="quickdraw.html">Quick, Draw!</a></p></div></li>
-<li><time>9:15</time><div><h3>What are these strange systems, anyway?</h3><p>A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p><p class="res"><a href="talk.html">Talk slides</a><a href="map.html">AI map</a></p></div></li>
-<li><time>9:40</time><div><h3>Classroom situations</h3><p>Small groups work through real and plausible situations involving generative AI in teaching and learning. We look closely at what is happening, what choices are available, and what different responses might mean for students, teachers, and the classroom.</p><p class="res"><a href="scenarios.html">Classroom situations</a><a href="responses.html">Shared board</a></p></div></li>
-<li class="pause"><time>10:25</time><span>Break</span></li>
-<li><time>10:40</time><div><h3>Some things worth trying in Copilot</h3><p>A hands-on look at a small number of useful things generative AI can do for teaching: generating alternatives, explaining something in different ways, creating examples and counterexamples, testing instructions, looking for gaps, and helping you see a lesson from another angle. Try a few with something you actually teach and decide what is useful, what is not, and what you would want to change.</p><p class="res"><a href="copilot-and-prompting.html">Copilot and prompting</a><a href="practical-moves.html">Practical moves</a></p></div></li>
-<li><time>11:25</time><div><h3>How should AI fit into classroom work?</h3><p>A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p><p class="res"><a href="aias.html">AI Assessment Scale</a><a href="class-ai-agreement.html">Collaborative protocol</a></p></div></li>
-<li class="pause"><time>11:55</time><span>Lunch</span></li>
-<li><time>12:45</time><div><h3>Rethinking something you already teach</h3><p>Bring a lesson, activity, assignment, or unit you already teach. We use what we have explored so far to reconsider where AI might support the learning, where it might change or bypass something important, and where it may not belong at all.</p><p class="res"><a href="activities.html#activity-11">Activities for educators</a><a href="readings.html">Readings on assessment</a></p></div></li>
-<li><time>1:45</time><div><h3>Looking at the bigger picture</h3><p>We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.</p><p class="res"><a href="frameworks.html">Frameworks</a><a href="map.html#o-k-rec">Other kinds of AI</a></p></div></li>
-<li class="pause"><time>2:15</time><span>Break</span></li>
-<li><time>2:25</time><div><h3>From classroom choices to collective decisions</h3><p>We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.</p><p><em>What needs to be decided here, who needs to be part of that decision, and what should remain open?</em></p><p class="res"><a href="policies.html">Policy examples</a><a href="activities.html#activity-13">The document audit</a></p></div></li>
-<li><time>2:50</time><div><h3>Close</h3><p>We close by imagining the kinds of futures with AI we would want to move toward, and the ones we would want to resist.</p><p class="res"><a href="{FUT}">AI Futures map</a></p></div></li>
-</ol>
+{AGENDA}
 
 <h2>What educators leave with</h2>
 <ul class="leave">
@@ -688,7 +674,6 @@ FRAMEWORKS_PAGE = f"""
 """
 
 # ---------------------------------------------------------------- My AI Metaphor (9:00)
-PADLET = "https://padlet.com/embed/s025k2ljostv9t2zbjfr"
 
 METAPHOR_PAGE = f"""
 <style>
@@ -710,7 +695,6 @@ METAPHOR_PAGE = f"""
 """
 
 # ---------------------------------------------------------------- Quick, Draw! (9:00)
-QD = "https://quickdraw.withgoogle.com/"
 
 QUICKDRAW_PAGE = f"""
 <style>
