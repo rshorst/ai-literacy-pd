@@ -8,7 +8,8 @@ from scenarios import COPILOT_URL
 
 FIT_PDF = "assets/how-ai-fits-handout.pdf"
 ED_PDF = "assets/entangled-dimensions-handout.pdf"
-RETHINK_PDF = "assets/rethinking-worksheet.pdf"
+ESSAY_PDF = "assets/one-essay-many-outcomes.pdf"
+TASK_PDF = "assets/what-is-your-task-assessing.pdf"
 
 ED = "https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html"  # the K-12 interactive
 FUT = "https://rshorst.github.io/AI-Futures/"
@@ -99,7 +100,8 @@ DAY = [
         ],
         "extra": "rethink",
         "tiles": [
-            (RETHINK_PDF, "Rethinking worksheet", "Two pages for the hour: start from the learning, where AI meets the task, and one redesign."),
+            (ESSAY_PDF, "One essay, many outcomes", "The worked example: eight Grade 9 standards, and how the assessment changes for each."),
+            (TASK_PDF, "What is your task assessing?", "The worksheet: the same layout, blank, for a task you teach."),
             ("aias.html", "AI Assessment Scale", "Which kind of task is this, and why?"),
             (FIT_PDF, "How AI fits handout", "The scale, assessing the process, and the prompts, to print."),
             ("readings.html", "Readings on assessment", "Research and practice to draw on."),
@@ -519,120 +521,92 @@ TEACHER_EXAMPLES = [
 ]
 
 
+ESSAY_ROWS = [
+    ("Opinion and evidence", "Express an opinion and support it with credible evidence.",
+     "Write a one-page position, then defend it live: answer three questions the page doesn’t.",
+     "Spar with AI playing a skeptic, one objection at a time. Students note the strongest objection and how they answered it."),
+    ("Judging sources", "Find information and judge how relevant, accurate and reliable it is.",
+     "Collect five sources and rank them by how much you trust them. Explain each ranking in a sentence.",
+     "Ask AI for sources on the issue, then check each one: does it exist, and does it say what AI claims? The checking is what’s assessed."),
+    ("Synthesis", "Bring ideas from several sources together to build understanding.",
+     "Map three sources in conversation: where they agree, where they clash. Then write one paragraph in class.",
+     "Give AI the sources and ask for a summary. Students mark what it flattened or missed, and their paragraph does better."),
+    ("Revision", "Refine a text for clarity and impact, for its purpose and audience.",
+     "Draft in class and keep the drafts. Hand in the best page with a note on two changes and why.",
+     "Ask AI for feedback against the class criteria. Students take or refuse each suggestion and give a reason. Assess the reasons."),
+    ("Audience and form", "Choose the form and features that fit the audience and purpose.",
+     "Write it twice: a letter to council and a post for classmates. Assess what changed between them.",
+     "Ask AI to rewrite one paragraph for three audiences. Students name what changed, then apply it to their own writing."),
+    ("Transformation", "Turn ideas and information into an original text.",
+     "Turn the argument into a radio piece, poster or comic, and explain the choices in a two-minute talk.",
+     "Use AI to rough out two or three forms quickly. Students choose one, make it themselves, and explain the choice."),
+    ("Oral storytelling", "Use and experiment with oral storytelling.",
+     "Interview one person affected and, with their permission, retell their story aloud as part of the argument.",
+     "Brainstorm interview questions with AI, then revise them together: which are respectful, which are leading? The story itself stays out of the chatbot."),
+    ("Perspectives", "Big Idea: people read texts differently, depending on worldview and perspective.",
+     "Write the strongest case for the side you disagree with. Someone who holds that view reads it: is it fair?",
+     "AI argues the other side first. Then students talk with someone who holds that view. What did AI get right, miss or caricature?"),
+]
+
+
 def rethink_html():
     R = REREAD
-    ex = "".join(
-        f'<a class="ex" href="{u}" target="_blank" rel="noopener"><span class="lane-tag">{esc(t)}</span>'
-        f'<h4>{esc(h)} ↗</h4><p class="who">{esc(w)}</p><p>{esc(d)}</p></a>'
-        for t, h, w, d, u in TEACHER_EXAMPLES)
+    rows = "".join(
+        f'<tr><th scope="row"><span class="n">{i}</span><b>{esc(lab)}</b><small>{esc(std)}</small></th><td>{esc(a)}</td><td>{esc(ai)}</td></tr>'
+        for i, (lab, std, a, ai) in enumerate(ESSAY_ROWS, 1))
+    stories = "".join(
+        f'<li><a href="{u}" target="_blank" rel="noopener">{esc(h)} ↗</a> <span class="who">{esc(w)}.</span> {esc(d)}</li>'
+        for _, h, w, d, u in TEACHER_EXAMPLES)
     return f"""<style>
-.rt-intro{{max-width:68ch}}
-.rt-part{{display:flex;align-items:baseline;gap:12px}}
-.rt-part .pn{{background:var(--ink);color:var(--surface);padding:0 9px}}
-.cards3{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:none;margin:14px 0 18px}}
-.cards3 > div{{background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);padding:14px 16px}}
-.cards3 h3{{margin:0 0 6px;font-size:17px;text-transform:uppercase}}
-.cards3 p{{margin:0}}
-.kdu{{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}}
-.kdu span{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--ink);padding:1px 7px}}
-.fppl{{background:#fff6cc;border:2px solid var(--ink);border-radius:4px;padding:14px 18px;max-width:68ch;margin:6px 0 10px}}
-.fppl h3{{margin:0 0 6px;font-size:15px;text-transform:uppercase}}
-.fppl ul{{margin:0;padding-left:20px}}
-.stages{{width:100%;border-collapse:collapse;background:var(--surface);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);margin:12px 0 10px}}
-.stages th,.stages td{{border-bottom:1.5px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}}
-.stages thead th{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-bottom:2px solid var(--ink);background:var(--bg)}}
-.stages tbody th{{font-family:var(--font-display);text-transform:uppercase;white-space:nowrap}}
-.stages tr:last-child th,.stages tr:last-child td{{border-bottom:0}}
-.lanes > div h3 span{{display:inline-block;width:1.4em}}
-.lanes .protect{{box-shadow:4px 4px 0 #e3585b!important}}
-.lanes .open{{box-shadow:4px 4px 0 #59a34f!important}}
-.lanes .out{{box-shadow:4px 4px 0 #507aa9!important}}
-.guides{{max-width:72ch}}
-.guides li{{margin:8px 0}}
-.redesign{{list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:none;margin:12px 0 14px}}
-.redesign li{{background:var(--surface);border:2px dashed var(--ink);border-radius:4px;padding:12px 14px;margin:0}}
-.redesign strong{{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:14.5px;margin-bottom:2px}}
-.examples{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:none;margin:14px 0 18px}}
-.ex{{display:block;color:inherit;text-decoration:none;background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);padding:14px 16px}}
-.ex:hover{{background:var(--hover)}}
-.ex h4{{margin:8px 0 2px;font-family:var(--font-display);font-size:16.5px;text-transform:uppercase}}
-.ex .who{{font-size:13.5px;color:var(--muted);margin:0 0 8px}}
-.ex p{{margin:0}}
-.lane-tag{{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);border:1.5px solid var(--ink);padding:1px 7px}}
+.rt{{max-width:68ch}}
+.essay{{width:100%;border-collapse:collapse;background:var(--surface);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);margin:14px 0 18px}}
+.essay th,.essay td{{border-bottom:1.5px solid var(--line);border-right:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}}
+.essay thead th{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-bottom:2px solid var(--ink);background:var(--bg)}}
+.essay tbody th{{width:26%;font-weight:400;background:var(--bg)}}
+.essay tbody th b{{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:15px}}
+.essay tbody th small{{display:block;margin-top:3px;font-family:var(--font-body);font-size:13px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);line-height:1.35}}.essay tbody th{{font-family:var(--font-body);text-transform:none;letter-spacing:0}}
+.essay .n{{display:inline-block;background:var(--ink);color:var(--surface);font-family:var(--font-display);font-weight:800;font-size:12px;padding:0 6px;margin-bottom:4px}}
+.essay tr:last-child th,.essay tr:last-child td{{border-bottom:0}}
+.teacher-idea{{background:var(--yellow);border:2px solid var(--ink);border-radius:4px;padding:12px 16px;max-width:none;margin:0 0 10px}}
+.teacher-idea b{{font-family:var(--font-display);text-transform:uppercase}}
+.stories li{{margin:8px 0}}
+.stories .who{{color:var(--muted)}}
 .refs li{{margin:6px 0}}
-@media (max-width:900px){{.cards3,.examples{{grid-template-columns:minmax(0,1fr)}}.redesign{{grid-template-columns:minmax(0,1fr)}}}}
-@media (max-width:640px){{.stages thead{{display:none}}.stages tr{{display:block;border-bottom:1.5px solid var(--line);padding:8px 12px}}.stages th,.stages td{{display:block;border:0;padding:2px 0}}}}
+@media (max-width:760px){{.essay thead{{display:none}}.essay tr{{display:block;border-bottom:1.5px solid var(--line)}}.essay th,.essay td{{display:block;border:0;width:auto!important}}
+.essay td:nth-of-type(1)::before{{content:"Instead of the essay: ";font-weight:700}}.essay td:nth-of-type(2)::before{{content:"Bringing AI in: ";font-weight:700}}}}
 </style>
-<p class="tools no-print"><a class="btn primary" href="{RETHINK_PDF}" download>Download the worksheet (PDF)</a></p>
+<p class="tools no-print"><a class="btn primary" href="{ESSAY_PDF}" download>The essay example (PDF)</a><a class="btn" href="{TASK_PDF}" download>Your worksheet (PDF)</a></p>
 
-<h2 id="learning" class="rt-part"><span class="pn">1</span>Start from the learning</h2>
-<p class="rt-intro">Pick one task you already teach. Before AI comes up at all, answer three questions about it.</p>
-<div class="cards3">
-<div><h3>What is it for?</h3><p>What should students understand, be able to do, and know by the end? Name it in the curriculum’s terms.</p><p class="kdu"><span>Understand · Big Ideas</span><span>Do · Competencies</span><span>Know · Content</span></p></div>
-<div><h3>What must they do themselves?</h3><p>Find the part of the work where the learning happens. It is often the hard part: searching for words, the wrong turn, the second draft.</p></div>
-<div><h3>What would convince you?</h3><p>A finished product is one kind of evidence. Conversations and observations are the others. Which do you rely on now?</p></div>
-</div>
-<div class="fppl"><h3>Hold alongside: the First Peoples Principles of Learning</h3>
-<ul>
-<li>Learning takes patience and time.</li>
-<li>Learning serves more than the learner: family, community, the land, the spirits and the ancestors.</li>
-<li>Learning recognizes that “some knowledge is sacred and only shared with permission and/or in certain situations.”</li>
-</ul>
-<p class="meta"><a href="{R['fppl']}" target="_blank" rel="noopener">The full principles, from FNESC ↗</a></p></div>
-
-<h2 id="stages" class="rt-part"><span class="pn">2</span>Where does AI meet this task?</h2>
-<p class="rt-intro">Walk through the task stage by stage. At each one: what happens now, and what could a chatbot do here?</p>
-<table class="stages">
-<thead><tr><th scope="col">Stage</th><th scope="col">For example</th><th scope="col">What could AI do here?</th></tr></thead>
-<tbody>
-<tr><th scope="row">Plan</th><td>Choosing a topic, asking questions, making an outline</td><td>Suggest topics, list questions, write the outline</td></tr>
-<tr><th scope="row">Make</th><td>Drafting, solving, building, rehearsing</td><td>Write the draft, show every step, make the image</td></tr>
-<tr><th scope="row">Revise</th><td>Feedback, fixing, choosing what to change</td><td>Give feedback, rewrite, polish the voice away</td></tr>
-<tr><th scope="row">Show</th><td>What students hand in, say or perform</td><td>Produce the whole product, or nothing</td></tr>
-</tbody>
+<h2 id="essay">What is this essay assessing?</h2>
+<p class="rt">Take an ordinary task: a Grade 9 essay arguing a position on a local issue. It could be assessing any of the standards below, from BC’s English Language Arts 9 curriculum. Once you name the one you mean, the assessment changes, and so does the place AI might have in it.</p>
+<table class="essay">
+<thead><tr><th scope="col">The standard</th><th scope="col">Instead of the essay</th><th scope="col">A meaningful way to bring AI in</th></tr></thead>
+<tbody>{rows}</tbody>
 </table>
+<p class="teacher-idea"><b>Teacher idea: use AI to develop a class-wide plan.</b> Ask Copilot: “Give me ten whole-class games or activities where Grade 9s practise backing an opinion with evidence. No devices needed.” Then pick one and make it yours. It might suggest four corners, a source tournament or a mock town hall.</p>
+<p class="meta">Standards in plain words, from <a href="{R['kdu']}" target="_blank" rel="noopener">BC’s English Language Arts 9 curriculum</a>.</p>
 
-<h2 id="choose" class="rt-part"><span class="pn">3</span>Protect, open, or keep out</h2>
-<p class="rt-intro">Decide stage by stage, not for the whole task at once.</p>
-<div class="cards3 lanes">
-<div class="protect"><h3>Protect</h3><p>Students need to show this on their own. Move it where AI can’t reach: in class, on paper, out loud. It costs time, and some students pay more for it (nerves, an IEP, another first language).</p></div>
-<div class="open"><h3>Open</h3><p>AI is part of the work. Assess what the student does with it: the choices, the checking, what they refused. Never require it. Not every student has the device, the connection or the wish.</p></div>
-<div class="out"><h3>Keep out</h3><p>Not because of cheating. Some things aren’t for these tools: other people’s stories, community knowledge, private information, relationships the task is meant to build.</p></div>
-</div>
-<h3>Guidelines</h3>
-<ol class="guides">
-<li><strong>Validity before cheating.</strong> Ask what the task lets you say about a student’s learning. As Phillip Dawson puts it, <a href="{R['dawson_talk']}" target="_blank" rel="noopener">“assessing what we mean to assess is the thing that matters the most”</a>.</li>
-<li><strong>Change the structure, not just the rule.</strong> A label telling students which AI use is allowed only works if they read it and follow it. A change to the task itself works either way (<a href="{R['corbin']}" target="_blank" rel="noopener">Corbin, Dawson &amp; Liu, 2025</a>).</li>
-<li><strong>Protect selectively, open on purpose.</strong> In the University of Sydney’s <a href="{R['sydney']}" target="_blank" rel="noopener">two-lane approach</a>, secure tasks check what students can do alone and open tasks are for learning, including learning about AI. Critics say it is <a href="{R['sydney_values']}" target="_blank" rel="noopener">too binary</a>, and that secure tasks can <a href="{R['lane_critique']}" target="_blank" rel="noopener">undo gains in equity</a>.</li>
-<li><strong>A scale is vocabulary, not security.</strong> Its own authors say no framework can stop dishonest use (<a href="{R['furze_cheat']}" target="_blank" rel="noopener">Furze, 2024</a>). Use it to talk with students about the task.</li>
-<li><strong>Evidence is for a conversation, not a trap.</strong> Detectors aren’t reliable, and chat logs and drafts can turn into surveillance. Ask students to explain their choices.</li>
-<li><strong>Name what it costs.</strong> Every redesign costs something: time, a student who struggles under the new format, a relationship. Say who pays.</li>
-</ol>
+<h2 id="yours">Now your task</h2>
+<p class="rt">Write a task you already teach in the middle of the worksheet. Around it, name the standards it could be assessing, and circle the one you actually mean. Then redesign the assessment for two or three of them: what students could do instead, and how they could use AI without it doing the learning. Last question: is there any part AI should stay out of, and why?</p>
+<p class="rt">The First Peoples Principles of Learning are a good check here. Learning takes patience and time, and it serves more than the learner. Some knowledge, in FNESC’s words, is “sacred and only shared with permission and/or in certain situations.” (<a href="{R['fppl']}" target="_blank" rel="noopener">the full principles ↗</a>)</p>
 
-<h2 id="redesign" class="rt-part"><span class="pn">4</span>Redesign one piece</h2>
-<p class="rt-intro">Choose one stage and change the task itself, not only its instructions.</p>
-<ul class="redesign">
-<li><strong>The change</strong>What will students do differently?</li>
-<li><strong>What it protects</strong>Which learning does this keep with the student?</li>
-<li><strong>What it costs</strong>Time, equity, relationships. Who pays?</li>
-<li><strong>How you’ll know</strong>What evidence will you collect: product, conversation, observation?</li>
-</ul>
+<h2 id="stories">Teachers who changed the task</h2>
+<ul class="stories rt">{stories}</ul>
 
-<h2 id="examples">Examples from teachers</h2>
-<p class="rt-intro">Six teachers who changed a task, not just a rule.</p>
-<div class="examples">{ex}</div>
+<h2 id="research">What the research says</h2>
+<p class="rt">Assessment researchers keep coming back to the same few points. Ask what a task lets you say about a student’s learning before asking how to stop cheating; Phillip Dawson and colleagues argue that <a href="{R['dawson']}" target="_blank" rel="noopener">validity matters more than cheating</a>. Rules about AI only work if students read and follow them, so <a href="{R['corbin']}" target="_blank" rel="noopener">change the task itself</a>, not only its instructions. The University of Sydney protects some tasks and opens others to AI on purpose, in what it calls a <a href="{R['sydney']}" target="_blank" rel="noopener">two-lane approach</a>; critics say that is <a href="{R['sydney_values']}" target="_blank" rel="noopener">too binary</a> and can <a href="{R['lane_critique']}" target="_blank" rel="noopener">undo gains in equity</a>. And the authors of the AI Assessment Scale say <a href="{R['furze_cheat']}" target="_blank" rel="noopener">no framework can stop dishonest use</a>. It is a way to talk about a task, not a lock.</p>
 
-<h2 id="resources">Rethinking assessment: where to read more</h2>
+<h2 id="resources">Readings</h2>
 <ul class="refs meta">
-<li>TEQSA (2023). <a href="{R['teqsa']}">Assessment reform for the age of artificial intelligence</a>. Two principles and five propositions, written by assessment researchers. The follow-up, <a href="{R['teqsa25']}">Enacting assessment reform in a time of artificial intelligence</a> (2025), weighs the options.</li>
+<li>TEQSA (2023). <a href="{R['teqsa']}">Assessment reform for the age of artificial intelligence</a>. And the follow-up, <a href="{R['teqsa25']}">Enacting assessment reform in a time of artificial intelligence</a> (2025).</li>
 <li>Dawson, P., Bearman, M., Dollinger, M., &amp; Boud, D. (2024). <a href="{R['dawson']}">Validity matters more than cheating</a>. <em>Assessment &amp; Evaluation in Higher Education, 49</em>(7).</li>
 <li>Corbin, T., Dawson, P., &amp; Liu, D. (2025). <a href="{R['corbin']}">Talk is cheap: Why structural assessment changes are needed for a time of GenAI</a>. <em>Assessment &amp; Evaluation in Higher Education</em>.</li>
 <li>University of Sydney. <a href="{R['sydney']}">The two-lane approach to assessment</a>. With Liu and Bridgeman’s <a href="{R['sydney_values']}">case for it</a> and <a href="{R['lane_critique']}">a critique</a>.</li>
-<li>Furze, L., &amp; Roe, J. (2024). <a href="{R['furze_k12']}">The AI Assessment Scale (AIAS) in Australian K-12 education</a>. <em>Teachers’ Frontiers, 1</em>(1). And Furze (2026), <a href="{R['beyond']}">Beyond scales: in practice</a>, with school adaptations including Saskatoon Public Schools.</li>
+<li>Furze, L., &amp; Roe, J. (2024). <a href="{R['furze_k12']}">The AI Assessment Scale (AIAS) in Australian K-12 education</a>. And Furze (2026), <a href="{R['beyond']}">Beyond scales: in practice</a>, including Saskatoon Public Schools.</li>
 <li>BC Ministry of Education and Child Care. <a href="{R['bc_ai']}">Digital literacy and the use of AI in education</a>. Teaching and learning stories from BC classrooms, Grade 3 to 12.</li>
-<li>Kentz, M. <a href="{R['kentz']}">Stop grading essays, start grading chats</a>, and <a href="{R['kentz_seven']}">stories from the frontlines of change</a>.</li>
+<li>Kentz, M. <a href="{R['kentz']}">Stop grading essays, start grading chats</a>.</li>
 <li>Coster, H. (2026, October 28). <a href="{R['reuters']}">How teachers are remaking classrooms for the AI age</a>. Reuters.</li>
-<li>First Nations Education Steering Committee. <a href="{R['fppl']}">First Peoples Principles of Learning</a>. And the BC curriculum’s <a href="{R['kdu']}">Know-Do-Understand model</a>.</li>
+<li>First Nations Education Steering Committee. <a href="{R['fppl']}">First Peoples Principles of Learning</a>.</li>
 </ul>"""
 
 
