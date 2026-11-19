@@ -40,20 +40,10 @@ DAY = [
     {
         "file": "systems.html", "tab": "Strange systems", "start": "9:15", "end": "9:40", "title": "What are these strange systems, anyway?",
         "desc": "A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.",
-        "chips": [("talk.html", "Talk slides"), ("map.html", "AI map")],
-        "steps": [
-            "What we call AI: many kinds of systems, not one thing.",
-            "How a language model composes text, one likely next piece at a time.",
-            "A live demo, then we experiment and see what happens.",
-            "Plausible is not the same as true.",
-            "The iceberg: what sits underneath a chatbot.",
-            "Three questions to carry into the rest of the day.",
-        ],
-        "tiles": [
-            ("talk.html", "Talk slides", "The slides for this block."),
-            ("map.html", "AI map", "Who makes what, what each model takes in and gives back, and what each app can do."),
-            ("map.html#o-k-detect", "Other kinds of AI", "Detectors, recommenders, risk scores and the rest."),
-        ],
+        "chips": [("systems.html#slides", "Talk slides"), ("map.html", "AI map")],
+        "steps": [],
+        "tiles": [],
+        "after_steps": "talk_slides",
     },
     {
         "file": "scenarios.html", "tab": "Classroom situations", "start": "9:40", "end": "10:25", "title": "Classroom situations",
@@ -299,6 +289,89 @@ CSS = """<style>
 </style>"""
 
 
+# ---- 9:15 talk slides: slides 6 to 23 of the deck, rendered to assets/talk/NN.webp ----
+TALK_SLIDES = [
+    (6, "What are these strange systems, anyway? Plain language, the minimum we need, then we experiment."),
+    (7, "What are we calling AI? Many things. Nested circles since the 1950s: AI (route planning, chess engines) contains machine learning (spam filters, recommendations), deep learning (face unlock, translation), generative AI (image makers) and language models (chatbots), where Copilot sits. AI is a big field with a long history. Chatbots like Copilot are a small, recent slice of it. Keep in mind: when someone says “AI”, ask: which one?"),
+    (8, "The AI landscape: who makes what. A screenshot of the AI map on this site. Companies train models. Apps put those models in front of you. One model often sits behind many apps. Keep in mind: the app is not the model."),
+    (9, "Under the interface, 1 of 8. What we see: Copilot. Microsoft’s AI assistant. Or several, wearing one name. Copilot snowmen stand on the tip of an iceberg outline. Keep in mind: “Copilot” is the tip of a very huge iceberg."),
+    (10, "Under the interface, 2 of 8. Where do we meet it? Apps. Built into Word, Teams, Edge and Windows, with hidden instructions behind each. Keep in mind: built to feel helpful. That’s design, not evidence."),
+    (11, "Under the interface, 3 of 8. What generates the text? Models. OpenAI, Anthropic or Microsoft. You don’t see which. Your prompt, plus web results and files, goes in between the app and the model. Keep in mind: models have cutoffs and keep changing."),
+    (12, "Models, with a screenshot of the Copilot model menu: Auto, Quick response, Think deeper, and GPT models. Keep in mind: the application is not the model. The models keep changing."),
+    (13, "Under the interface, 4 of 8. What shapes the model? Training. Learns to predict text, then gets tuned by human ratings. Keep in mind: tuned to please. Pleasing isn’t the same as right."),
+    (14, "Under the interface, 5 of 8. What does it learn from? Data and training. Models learn patterns from large collections of data. Further training shapes which kinds of responses they are encouraged to produce. Keep in mind: what’s common in the data isn’t necessarily true. What’s rewarded in the training isn’t necessarily good for learning."),
+    (15, "Under the interface, 6 of 8. Who makes it work? Human labour. Creators, annotators, moderators, maintainers. Keep in mind: “automatic” rests on hidden, low-paid work."),
+    (16, "Under the interface, 7 of 8. What does it run on? Material infrastructure. Chips, data centres, energy, water, minerals. Keep in mind: the real costs are mostly undisclosed."),
+    (17, "Under the interface, 8 of 8. Who decides? Power shapes every layer: ownership, incentives, rules, values. Keep in mind: Microsoft sets most of the rules. Schools still decide how, and whether. Ask the room: what else comes into the classroom with AI?"),
+    (18, "How does it work? How does an output get made? The word “answer” is crossed out and replaced with “output”."),
+    (19, "One token at a time. 1, context: hidden instructions, the chat so far, files, web results, memory, and the words so far. 2, the model looks at all the tokens so far, using patterns from training. 3, prediction: a score for every possible next token, for example write 31%, read 22%, share 14%, and thousands more. 4, pick one: usually a likely one, not always the top, and add it to the context. Then do it again, and again."),
+    (20, "A probability, not an answer. It predicts what’s likely to come next, one piece at a time. Several answers are possible, and how we ask changes which one we get. Keep in mind: it doesn’t have an answer. It has a probability."),
+    (21, "Before the cases: three questions. 1, accurate? What evidence could we check? 2, appropriate? What does it assume about these learners and this place? 3, worthwhile? Does it support the work we want students to do? An answer can be correct and still wrong for this class, this purpose or this community."),
+    (22, "Try it live in Copilot: two framings. A: Explain photosynthesis in three sentences. B: What do scientists still disagree about when it comes to photosynthesis? Run A twice. Same answer? Then try B. What changed?"),
+    (23, "What sounds right: plausible isn’t true. A model can explain something clearly without having checked it, or sound sure while hiding real disagreement. Keep in mind: fluent and confident isn’t the same as checked."),
+]
+
+
+def talk_slides_html():
+    import json
+    data = json.dumps([{"src": f"assets/talk/{n:02d}.webp", "alt": a} for n, a in TALK_SLIDES], ensure_ascii=False)
+    first = TALK_SLIDES[0]
+    total = len(TALK_SLIDES)
+    return f"""<style>
+.deck{{margin:20px 0 8px}}
+.deck-frame{{position:relative;aspect-ratio:16/9;border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f3eee6;overflow:hidden}}
+.deck-frame img{{display:block;width:100%;height:100%;object-fit:contain}}
+.deck-hit{{position:absolute;top:0;bottom:0;width:30%;background:none;border:0;padding:0;cursor:pointer}}
+.deck-hit.prev{{left:0;cursor:w-resize}}.deck-hit.next{{right:0;cursor:e-resize}}
+.deck-hit:focus-visible{{outline:3px solid var(--ink);outline-offset:-6px}}
+.deck-bar{{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}}
+.deck-count{{font-family:var(--font-mono,monospace);min-width:6ch;text-align:center}}
+.deck-bar .fs{{margin-left:auto}}
+.deck-frame:fullscreen{{border:0;border-radius:0;box-shadow:none;background:#000}}
+</style>
+<figure class="deck" id="slides" aria-roledescription="carousel" aria-label="Talk slides">
+<div class="deck-frame">
+<img id="deck-img" src="assets/talk/{first[0]:02d}.webp" alt="{esc(first[1])}" width="1920" height="1080">
+<button class="deck-hit prev" type="button" aria-label="Previous slide"></button>
+<button class="deck-hit next" type="button" aria-label="Next slide"></button>
+</div>
+<figcaption class="deck-bar">
+<button class="btn" type="button" data-go="-1">← Previous</button>
+<span class="deck-count" aria-live="polite">1 / {total}</span>
+<button class="btn" type="button" data-go="1">Next →</button>
+<button class="btn fs" type="button" hidden>Full screen</button>
+</figcaption>
+</figure>
+<script>
+(function(){{
+  var S={data}, i=0, img=document.getElementById('deck-img'), deck=document.getElementById('slides'),
+      frame=deck.querySelector('.deck-frame'), count=deck.querySelector('.deck-count'), fs=deck.querySelector('.fs');
+  function show(n){{
+    i=Math.max(0,Math.min(S.length-1,n));
+    img.src=S[i].src; img.alt=S[i].alt; count.textContent=(i+1)+' / '+S.length;
+    if(S[i+1]){{ new Image().src=S[i+1].src; }}
+  }}
+  deck.querySelector('.prev').onclick=function(){{show(i-1);}};
+  deck.querySelector('.next').onclick=function(){{show(i+1);}};
+  deck.querySelectorAll('[data-go]').forEach(function(b){{ b.onclick=function(){{show(i+Number(b.dataset.go));}}; }});
+  document.addEventListener('keydown',function(e){{
+    var t=e.target; if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'){{show(i+1);e.preventDefault();}}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){{show(i-1);e.preventDefault();}}
+    else if(e.key==='Home'){{show(0);}} else if(e.key==='End'){{show(S.length-1);}}
+  }});
+  var x0=null;
+  frame.addEventListener('touchstart',function(e){{x0=e.touches[0].clientX;}},{{passive:true}});
+  frame.addEventListener('touchend',function(e){{ if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40) show(i+(dx<0?1:-1)); x0=null; }});
+  if(document.fullscreenEnabled){{
+    fs.hidden=false;
+    fs.onclick=function(){{ if(document.fullscreenElement) document.exitFullscreen(); else frame.requestFullscreen(); }};
+    document.addEventListener('fullscreenchange',function(){{ fs.textContent=document.fullscreenElement?'Exit full screen':'Full screen'; }});
+  }}
+}})();
+</script>"""
+
+
 def section_page(i):
     b = BLOCKS[i]
     steps = "".join(f"<li>{esc(s)}</li>" for s in b["steps"])
@@ -311,10 +384,10 @@ def section_page(i):
 <h1>{esc(b['title'])}</h1>
 <p class="lede">{esc(b['desc'])}</p>
 {note}
-<h2>What we’ll do</h2>
-<ol class="steps">{steps}</ol>
+{f'<h2>What we’ll do</h2><ol class="steps">{steps}</ol>' if steps else ''}
 {b.get('embed', '')}
 {copilot_demo_html() if b.get('after_steps') == 'copilot_demo' else ''}
+{talk_slides_html() if b.get('after_steps') == 'talk_slides' else ''}
 {f'<h2>Materials</h2><div class="grid">{tiles}</div>' if tiles else ''}
 {pager(i)}
 </div>"""
