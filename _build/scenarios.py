@@ -10,7 +10,8 @@ from pathlib import Path
 COPILOT_URL = "https://copilot.cloud.microsoft/"
 # The shared response board (for example a Microsoft Form with no name fields).
 # Leave empty to show a placeholder on responses.html.
-BOARD_URL = ""
+BOARD_URL = "https://padlet.com/rachelope/case-studies-s025lhpyc60zqrx5r84b"
+BOARD_EMBED = "https://padlet.com/embed/s025lhpyc60zqrx5r84b"
 
 SITE_URL = "https://rshorst.github.io/ai-literacy-pd/"
 HERE = Path(__file__).resolve().parent
@@ -261,7 +262,7 @@ def case_page(i):
 <h2><span class="step">3</span>Our response</h2>
 <p>What do you think now?</p>
 {field(1)}
-<div class="tools"><button class="btn primary" type="button" data-copy="response">Copy our response</button><a class="btn" href="responses.html">Shared board</a><button class="btn" type="button" data-clear>Clear</button></div>
+<div class="tools"><button class="btn primary" type="button" data-copy="response">Copy our response</button><a class="btn" href="{BOARD_URL}" target="_blank" rel="noopener">Open the shared board ↗</a><button class="btn" type="button" data-clear>Clear</button></div>
 <p class="status" aria-live="polite"></p>
 <p class="meta">Nothing here is sent anywhere. What you type stays in this browser until you clear it. No names or student information.</p>
 </section>
@@ -310,8 +311,15 @@ def index_page():
 
 def responses_page():
     board = (f'<div class="tools"><a class="btn primary" href="{attr(BOARD_URL)}" target="_blank" rel="noopener">Open the shared board ↗</a></div>'
+             f'<div class="board"><iframe src="{attr(BOARD_EMBED)}" title="Shared board for the cases" allow="clipboard-write" loading="lazy"></iframe></div>'
              if BOARD_URL else '<div class="note"><p>The link to the board will be added here before the day.</p></div>')
-    body = f"""<div class="doc">
+    body = f"""<style>
+.board{{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:18px 0 22px}}
+.board iframe{{display:block;width:100%;height:640px;border:0}}
+@media (max-width:700px){{.board iframe{{height:480px}}}}
+.btn.primary{{background:var(--yellow)}}
+</style>
+<div class="doc wide">
 <p class="eyebrow">Classroom situations</p>
 <h1>Shared board</h1>
 <p class="lede">Where groups see each other’s thinking.</p>
@@ -319,9 +327,9 @@ def responses_page():
 <h2>Adding your group’s response</h2>
 <ol>
 <li>On your case page, fill in <strong>Our response</strong> and press <strong>Copy our response</strong>.</li>
-<li>Open the board and paste it in.</li>
+<li>Open the board and paste it under your case.</li>
 </ol>
-<p>The board collects no names and no student information. Only post the fictional case text and your group’s own ideas.</p>
+<p>Leave out names and student information. Only post the fictional case text and your group’s own ideas.</p>
 <p><a href="scenarios.html">Back to the cases</a></p>
 </div>"""
     return {"file": "responses.html", "nav": "scenarios",

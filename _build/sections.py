@@ -206,8 +206,6 @@ def copilot_demo_html():
 <ol class="demos">{items}</ol>
 <h2>Before you try it</h2>
 <ul>
-<li>Use your school Microsoft account. Notebooks, Teach and Study and Learn are in the Microsoft 365 Copilot app.</li>
-<li>Your school’s IT has to turn on Copilot Chat. For students aged 13 to 17, IT also has to enable it before they can use Study and Learn.</li>
 <li>Some notebook features, such as audio overviews, need a paid Copilot licence.</li>
 <li>Don’t add personal or student information to a notebook or a chat.</li>
 </ul>
