@@ -8,6 +8,7 @@ from scenarios import COPILOT_URL
 
 FIT_PDF = "assets/how-ai-fits-handout.pdf"
 ED_PDF = "assets/entangled-dimensions-handout.pdf"
+RETHINK_PDF = "assets/rethinking-worksheet.pdf"
 
 ED = "https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html"  # the K-12 interactive
 FUT = "https://rshorst.github.io/AI-Futures/"
@@ -96,7 +97,9 @@ DAY = [
             "Where might AI support the learning? Where might it change or bypass something important? Where may it not belong at all?",
             "Redesign one part, and name what the redesign protects.",
         ],
+        "extra": "rethink",
         "tiles": [
+            (RETHINK_PDF, "Rethinking worksheet", "Two pages for the hour: start from the learning, where AI meets the task, and one redesign."),
             ("aias.html", "AI Assessment Scale", "Which kind of task is this, and why?"),
             (FIT_PDF, "How AI fits handout", "The scale, assessing the process, and the prompts, to print."),
             ("activities.html#activity-11", "Activities for educators", "Short moves for a staff meeting or workshop."),
@@ -470,6 +473,171 @@ def threads_html():
 
 
 EXTRAS = {"configure": configure_html, "threads": threads_html}
+
+
+# ---- 12:45 "Rethinking something you already teach": a guide
+REREAD = {
+    "fppl": "https://www.fnesc.ca/first-peoples-principles-of-learning/",
+    "kdu": "https://curriculum.gov.bc.ca/curriculum/overview",
+    "dawson_talk": "https://www.timeshighereducation.com/news/ai-cheating-matters-redrawing-assessment-matters-most",
+    "dawson": "https://doi.org/10.1080/02602938.2024.2386662",
+    "corbin": "https://doi.org/10.1080/02602938.2025.2503964",
+    "sydney": "https://educational-innovation.sydney.edu.au/teaching@sydney/?p=21264",
+    "sydney_values": "https://needednowlt.substack.com/p/why-banning-ai-in-assessment-is-all",
+    "lane_critique": "https://themindfile.substack.com/p/the-off-ramp-obstructs-learning",
+    "furze_cheat": "https://leonfurze.com/2024/08/09/can-the-ai-assessment-scale-stop-students-cheating-with-ai/",
+    "teqsa": "https://www.teqsa.gov.au/about-us/news-and-events/latest-news/assessment-reform-age-artificial-intelligence",
+    "teqsa25": "https://www.teqsa.gov.au/sites/default/files/2025-09/enacting-assessment-reform-in-a-time-of-artificial-intelligence.pdf",
+    "furze_k12": "https://durham-repository.worktribe.com/output/3355831/the-ai-assessment-scale-aias-in-australian-k-12-education",
+    "beyond": "https://leonfurze.com/2026/05/25/beyond-scales-in-practice/",
+    "bc_ai": "https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/ai-in-education",
+    "kentz": "https://mikekentz.substack.com/p/a-new-assessment-design-framework",
+    "kentz_seven": "https://mikekentz.substack.com/p/the-ai-era-demands-curriculum-redesign",
+    "math9": "https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/ai-in-education/math-9-teaching-and-learning-story-exploring-ai-and-dodging-bias.pdf",
+    "bcfp12": "https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/ai-in-education/bcfp-12-teaching-and-learning-story-ethics-of-generating-ai-images-of-bc-first-peoples-and-local-indigenous-art.pdf",
+    "reuters": "https://www.thestar.com.my/tech/tech-news/2026/10/28/how-teachers-are-remaking-classrooms-for-the-ai-age",
+}
+
+TEACHER_EXAMPLES = [
+    ("Open", "Grade the chats", "Mike Kentz, Grade 9 English, United States",
+     "He assesses students’ conversations with the chatbot alongside the essay, so the thinking is visible. In one project he marked only the first seven prompts, and many students began drafting their prompts before typing them.",
+     REREAD["kentz"]),
+    ("Open", "Recreate the shape", "Mathematics 9, BC (a Ministry teaching and learning story)",
+     "The teacher made 14 geometric images with AI. In pairs, students try to recreate them, which only works when their math vocabulary is precise.",
+     REREAD["math9"]),
+    ("Keep out", "Whose images are these?", "BC First Peoples 12 (a Ministry teaching and learning story)",
+     "Students generate images of First Peoples and local Indigenous art, then judge them for stereotypes, protocol and appropriation, drawing on the First Peoples Principles of Learning.",
+     REREAD["bcfp12"]),
+    ("Protect", "Fifteen questions, five minutes", "Tristen Chang, Grade 6 humanities, San Francisco",
+     "She dropped take-home essays for short oral exams: fifteen questions on character, plot, theme and metaphor.",
+     REREAD["reuters"]),
+    ("Change the question", "Which method, and why?", "Bobson Wong, high school mathematics, New York",
+     "AI can show every step of a solution, so Wong asks students which problem-solving method they prefer and why. Practice moved from homework into class.",
+     REREAD["reuters"]),
+    ("Protect", "A month on one essay", "Rusty Shabe, middle school English, San Francisco",
+     "He found students turn to AI at home when they feel overwhelmed. So the writing happens in class: a month on one essay with his Grade 7s.",
+     REREAD["reuters"]),
+]
+
+
+def rethink_html():
+    R = REREAD
+    ex = "".join(
+        f'<a class="ex" href="{u}" target="_blank" rel="noopener"><span class="lane-tag">{esc(t)}</span>'
+        f'<h4>{esc(h)} ↗</h4><p class="who">{esc(w)}</p><p>{esc(d)}</p></a>'
+        for t, h, w, d, u in TEACHER_EXAMPLES)
+    return f"""<style>
+.rt-intro{{max-width:68ch}}
+.rt-part{{display:flex;align-items:baseline;gap:12px}}
+.rt-part .pn{{background:var(--ink);color:var(--surface);padding:0 9px}}
+.cards3{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:none;margin:14px 0 18px}}
+.cards3 > div{{background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);padding:14px 16px}}
+.cards3 h3{{margin:0 0 6px;font-size:17px;text-transform:uppercase}}
+.cards3 p{{margin:0}}
+.kdu{{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}}
+.kdu span{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--ink);padding:1px 7px}}
+.fppl{{background:#fff6cc;border:2px solid var(--ink);border-radius:4px;padding:14px 18px;max-width:68ch;margin:6px 0 10px}}
+.fppl h3{{margin:0 0 6px;font-size:15px;text-transform:uppercase}}
+.fppl ul{{margin:0;padding-left:20px}}
+.stages{{width:100%;border-collapse:collapse;background:var(--surface);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);margin:12px 0 10px}}
+.stages th,.stages td{{border-bottom:1.5px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}}
+.stages thead th{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-bottom:2px solid var(--ink);background:var(--bg)}}
+.stages tbody th{{font-family:var(--font-display);text-transform:uppercase;white-space:nowrap}}
+.stages tr:last-child th,.stages tr:last-child td{{border-bottom:0}}
+.lanes > div h3 span{{display:inline-block;width:1.4em}}
+.lanes .protect{{box-shadow:4px 4px 0 #e3585b!important}}
+.lanes .open{{box-shadow:4px 4px 0 #59a34f!important}}
+.lanes .out{{box-shadow:4px 4px 0 #507aa9!important}}
+.guides{{max-width:72ch}}
+.guides li{{margin:8px 0}}
+.redesign{{list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:none;margin:12px 0 14px}}
+.redesign li{{background:var(--surface);border:2px dashed var(--ink);border-radius:4px;padding:12px 14px;margin:0}}
+.redesign strong{{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:14.5px;margin-bottom:2px}}
+.examples{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:none;margin:14px 0 18px}}
+.ex{{display:block;color:inherit;text-decoration:none;background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);padding:14px 16px}}
+.ex:hover{{background:var(--hover)}}
+.ex h4{{margin:8px 0 2px;font-family:var(--font-display);font-size:16.5px;text-transform:uppercase}}
+.ex .who{{font-size:13.5px;color:var(--muted);margin:0 0 8px}}
+.ex p{{margin:0}}
+.lane-tag{{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);border:1.5px solid var(--ink);padding:1px 7px}}
+.refs li{{margin:6px 0}}
+@media (max-width:900px){{.cards3,.examples{{grid-template-columns:minmax(0,1fr)}}.redesign{{grid-template-columns:minmax(0,1fr)}}}}
+@media (max-width:640px){{.stages thead{{display:none}}.stages tr{{display:block;border-bottom:1.5px solid var(--line);padding:8px 12px}}.stages th,.stages td{{display:block;border:0;padding:2px 0}}}}
+</style>
+<p class="tools no-print"><a class="btn primary" href="{RETHINK_PDF}" download>Download the worksheet (PDF)</a></p>
+
+<h2 id="learning" class="rt-part"><span class="pn">1</span>Start from the learning</h2>
+<p class="rt-intro">Pick one task you already teach. Before AI comes up at all, answer three questions about it.</p>
+<div class="cards3">
+<div><h3>What is it for?</h3><p>What should students understand, be able to do, and know by the end? Name it in the curriculum’s terms.</p><p class="kdu"><span>Understand · Big Ideas</span><span>Do · Competencies</span><span>Know · Content</span></p></div>
+<div><h3>What must they do themselves?</h3><p>Find the part of the work where the learning happens. It is often the hard part: searching for words, the wrong turn, the second draft.</p></div>
+<div><h3>What would convince you?</h3><p>A finished product is one kind of evidence. Conversations and observations are the others. Which do you rely on now?</p></div>
+</div>
+<div class="fppl"><h3>Hold alongside: the First Peoples Principles of Learning</h3>
+<ul>
+<li>Learning takes patience and time.</li>
+<li>Learning serves more than the learner: family, community, the land, the spirits and the ancestors.</li>
+<li>Learning recognizes that “some knowledge is sacred and only shared with permission and/or in certain situations.”</li>
+</ul>
+<p class="meta"><a href="{R['fppl']}" target="_blank" rel="noopener">The full principles, from FNESC ↗</a></p></div>
+
+<h2 id="stages" class="rt-part"><span class="pn">2</span>Where does AI meet this task?</h2>
+<p class="rt-intro">Walk through the task stage by stage. At each one: what happens now, and what could a chatbot do here?</p>
+<table class="stages">
+<thead><tr><th scope="col">Stage</th><th scope="col">For example</th><th scope="col">What could AI do here?</th></tr></thead>
+<tbody>
+<tr><th scope="row">Plan</th><td>Choosing a topic, asking questions, making an outline</td><td>Suggest topics, list questions, write the outline</td></tr>
+<tr><th scope="row">Make</th><td>Drafting, solving, building, rehearsing</td><td>Write the draft, show every step, make the image</td></tr>
+<tr><th scope="row">Revise</th><td>Feedback, fixing, choosing what to change</td><td>Give feedback, rewrite, polish the voice away</td></tr>
+<tr><th scope="row">Show</th><td>What students hand in, say or perform</td><td>Produce the whole product, or nothing</td></tr>
+</tbody>
+</table>
+
+<h2 id="choose" class="rt-part"><span class="pn">3</span>Protect, open, or keep out</h2>
+<p class="rt-intro">Decide stage by stage, not for the whole task at once.</p>
+<div class="cards3 lanes">
+<div class="protect"><h3>Protect</h3><p>Students need to show this on their own. Move it where AI can’t reach: in class, on paper, out loud. It costs time, and some students pay more for it (nerves, an IEP, another first language).</p></div>
+<div class="open"><h3>Open</h3><p>AI is part of the work. Assess what the student does with it: the choices, the checking, what they refused. Never require it. Not every student has the device, the connection or the wish.</p></div>
+<div class="out"><h3>Keep out</h3><p>Not because of cheating. Some things aren’t for these tools: other people’s stories, community knowledge, private information, relationships the task is meant to build.</p></div>
+</div>
+<h3>Guidelines</h3>
+<ol class="guides">
+<li><strong>Validity before cheating.</strong> Ask what the task lets you say about a student’s learning. As Phillip Dawson puts it, <a href="{R['dawson_talk']}" target="_blank" rel="noopener">“assessing what we mean to assess is the thing that matters the most”</a>.</li>
+<li><strong>Change the structure, not just the rule.</strong> A label telling students which AI use is allowed only works if they read it and follow it. A change to the task itself works either way (<a href="{R['corbin']}" target="_blank" rel="noopener">Corbin, Dawson &amp; Liu, 2025</a>).</li>
+<li><strong>Protect selectively, open on purpose.</strong> In the University of Sydney’s <a href="{R['sydney']}" target="_blank" rel="noopener">two-lane approach</a>, secure tasks check what students can do alone and open tasks are for learning, including learning about AI. Critics say it is <a href="{R['sydney_values']}" target="_blank" rel="noopener">too binary</a>, and that secure tasks can <a href="{R['lane_critique']}" target="_blank" rel="noopener">undo gains in equity</a>.</li>
+<li><strong>A scale is vocabulary, not security.</strong> Its own authors say no framework can stop dishonest use (<a href="{R['furze_cheat']}" target="_blank" rel="noopener">Furze, 2024</a>). Use it to talk with students about the task.</li>
+<li><strong>Evidence is for a conversation, not a trap.</strong> Detectors aren’t reliable, and chat logs and drafts can turn into surveillance. Ask students to explain their choices.</li>
+<li><strong>Name what it costs.</strong> Every redesign costs something: time, a student who struggles under the new format, a relationship. Say who pays.</li>
+</ol>
+
+<h2 id="redesign" class="rt-part"><span class="pn">4</span>Redesign one piece</h2>
+<p class="rt-intro">Choose one stage and change the task itself, not only its instructions.</p>
+<ul class="redesign">
+<li><strong>The change</strong>What will students do differently?</li>
+<li><strong>What it protects</strong>Which learning does this keep with the student?</li>
+<li><strong>What it costs</strong>Time, equity, relationships. Who pays?</li>
+<li><strong>How you’ll know</strong>What evidence will you collect: product, conversation, observation?</li>
+</ul>
+
+<h2 id="examples">Examples from teachers</h2>
+<p class="rt-intro">Six teachers who changed a task, not just a rule.</p>
+<div class="examples">{ex}</div>
+
+<h2 id="resources">Rethinking assessment: where to read more</h2>
+<ul class="refs meta">
+<li>TEQSA (2023). <a href="{R['teqsa']}">Assessment reform for the age of artificial intelligence</a>. Two principles and five propositions, written by assessment researchers. The follow-up, <a href="{R['teqsa25']}">Enacting assessment reform in a time of artificial intelligence</a> (2025), weighs the options.</li>
+<li>Dawson, P., Bearman, M., Dollinger, M., &amp; Boud, D. (2024). <a href="{R['dawson']}">Validity matters more than cheating</a>. <em>Assessment &amp; Evaluation in Higher Education, 49</em>(7).</li>
+<li>Corbin, T., Dawson, P., &amp; Liu, D. (2025). <a href="{R['corbin']}">Talk is cheap: Why structural assessment changes are needed for a time of GenAI</a>. <em>Assessment &amp; Evaluation in Higher Education</em>.</li>
+<li>University of Sydney. <a href="{R['sydney']}">The two-lane approach to assessment</a>. With Liu and Bridgeman’s <a href="{R['sydney_values']}">case for it</a> and <a href="{R['lane_critique']}">a critique</a>.</li>
+<li>Furze, L., &amp; Roe, J. (2024). <a href="{R['furze_k12']}">The AI Assessment Scale (AIAS) in Australian K-12 education</a>. <em>Teachers’ Frontiers, 1</em>(1). And Furze (2026), <a href="{R['beyond']}">Beyond scales: in practice</a>, with school adaptations including Saskatoon Public Schools.</li>
+<li>BC Ministry of Education and Child Care. <a href="{R['bc_ai']}">Digital literacy and the use of AI in education</a>. Teaching and learning stories from BC classrooms, Grade 3 to 12.</li>
+<li>Kentz, M. <a href="{R['kentz']}">Stop grading essays, start grading chats</a>, and <a href="{R['kentz_seven']}">stories from the frontlines of change</a>.</li>
+<li>Coster, H. (2026, October 28). <a href="{R['reuters']}">How teachers are remaking classrooms for the AI age</a>. Reuters.</li>
+<li>First Nations Education Steering Committee. <a href="{R['fppl']}">First Peoples Principles of Learning</a>. And the BC curriculum’s <a href="{R['kdu']}">Know-Do-Understand model</a>.</li>
+</ul>"""
+
+
+EXTRAS["rethink"] = rethink_html
 
 
 # ---- 9:15 talk slides: slides 6 to 23 of the deck, rendered to assets/talk/NN.webp ----
