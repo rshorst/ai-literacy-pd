@@ -210,7 +210,7 @@ def header(current, file=None):
     tabs = f'<li><a href="index.html"{" aria-current=\"page\"" if file == "index.html" else ""}>The day</a></li>'
     tabs += "".join(
         f'<li><a href="{b["file"]}"{" aria-current=\"page\"" if b["file"] == here else ""}>{b["tab"]}</a></li>'
-        for b in BLOCKS if b["file"] not in ("rethinking.html",)
+        for b in BLOCKS
     )
     return (
         '<a class="skip" href="#main">Skip to content</a>'

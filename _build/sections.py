@@ -91,7 +91,7 @@ DAY = [
     {
         "file": "rethinking.html", "tab": "Rethinking", "start": "12:45", "end": "1:45", "title": "Rethinking something you already teach",
         "desc": "Bring a lesson, activity, assignment, or unit you already teach. We use what we have explored so far to reconsider where AI might support the learning, where it might change or bypass something important, and where it may not belong at all.",
-        "chips": [("activities.html#activity-11", "Activities for educators"), ("readings.html", "Readings on assessment")],
+        "chips": [("readings.html", "Readings on assessment")],
         "steps": [
             "Bring a lesson, activity, assignment or unit you already teach.",
             "Where might AI support the learning? Where might it change or bypass something important? Where may it not belong at all?",
@@ -102,7 +102,6 @@ DAY = [
             (RETHINK_PDF, "Rethinking worksheet", "Two pages for the hour: start from the learning, where AI meets the task, and one redesign."),
             ("aias.html", "AI Assessment Scale", "Which kind of task is this, and why?"),
             (FIT_PDF, "How AI fits handout", "The scale, assessing the process, and the prompts, to print."),
-            ("activities.html#activity-11", "Activities for educators", "Short moves for a staff meeting or workshop."),
             ("readings.html", "Readings on assessment", "Research and practice to draw on."),
         ],
     },
