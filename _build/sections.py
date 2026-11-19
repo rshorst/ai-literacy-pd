@@ -6,7 +6,7 @@ Edit a block here and rebuild. Each block has the plan's description (word for w
 import html
 from scenarios import COPILOT_URL
 
-ED = "https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N"  # interactive Entangled Dimensions
+ED = "https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html"  # the K-12 interactive
 FUT = "https://rshorst.github.io/AI-Futures/"
 PADLET = "https://padlet.com/embed/s025k2ljostv9t2zbjfr"
 QD = "https://quickdraw.withgoogle.com/"
@@ -110,14 +110,15 @@ DAY = [
     {
         "file": "bigger-picture.html", "tab": "Bigger picture", "start": "1:45", "end": "2:15", "title": "Looking at the bigger picture",
         "desc": "We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.",
-        "chips": [("frameworks.html", "Frameworks"), ("map.html#o-k-rec", "Other kinds of AI")],
+        "chips": [(ED, "Entangled Dimensions")],
         "steps": [
             "A short introduction to the Entangled Dimensions of AI Literacy.",
             "Explore the framework yourselves.",
             "Use it to look at a classroom example, question or concern from another angle.",
         ],
-        "embed": f'<a class="launch" href="{ED}" target="_blank" rel="noopener"><span class="big">Open the Entangled Dimensions ↗</span><span class="small">The interactive framework, with a classroom activity for each dimension.</span></a>',
-        "tiles": [
+        "embed": f'<div class="board ed"><iframe src="{ED}" title="Entangled Dimensions of AI Literacy: in the classroom" loading="lazy"></iframe></div><p class="meta"><a href="{ED}" target="_blank" rel="noopener">Open it in its own tab ↗</a></p>',
+        "tiles": [],
+        "old_tiles": [
             ("frameworks.html", "Frameworks", "The frameworks behind the day."),
             ("map.html#o-k-rec", "Other kinds of AI", "The systems around us that are not chatbots."),
         ],
@@ -288,6 +289,9 @@ CSS = """<style>
 .board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:16px 0 22px}
 .board iframe{display:block;width:100%;height:560px;border:0}
 @media (max-width:700px){.board iframe{height:440px}}
+.board.ed{background:#fff}
+.board.ed iframe{height:1100px}
+@media (max-width:700px){.board.ed iframe{height:900px}}
 .pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;border-top:2px solid var(--ink);padding-top:14px;max-width:none}
 .pager a{text-decoration:none;font-weight:700;color:var(--ink);max-width:46%}
 .pager a:last-child{text-align:right;margin-left:auto}
@@ -311,8 +315,7 @@ def section_page(i):
 <ol class="steps">{steps}</ol>
 {b.get('embed', '')}
 {copilot_demo_html() if b.get('after_steps') == 'copilot_demo' else ''}
-<h2>Materials</h2>
-<div class="grid">{tiles}</div>
+{f'<h2>Materials</h2><div class="grid">{tiles}</div>' if tiles else ''}
 {pager(i)}
 </div>"""
     return {"file": b["file"], "nav": "home",

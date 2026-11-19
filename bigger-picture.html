@@ -203,6 +203,9 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .board{border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f4f4f4;overflow:hidden;margin:16px 0 22px}
 .board iframe{display:block;width:100%;height:560px;border:0}
 @media (max-width:700px){.board iframe{height:440px}}
+.board.ed{background:#fff}
+.board.ed iframe{height:1100px}
+@media (max-width:700px){.board.ed iframe{height:900px}}
 .pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;border-top:2px solid var(--ink);padding-top:14px;max-width:none}
 .pager a{text-decoration:none;font-weight:700;color:var(--ink);max-width:46%}
 .pager a:last-child{text-align:right;margin-left:auto}
@@ -215,10 +218,9 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 
 <h2>What we’ll do</h2>
 <ol class="steps"><li>A short introduction to the Entangled Dimensions of AI Literacy.</li><li>Explore the framework yourselves.</li><li>Use it to look at a classroom example, question or concern from another angle.</li></ol>
-<a class="launch" href="https://claude.ai/artifact/WSF2rJt3rngbyucXuhWF9N" target="_blank" rel="noopener"><span class="big">Open the Entangled Dimensions ↗</span><span class="small">The interactive framework, with a classroom activity for each dimension.</span></a>
+<div class="board ed"><iframe src="https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html" title="Entangled Dimensions of AI Literacy: in the classroom" loading="lazy"></iframe></div><p class="meta"><a href="https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html" target="_blank" rel="noopener">Open it in its own tab ↗</a></p>
 
-<h2>Materials</h2>
-<div class="grid"><a class="tile" href="frameworks.html"><h3>Frameworks</h3><p>The frameworks behind the day.</p></a><a class="tile" href="map.html#o-k-rec"><h3>Other kinds of AI</h3><p>The systems around us that are not chatbots.</p></a></div>
+
 <nav class="pager" aria-label="The day"><a href="rethinking.html"><small>← 12:45</small>Rethinking something you already teach</a><a href="collective.html"><small>2:25 →</small>From classroom choices to collective decisions</a></nav>
 </div>
 </main>
