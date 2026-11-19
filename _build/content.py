@@ -4,7 +4,7 @@ import html
 SITE = {
     "name": "Teaching with, about, and without AI",
     "byline": "A professional learning day · Rachel Horst",
-    "credit": '© 2026 Rachel Horst, University of British Columbia. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.',
+    "credit": '© 2026 Rachel Horst. Shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.',
     "updated": "Updated November 2026",
     "repo": "https://github.com/rshorst/ai-literacy-pd",
     "url": "https://rshorst.github.io/ai-literacy-pd/",
@@ -128,7 +128,7 @@ HOME = f"""
 <p>Every page works on its own: open it, save it from your browser, and it runs without an internet connection. To keep the whole site with its links and images, <a href="{ZIP}">download it as a zip</a>, unzip it, and open <code>index.html</code>. The cards, activities and handouts also print cleanly.</p>
 
 <h2>Contact</h2>
-<p class="contact">Rachel Horst, PhD<br>University of British Columbia<br>rachel.horst@ubc.ca</p>
+<p class="contact">Rachel Horst, PhD<br>rachel.horst@ubc.ca</p>
 </div>
 """
 

@@ -370,7 +370,7 @@ def configure_html():
 <h3 class="cfg-part"><span class="pn">3</span>Test it <em>the student checks</em></h3>
 <p class="cfg-intro">Does it keep to your rules after five turns? What happens when you ask it to break one? Open a new chat: what’s left? <strong>What did writing the rules show you about how you learn?</strong></p>
 <p><strong>Use fictional material only, and leave out student information.</strong></p>
-<p class="meta">Prompts by Rachel Horst, UBC, drawing on Mollick &amp; Mollick (2023). CC BY 4.0.</p>
+<p class="meta">Prompts by Rachel Horst, drawing on Mollick &amp; Mollick (2023). CC BY 4.0.</p>
 <script>
 (function(){{
   var KEY='aipd-configure', saved={{}};
