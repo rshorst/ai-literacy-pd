@@ -57,7 +57,7 @@ img{max-width:100%}
 .site-nav a[aria-current="page"]{background:var(--yellow);font-weight:700;clip-path:polygon(0 8%,4% 0,96% 4%,100% 0,100% 92%,95% 100%,4% 96%,0 100%)}
 .day-nav{border-top:1px solid var(--line);background:rgba(244,239,228,.95)}
 .day-nav ul{max-width:1240px;margin:0 auto;padding:6px 20px 7px;display:flex;gap:4px;list-style:none;overflow-x:auto;scrollbar-width:thin}
-.day-nav a{display:block;padding:5px 11px 6px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:14px;font-weight:600;white-space:nowrap;line-height:1.15}
+.day-nav a{display:block;padding:7px 11px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:14px;font-weight:600;white-space:nowrap;line-height:1.15}
 .day-nav a time{display:block;font-family:var(--font-mono);font-weight:500;font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
 .day-nav a:hover{background:var(--hover)}
 .day-nav a[aria-current="page"]{background:var(--yellow);clip-path:polygon(0 8%,4% 0,96% 4%,100% 0,100% 92%,95% 100%,4% 96%,0 100%)}
@@ -207,9 +207,9 @@ def header(current, file=None):
         for key, label, href in NAV if key not in ("home", "scenarios")
     )
     here = block_of(file) if file else None
-    tabs = f'<li><a href="index.html"{" aria-current=\"page\"" if file == "index.html" else ""}><time>Overview</time>The day</a></li>'
+    tabs = f'<li><a href="index.html"{" aria-current=\"page\"" if file == "index.html" else ""}>The day</a></li>'
     tabs += "".join(
-        f'<li><a href="{b["file"]}"{" aria-current=\"page\"" if b["file"] == here else ""}><time>{b["start"]}</time>{b["tab"]}</a></li>'
+        f'<li><a href="{b["file"]}"{" aria-current=\"page\"" if b["file"] == here else ""}>{b["tab"]}</a></li>'
         for b in BLOCKS
     )
     return (
