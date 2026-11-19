@@ -53,7 +53,7 @@ HOME = f"""
 <div class="hero-meta"><div>
 <p class="byline"><span class="tape teal">with Dr. Rachel Horst</span></p>
 <p class="kicker">A professional learning day for K-12 educators</p>
-<p class="when">Friday 20 November 2026 · 9:00 to 3:00</p>
+<p class="when">Friday 20 November 2026 · 8:30 to 3:30</p>
 </div>
 <figure class="access"><img src="assets/qr-materials.png" alt="QR code for bit.ly/ai-literacy-pd" width="132" height="132"><figcaption>Scan for the materials<br><a href="https://bit.ly/ai-literacy-pd">bit.ly/ai-literacy-pd</a></figcaption></figure></div>
 </div>
@@ -687,7 +687,7 @@ METAPHOR_PAGE = f"""
 .btn.primary{{background:var(--yellow)}}
 </style>
 <div class="doc wide">
-<p class="eyebrow">9:00 · Welcome</p>
+<p class="eyebrow">8:30 · Welcome</p>
 <h1>My AI Metaphor</h1>
 <p class="lede">What is your AI metaphor, and what emotion or feeling do you associate with it? Add it to the board and place it where it sits for you: personal or collective, opening possibilities or raising concerns.</p>
 <div class="tools"><a class="btn primary" href="{PADLET}" target="_blank" rel="noopener">Open the board ↗</a><a class="btn" href="assets/my-ai-metaphor-paper.pdf">Paper version (PDF)</a></div>
@@ -714,7 +714,7 @@ QUICKDRAW_PAGE = f"""
 .sources li{{margin-bottom:4px}}
 </style>
 <div class="doc">
-<p class="eyebrow">9:00 · Welcome</p>
+<p class="eyebrow">8:30 · Welcome</p>
 <h1>Quick, Draw!</h1>
 <p class="lede">You get a word and 20 seconds to draw it. While you draw, a neural network guesses what it is.</p>
 <a class="launch" href="{QD}" target="_blank" rel="noopener"><span class="big">Play Quick, Draw! ↗</span><span class="small">Opens in a new tab. Google doesn't let the game run inside other sites.</span></a>
@@ -790,7 +790,7 @@ AIAS_PAGE = f"""
 }}
 </style>
 <div class="doc wide">
-<p class="eyebrow"><a href="fit.html">11:25 · How should AI fit into classroom work?</a></p>
+<p class="eyebrow"><a href="fit.html">11:15 · How should AI fit into classroom work?</a></p>
 <h1>What kind of task is this?</h1>
 <p class="lede">The <a href="{AIAS}" target="_blank" rel="noopener">AI Assessment Scale</a>, first introduced by <a href="https://leonfurze.com/" target="_blank" rel="noopener">Leon Furze</a> in 2023 and developed with Mike Perkins, Jasper Roe and Jason MacVaugh, names five kinds of task, not five levels of permission. No level is better than another.</p>
 <div class="tools no-print"><a class="btn" href="assets/how-ai-fits-handout.pdf" download>Download the handout (PDF)</a><a class="btn" href="{AIAS}" target="_blank" rel="noopener">The AI Assessment Scale site ↗</a></div>
@@ -857,7 +857,7 @@ TALK_PAGE = f"""
 .slides.empty p{{font-family:var(--font-mono);font-size:14px;letter-spacing:.06em;color:var(--muted);margin:0}}
 </style>
 <div class="doc wide">
-<p class="eyebrow">9:15 · Talk slides</p>
+<p class="eyebrow">8:50 · Talk slides</p>
 <h1>What are these strange systems, anyway?</h1>
 <p class="lede">A plain-language introduction to how generative AI systems compose outputs, and the minimum technical background we need to make informed decisions about them. Then we experiment and see what happens.</p>
 {_slides}
