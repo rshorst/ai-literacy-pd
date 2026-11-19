@@ -550,6 +550,96 @@ ESSAY_ROWS = [
 ]
 
 
+LESSONS_SECONDARY = [
+    ("Break the Fake: Verifying information online", "Grades 6 to 9 · Digital literacy · MediaSmarts",
+     "https://mediasmarts.ca/teacher-resources/break-fake-lesson-plan-verifying-information-online",
+     "Four quick steps for checking information online, practised on real examples, then a media piece students make.",
+     "Adapt it for AI-generated misinformation without losing the original fact-checking steps."),
+    ("What is Poetry? Contrasting Poetry and Prose", "Grades 6 to 8 · English · ReadWriteThink",
+     "https://readwritethink.org/classroom-resources/lesson-plans/what-poetry-contrasting-poetry",
+     "Tennyson’s “The Eagle” beside an informational article about eagles, read closely and discussed in groups.",
+     "Ask for reading supports that keep both texts, and the differences between them, intact."),
+    ("Perspective drawing, slope and equations of lines", "Grades 7 to 11 · Math and art · Art Canada Institute",
+     "https://aci-iac.ca/education/teacher-resource-guides/perspective-drawing-slope-and-equations-of-lines-through-the-art-of-kazuo-nakamura",
+     "The paintings of Kazuo Nakamura as a way into one- and two-point perspective, slope and the equations of lines.",
+     "Ask it to explain slope through the artwork, then find the visual and mathematical reasoning it misses."),
+    ("Understanding Ocean and Coastal Acidification", "Grades 9 to 12 · Science · NOAA Data in the Classroom",
+     "https://dataintheclassroom.noaa.gov/content/ocean-acidification",
+     "A five-level module on carbon dioxide, ocean pH and marine life, built on real NOAA data. Updated in 2025.",
+     "Turn one level into a 50-minute lesson, then check whether it reads the graphs and claims correctly."),
+    ("Primary sources relating to Canadians of Chinese ancestry", "Grades 5 to 10 · History · Canada’s History, Flora Fung",
+     "https://www.canadashistory.ca/getmedia/e111c303-b817-45ba-b20d-b7010c14f9d5/EduLesBeyondGoldMountainEduGuideEN.pdf",
+     "Photographs, letters and documents analysed and built into a concept map. Some sources contain racist language and images; the guide explains how to handle them.",
+     "Ask for evidence-based questions, then separate what a source shows from what the model infers."),
+    ("(re)Mapping Place", "Grades 7 to 12 · Art, geography, Indigenous studies · Ottawa Art Gallery, Barry Ace",
+     "https://oaggao.ca/learn/educational-programs-and-resources/contemporary-indigenous-artists-in-the-classroom/",
+     "Anishinaabe artist Barry Ace’s lesson on maps as colonial authority, with students making their own mapping of place.",
+     "Ask it to adapt the lesson for your place. Does it invent teachings, flatten the artist’s intent, or assume knowledge it doesn’t have?"),
+]
+
+LESSONS_PRIMARY = [
+    ("Seasonal changes through the art of Maud Lewis", "Grades 1 to 3 · Art, language arts, science · Art Canada Institute",
+     "https://aci-iac.ca/education/teacher-resource-guides/seasonal-changes-through-the-art-of-maud-lewis",
+     "Maud Lewis’s paintings as a way into how the seasons change, ending in a class mural."),
+    ("Watering Your Plants", "Grades K to 4 · Science and engineering · NASA",
+     "https://www.nasa.gov/stem-content/lesson-4-watering-your-plants/",
+     "Students look at how watering systems work, then design one for plants growing on the moon."),
+    ("To the Number Line", "Grade 3 · Math · Illustrative Mathematics",
+     "https://curriculum.illustrativemathematics.org/k5/teachers/grade-3/unit-5/lesson-5/preparation.html",
+     "From fraction strips to placing fractions on a number line."),
+]
+
+LESSON_PROMPT = """Using the uploaded lesson and accompanying student materials:
+1. Identify what students are actually expected to learn and do.
+2. Identify the parts of the lesson that require direct experience, interpretation, discussion, or productive struggle.
+3. Propose one meaningful adaptation for a mixed-ability classroom.
+4. Explain what your adaptation changes about the original learning experience.
+5. Refer to the source documents and flag anything you cannot verify.
+Do not replace the original learning task simply because you can generate a faster alternative."""
+
+
+def lessons_html():
+    sec = "".join(
+        f'<li><a href="{u}" target="_blank" rel="noopener">{esc(t)} ↗</a><span class="lmeta">{esc(m)}</span>'
+        f'<span>{esc(d)}</span><span class="try"><b>Try in Copilot:</b> {esc(c)}</span></li>'
+        for t, m, u, d, c in LESSONS_SECONDARY)
+    pri = "".join(
+        f'<li><a href="{u}" target="_blank" rel="noopener">{esc(t)} ↗</a><span class="lmeta">{esc(m)}</span><span>{esc(d)}</span></li>'
+        for t, m, u, d in LESSONS_PRIMARY)
+    return f"""<style>
+.lessons{{list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:none;margin:10px 0 18px}}
+.lessons li{{background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);padding:12px 14px;margin:0;display:flex;flex-direction:column;gap:4px}}
+.lessons a{{font-family:var(--font-display);font-weight:800;font-size:15.5px;line-height:1.25}}
+.lessons .lmeta{{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}}
+.lessons .try{{font-size:14px;color:var(--muted);margin-top:2px}}
+.lprompt{{background:var(--surface);border:2px dashed var(--ink);border-radius:4px;padding:12px 16px;max-width:72ch;margin:8px 0 6px}}
+.lprompt pre{{white-space:pre-wrap;font-family:var(--font-body);font-size:15px;margin:0 0 10px}}
+.lprompt .ok{{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);margin-left:10px}}
+@media (max-width:760px){{.lessons{{grid-template-columns:minmax(0,1fr)}}}}
+</style>
+<h2 id="lessons">Or start from a real lesson</h2>
+<p class="rt">No task to hand? Pick a lesson an educator or organization has published, open its materials, and work it through the worksheet. Each one comes with what students actually use: readings, sources, artwork or data.</p>
+<h3>Grades 6 to 12</h3>
+<ul class="lessons">{sec}</ul>
+<h3>Younger students</h3>
+<ul class="lessons">{pri}</ul>
+<h3>A prompt for any of them</h3>
+<p class="rt">Upload the lesson to Copilot, or paste in its text, then use this. The point is not a new lesson. It is to see what happens when a machine interprets work a teacher has already made with care.</p>
+<div class="lprompt"><pre id="lesson-prompt">{esc(LESSON_PROMPT)}</pre><button class="btn primary" type="button" id="copy-lesson-prompt">Copy prompt</button><span class="ok" aria-live="polite"></span></div>
+<p class="rt meta">Publicly downloadable doesn’t mean openly licensed for uploading to an AI service. Check the materials’ terms, and what your school’s Copilot agreement covers, before you upload someone else’s text or artwork.</p>
+<script>
+(function(){{
+  var b=document.getElementById('copy-lesson-prompt'); if(!b) return;
+  b.addEventListener('click',function(){{
+    var text=document.getElementById('lesson-prompt').textContent, ok=b.nextElementSibling;
+    function done(){{ ok.textContent='Copied. Paste it into Copilot.'; setTimeout(function(){{ ok.textContent=''; }},4000); }}
+    function fallback(){{ var t=document.createElement('textarea'); t.value=text; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); try{{ document.execCommand('copy'); done(); }}catch(e){{}} t.remove(); }}
+    if(navigator.clipboard && window.isSecureContext){{ navigator.clipboard.writeText(text).then(done,fallback); }} else fallback();
+  }});
+}})();
+</script>"""
+
+
 def rethink_html():
     R = REREAD
     rows = "".join(
@@ -591,6 +681,8 @@ def rethink_html():
 <p class="rt">Bring the thread you chose at the end of the last block, and keep the <a href="bigger-picture.html#threads">ten threads</a> and the <a href="{ED}" target="_blank" rel="noopener">Entangled Dimensions</a> close by as you work.</p>
 <p class="rt">Write a task you already teach in the middle of the worksheet. Around it, name the standards it could be assessing, and circle the one you actually mean. Then redesign the assessment for two or three of them: what students could do instead, and how they could use AI without it doing the learning. Last question: is there any part AI should stay out of, and why?</p>
 <p class="rt">The First Peoples Principles of Learning are a good check here. Learning takes patience and time, and it serves more than the learner. Some knowledge, in FNESC’s words, is “sacred and only shared with permission and/or in certain situations.” (<a href="{R['fppl']}" target="_blank" rel="noopener">the full principles ↗</a>)</p>
+
+{lessons_html()}
 
 <h2 id="stories">Teachers who changed the task</h2>
 <ul class="stories rt">{stories}</ul>
