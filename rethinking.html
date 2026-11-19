@@ -226,6 +226,16 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .essay tbody th small{display:block;margin-top:3px;font-family:var(--font-body);font-size:13px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);line-height:1.35}.essay tbody th{font-family:var(--font-body);text-transform:none;letter-spacing:0}
 .essay .n{display:inline-block;background:var(--ink);color:var(--surface);font-family:var(--font-display);font-weight:800;font-size:12px;padding:0 6px;margin-bottom:4px}
 .essay tr:last-child th,.essay tr:last-child td{border-bottom:0}
+.prio{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:none;margin:14px 0 14px}
+.prio > div{position:relative;background:#fffdf7;border:1.5px solid var(--line);border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.12);padding:18px 16px 16px}
+.prio > div::before{content:"";position:absolute;top:-9px;left:28px;width:84px;height:18px;background:rgba(214,205,187,.85);transform:rotate(-2deg)}
+.prio .pn{display:inline-block;background:var(--yellow);font-family:var(--font-display);font-weight:900;font-size:15px;padding:0 7px;margin-bottom:6px}
+.prio h3{margin:0 0 4px;font-size:20px;text-transform:uppercase}
+.prio .kw{margin:0 0 6px;font-weight:700}
+.prio p{margin:0}
+.prio-line{font-size:18px;margin-top:4px}
+@media (max-width:900px){.prio{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.prio{grid-template-columns:minmax(0,1fr)}}
 .teacher-idea{background:var(--yellow);border:2px solid var(--ink);border-radius:4px;padding:12px 16px;max-width:none;margin:0 0 10px}
 .teacher-idea b{font-family:var(--font-display);text-transform:uppercase}
 .stories li{margin:8px 0}
@@ -235,6 +245,17 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 .essay td:nth-of-type(1)::before{content:"Instead of the essay: ";font-weight:700}.essay td:nth-of-type(2)::before{content:"Bringing AI in: ";font-weight:700}}
 </style>
 <p class="tools no-print"><a class="btn primary" href="assets/one-essay-many-outcomes.pdf" download>The essay example (PDF)</a><a class="btn" href="assets/what-is-your-task-assessing.pdf" download>Your worksheet (PDF)</a></p>
+
+<h2 id="priorities">Four priorities</h2>
+<p class="rt">Keep these in view as you rethink a task.</p>
+<div class="prio">
+<div><span class="pn">1</span><h3>Learning</h3><p class="kw">Experience, patience, time</p><p>What do we need to experience and practise to learn?</p></div>
+<div><span class="pn">2</span><h3>Knowing</h3><p class="kw">Memory, history, story</p><p>Whose knowledge matters, and who has permission to share it?</p></div>
+<div><span class="pn">3</span><h3>Creating</h3><p class="kw">Exploration, identity, responsibility</p><p>What do we discover about ourselves through making?</p></div>
+<div><span class="pn">4</span><h3>Relating</h3><p class="kw">Reciprocity, connection, place</p><p>How do our relationships make learning possible?</p></div>
+</div>
+<p class="rt prio-line">An answer can be correct and still wrong for this class, this purpose or this community.</p>
+<p class="meta">In conversation with the <a href="https://www.fnesc.ca/first-peoples-principles-of-learning/" target="_blank" rel="noopener">First Peoples Principles of Learning</a> (FNESC).</p>
 
 <h2 id="essay">What is this essay assessing?</h2>
 <p class="rt">Take an ordinary task: a Grade 9 essay arguing a position on a local issue. It could be assessing any of the standards below, from BC’s English Language Arts 9 curriculum. Once you name the one you mean, the assessment changes, and so does the place AI might have in it.</p>
