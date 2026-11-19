@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How should AI fit into classroom work? · Teaching with, about, and without AI</title>
-<meta name="description" content="A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.">
+<meta name="description" content="A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we try configuring a chatbot to support learning without doing the thinking.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root:not(#_){--bg:#f4efe4;--surface:#fffcf5;--ink:#141414;--muted:#55514b;--line:#d6cdbb;--accent:#1d5bd8;--hover:#efe7d6;
@@ -178,7 +178,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">Teaching with, about, and without AI<small>A professional learning day · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Resources"><ul><li><a href="map.html">AI map</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="activities.html">Activities</a></li><li><a href="frameworks.html">Frameworks</a></li><li><a href="readings.html">Readings</a></li></ul></nav></div><nav class="day-nav" aria-label="The day"><ul><li><a href="index.html">The day</a></li><li><a href="welcome.html">Welcome</a></li><li><a href="systems.html">Strange systems</a></li><li><a href="scenarios.html">Classroom situations</a></li><li><a href="copilot.html">Copilot</a></li><li><a href="fit.html" aria-current="page">How AI fits</a></li><li><a href="rethinking.html">Rethinking</a></li><li><a href="bigger-picture.html">Bigger picture</a></li><li><a href="collective.html">Collective decisions</a></li><li><a href="close.html">Close</a></li></ul></nav></header>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">Teaching with, about, and without AI<small>A professional learning day · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Resources"><ul><li><a href="map.html">AI map</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="frameworks.html">Frameworks</a></li><li><a href="readings.html">Readings</a></li></ul></nav></div><nav class="day-nav" aria-label="The day"><ul><li><a href="index.html">The day</a></li><li><a href="welcome.html">Welcome</a></li><li><a href="systems.html">Strange systems</a></li><li><a href="scenarios.html">Classroom situations</a></li><li><a href="copilot.html">Copilot</a></li><li><a href="fit.html" aria-current="page">How AI fits</a></li><li><a href="bigger-picture.html">Bigger picture</a></li><li><a href="collective.html">Collective decisions</a></li><li><a href="close.html">Close</a></li></ul></nav></header>
 <main id="main">
 <style>
 .steps{counter-reset:st;list-style:none;padding:0!important;margin:16px 0 8px;max-width:68ch}
@@ -214,13 +214,84 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <div class="doc wide">
 <p class="eyebrow"><a href="index.html">The day</a> · 11:25 to 11:55</p>
 <h1>How should AI fit into classroom work?</h1>
-<p class="lede">A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.</p>
+<p class="lede">A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we try configuring a chatbot to support learning without doing the thinking.</p>
 
-<h2>What we’ll do</h2><ol class="steps"><li>Several approaches, from blanket rules to frameworks such as the AI Assessment Scale.</li><li>For each: what it makes possible, what it assumes, and where it might break down in a K-12 classroom.</li><li>Use the collaborative protocol to decide about AI use in a real activity or assignment.</li></ol>
+<style>
+.cfg-intro{max-width:68ch}
+.cfg-part{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:30px 0 12px;font-size:21px;text-transform:uppercase}
+.cfg-part .pn{background:var(--ink);color:var(--surface);padding:0 9px}
+.cfg-part em{font-family:var(--font-body);font-weight:400;font-size:15.5px;font-style:italic;color:var(--muted);text-transform:none}
+.prompts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:none}
+.prompt{background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);padding:16px 18px 14px}
+.prompt.full{grid-column:1/-1}
+.prompt .ph{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px}
+.prompt h4{margin:0;font-family:var(--font-display);font-size:16px;text-transform:uppercase}
+.prompt .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;border:1.5px solid var(--ink);padding:1px 7px}
+.prompt ul{margin:12px 0 14px;padding-left:20px}
+.prompt li{margin:5px 0;line-height:1.55}
+.prompt[data-prompt=own] ul{list-style:none;padding-left:0}
+.prompt[data-prompt=own] li{display:flex;align-items:baseline;gap:10px;margin:10px 0}
+.blank{font:inherit;color:var(--ink);background:#fff6cc;border:0;border-bottom:2px solid var(--ink);border-radius:2px 2px 0 0;padding:0 5px;width:12ch;max-width:100%}
+.blank.line{flex:1;width:0;min-width:0}
+.blank::placeholder{color:#8a8274;font-style:italic}
+.blank:focus{outline:2px solid var(--accent);outline-offset:1px}
+.prompt .pa{display:flex;align-items:center;gap:12px}
+.prompt .ok{font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+@media (max-width:760px){.prompts{grid-template-columns:minmax(0,1fr)}}
+</style>
+<h2 id="configure">Configure the machine to help you learn</h2>
+<p class="cfg-intro">Using these systems well means knowing how you learn. Setting one up yourself is a way to find out. Paste instructions at the top of a new chat, in Copilot or any chatbot, and fill in the blanks.</p>
+<h3 class="cfg-part"><span class="pn">1</span>Use one as given <em>the teacher sets the conditions</em></h3>
+<div class="prompts"><div class="prompt full" data-prompt="tutor"><div class="ph"><h4>The tutor who won’t answer</h4><span class=tag>Learning</span></div><ul><li>You are my tutor for <input class="blank" id="cf-tutor-topic" type="text" placeholder="topic" aria-label="topic" autocomplete="off"> at a Grade <input class="blank" id="cf-tutor-grade" type="text" placeholder="grade" aria-label="grade" autocomplete="off"> level. Help me figure it out myself. Don’t do it for me.</li><li>Start by asking what I already know.</li><li>Ask one question at a time, then wait for my answer.</li><li>If I’m stuck, give the smallest hint that helps. Get more specific only if I’m still stuck.</li><li>If I’m wrong, don’t correct me. Ask me to explain my thinking.</li><li>If I ask for the answer, say no and give me a hint.</li><li>At the end, ask me to explain it back in my own words, then name one thing I still need to work on.</li></ul><div class="pa"><button class="btn primary copy" type="button">Copy prompt</button><span class="ok" aria-live="polite"></span></div></div><div class="prompt" data-prompt="student"><div class="ph"><h4>The student who gets it wrong</h4><span class=tag>Teaching it back</span></div><ul><li>You are a Grade <input class="blank" id="cf-student-grade" type="text" placeholder="grade" aria-label="grade" autocomplete="off"> student who has just learned <input class="blank" id="cf-student-topic" type="text" placeholder="topic" aria-label="topic" autocomplete="off"> but misunderstood part of it.</li><li>Explain it to me in a short paragraph with one example. Include one or two mistakes a real student might make. Don’t point them out.</li><li>Then I’ll teach you. Ask questions when I’m unclear, and only change your mind when I give you a good reason.</li></ul><div class="pa"><button class="btn primary copy" type="button">Copy prompt</button><span class="ok" aria-live="polite"></span></div></div><div class="prompt" data-prompt="skeptic"><div class="ph"><h4>The skeptic</h4><span class=tag>Arguing</span></div><ul><li>I’m going to argue that <input class="blank" id="cf-skeptic-claim" type="text" placeholder="your claim" aria-label="your claim" autocomplete="off">. Play <input class="blank" id="cf-skeptic-who" type="text" placeholder="who disagrees" aria-label="who disagrees" autocomplete="off">, who disagrees.</li><li>Give me one objection at a time and wait for my reply.</li><li>Don’t make my arguments for me, and don’t agree just to be nice. Push me to use evidence.</li><li>After three objections, tell me which of my answers was weakest.</li></ul><div class="pa"><button class="btn primary copy" type="button">Copy prompt</button><span class="ok" aria-live="polite"></span></div></div></div>
+<h3 class="cfg-part"><span class="pn">2</span>Write your own <em>the student designs</em></h3>
+<div class="prompts"><div class="prompt full" data-prompt="own"><div class="ph"><h4>Your own</h4></div><ul><li>For this conversation, you are <input class="blank line" id="cf-own-role" type="text" placeholder="a role" aria-label="a role" autocomplete="off"></li><li>Your job is to help me <input class="blank line" id="cf-own-job" type="text" placeholder="do what" aria-label="do what" autocomplete="off"></li><li>Never <input class="blank line" id="cf-own-never" type="text" placeholder="a rule" aria-label="a rule" autocomplete="off"></li><li>Always <input class="blank line" id="cf-own-always" type="text" placeholder="a rule" aria-label="a rule" autocomplete="off"></li><li>End by <input class="blank line" id="cf-own-end" type="text" placeholder="how it should finish" aria-label="how it should finish" autocomplete="off"></li></ul><div class="pa"><button class="btn primary copy" type="button">Copy prompt</button><span class="ok" aria-live="polite"></span></div></div></div>
+<h3 class="cfg-part"><span class="pn">3</span>Test it <em>the student checks</em></h3>
+<p class="cfg-intro">Does it keep to your rules after five turns? What happens when you ask it to break one? Open a new chat: what’s left? <strong>What did writing the rules show you about how you learn?</strong></p>
+<p><strong>Use fictional material only, and leave out student information.</strong></p>
+<p class="meta">Prompts by Rachel Horst, UBC, drawing on Mollick &amp; Mollick (2023). CC BY 4.0.</p>
+<script>
+(function(){
+  var KEY='aipd-configure', saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  var blanks=document.querySelectorAll('.prompt .blank');
+  function size(el){ if(!el.classList.contains('line')) el.style.width=(Math.max(el.value.length, el.placeholder.length)+3)+'ch'; }
+  blanks.forEach(function(el){
+    if(saved[el.id]) el.value=saved[el.id];
+    size(el);
+    el.addEventListener('input',function(){
+      size(el); saved[el.id]=el.value;
+      try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){}
+    });
+  });
+  function textOf(node){
+    var out='';
+    node.childNodes.forEach(function(c){
+      if(c.nodeType===3) out+=c.textContent;
+      else if(c.tagName==='INPUT') out+=(c.value.trim()||'___');
+      else out+=textOf(c);
+    });
+    return out;
+  }
+  function copy(text, done){
+    if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done, fallback); } else fallback();
+    function fallback(){
+      var t=document.createElement('textarea'); t.value=text; t.setAttribute('readonly',''); t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); done(); }catch(e){} t.remove();
+    }
+  }
+  document.querySelectorAll('.prompt .copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var card=btn.closest('.prompt'), ok=card.querySelector('.ok');
+      var text=Array.prototype.map.call(card.querySelectorAll('li'), function(li){ return textOf(li).replace(/\s+/g,' ').trim(); }).join('\n');
+      copy(text, function(){ ok.textContent='Copied. Paste it into a new chat.'; setTimeout(function(){ ok.textContent=''; }, 4000); });
+    });
+  });
+})();
+</script>
 
 
 
-<h2>Materials</h2><div class="grid"><a class="tile" href="aias.html"><h3>AI Assessment Scale</h3><p>Five kinds of task, from no AI to AI exploration.</p></a><a class="tile" href="class-ai-agreement.html"><h3>Collaborative protocol</h3><p>Deciding together, with students, how AI is used in the room.</p></a></div>
+<h2>Materials</h2><div class="grid"><a class="tile" href="assets/how-ai-fits-handout.pdf" download><h3>How AI fits handout (PDF)</h3><p>What kind of task is this, assessing the process, and the prompts. Two pages to print.</p></a><a class="tile" href="aias.html"><h3>What kind of task is this?</h3><p>Our summary of the AI Assessment Scale, with questions for it and ways to assess the process.</p></a><a class="tile" href="https://aiassessmentscale.com/" target="_blank" rel="noopener"><h3>The AI Assessment Scale ↗</h3><p>By Leon Furze, with Mike Perkins, Jasper Roe and Jason MacVaugh. The scale itself, with translations and resources.</p></a></div>
 <nav class="pager" aria-label="The day"><a href="copilot.html"><small>← 10:40</small>Some things worth trying in Copilot</a><a href="rethinking.html"><small>12:45 →</small>Rethinking something you already teach</a></nav>
 </div>
 </main>

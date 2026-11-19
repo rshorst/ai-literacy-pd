@@ -204,13 +204,13 @@ def header(current, file=None):
     # Row one: resources. The day and the cases have their own tabs in row two.
     items = "".join(
         f'<li><a href="{href}"{" aria-current=\"page\"" if key == current else ""}>{label}</a></li>'
-        for key, label, href in NAV if key not in ("home", "scenarios")
+        for key, label, href in NAV if key not in ("home", "scenarios", "handouts", "activities")
     )
     here = block_of(file) if file else None
     tabs = f'<li><a href="index.html"{" aria-current=\"page\"" if file == "index.html" else ""}>The day</a></li>'
     tabs += "".join(
         f'<li><a href="{b["file"]}"{" aria-current=\"page\"" if b["file"] == here else ""}>{b["tab"]}</a></li>'
-        for b in BLOCKS
+        for b in BLOCKS if b["file"] not in ("rethinking.html",)
     )
     return (
         '<a class="skip" href="#main">Skip to content</a>'

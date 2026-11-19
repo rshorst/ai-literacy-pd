@@ -280,6 +280,8 @@ HANDOUTS_INDEX = """
 <a class="tile" href="practical-moves.html"><h3>Practical moves</h3><p>Moves for teachers and for students, tied to the four Cs.</p></a>
 <a class="tile" href="class-ai-agreement.html"><h3>The class AI agreement</h3><p>A protocol for writing a class AI agreement with students in one or two lessons.</p></a>
 <a class="tile" href="copilot-and-prompting.html"><h3>Copilot and prompting</h3><p>What Copilot is in a school, what it is good for, and six prompting strategies.</p></a>
+<a class="tile" href="assets/how-ai-fits-handout.pdf" download><h3>How AI fits (PDF)</h3><p>What kind of task is this, assessing the process, and prompts to configure the machine. Two pages.</p></a>
+<a class="tile" href="assets/entangled-dimensions-handout.pdf" download><h3>Entangled Dimensions (PDF)</h3><p>The diagram on one side, ten threads to pull on your own task on the other. Landscape.</p></a>
 </div>
 </div>
 """
@@ -762,40 +764,71 @@ AIAS = "https://aiassessmentscale.com/"
 
 AIAS_PAGE = f"""
 <style>
-.levels{{list-style:none;padding:0!important;margin:20px 0;counter-reset:lvl}}
-.levels li{{display:grid;grid-template-columns:52px 1fr;gap:4px 14px;align-items:start;background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:12px 14px;margin:0 0 10px;max-width:68ch}}
-.levels .n{{grid-row:span 2;font-family:var(--font-display);font-weight:900;font-size:30px;line-height:1;text-align:center;padding-top:2px}}
-.levels h3{{margin:0;font-size:18px;text-transform:uppercase}}
-.levels p{{margin:0}}
+.aias{{width:100%;border-collapse:collapse;margin:18px 0 26px;background:var(--surface);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}}
+.aias th,.aias td{{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1.5px solid var(--line)}}
+.aias thead th{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;border-bottom:2px solid var(--ink);background:var(--bg)}}
+.aias tbody tr:last-child td,.aias tbody tr:last-child th{{border-bottom:0}}
+.aias .lv{{white-space:nowrap}}
+.aias .n{{display:inline-block;min-width:1.6em;font-family:var(--font-display);font-weight:900;font-size:24px;line-height:1}}
+.aias .lv strong{{font-family:var(--font-display);text-transform:uppercase;font-size:15px}}
+.qs li{{margin:6px 0}}
+.process{{list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0 14px;max-width:none}}
+.process li{{background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);padding:12px 14px;margin:0}}
+.process h3{{margin:0 0 6px;font-size:16px;text-transform:uppercase}}
+.process h3 span{{background:var(--ink);color:var(--surface);padding:0 6px;margin-right:6px}}
+.process p{{margin:0 0 8px}}
+.process .look{{font-size:14.5px;color:var(--muted)}}
+@media (max-width:900px){{.process{{grid-template-columns:1fr 1fr}}}}
+@media (max-width:640px){{
+  .aias thead{{display:none}}
+  .aias tr{{display:block;border-bottom:1.5px solid var(--line);padding:10px 12px}}
+  .aias th,.aias td{{display:block;border:0;padding:3px 0}}
+  .aias td.ex::before{{content:"For example: ";font-weight:700}}
+  .process{{grid-template-columns:1fr}}
+}}
 </style>
-<div class="doc">
-<p class="eyebrow">11:25 · How should AI fit into classroom work?</p>
-<h1>The AI Assessment Scale</h1>
-<p class="lede">Instead of a yes or no on AI, the AI Assessment Scale (AIAS) names five kinds of task, from no AI to AI exploration. It was developed by Mike Perkins, Leon Furze, Jasper Roe and Jason MacVaugh, and is widely used in schools and universities.</p>
-<div class="tools no-print"><a class="btn" href="{AIAS}" target="_blank" rel="noopener">The AIAS site ↗</a><a class="btn" href="class-ai-agreement.html">Collaborative protocol</a></div>
+<div class="doc wide">
+<p class="eyebrow"><a href="fit.html">11:25 · How should AI fit into classroom work?</a></p>
+<h1>What kind of task is this?</h1>
+<p class="lede">The <a href="{AIAS}" target="_blank" rel="noopener">AI Assessment Scale</a>, first introduced by <a href="https://leonfurze.com/" target="_blank" rel="noopener">Leon Furze</a> in 2023 and developed with Mike Perkins, Jasper Roe and Jason MacVaugh, names five kinds of task, not five levels of permission. No level is better than another.</p>
+<div class="tools no-print"><a class="btn" href="assets/how-ai-fits-handout.pdf" download>Download the handout (PDF)</a><a class="btn" href="{AIAS}" target="_blank" rel="noopener">The AI Assessment Scale site ↗</a></div>
 
-<h2>The five levels</h2>
-<ol class="levels">
-<li><span class="n">1</span><h3>No AI</h3><p>The task is done without AI, somewhere AI can’t be used, so it shows what students know and can do on their own.</p></li>
-<li><span class="n">2</span><h3>AI Planning</h3><p>AI can help with brainstorming, outlining and early research. What counts is how students develop and refine the ideas themselves.</p></li>
-<li><span class="n">3</span><h3>AI Collaboration</h3><p>AI can help with drafting, feedback and revision. Students evaluate and change what it suggests, and show their own understanding.</p></li>
-<li><span class="n">4</span><h3>Full AI</h3><p>AI can be used throughout, as students choose or as the teacher directs. The focus is on directing it well and judging what it produces.</p></li>
-<li><span class="n">5</span><h3>AI Exploration</h3><p>AI is used creatively to tackle the task, sometimes in ways the teacher and students work out together.</p></li>
+<table class="aias">
+<thead><tr><th scope="col">Level</th><th scope="col">The task is…</th><th scope="col">For example: a Grade 9 argument on a local issue</th></tr></thead>
+<tbody>
+<tr><th scope="row" class="lv"><span class="n">1</span> <strong>No AI</strong></th><td>Done where AI can’t reach: in the room, on paper, out loud.</td><td class="ex">Write the argument in class, by hand, from your own notes.</td></tr>
+<tr><th scope="row" class="lv"><span class="n">2</span> <strong>AI planning</strong></th><td>About planning, which is assessed whether or not AI was used.</td><td class="ex">Use AI to find counterarguments. You’re assessed on the outline you build.</td></tr>
+<tr><th scope="row" class="lv"><span class="n">3</span> <strong>AI collaboration</strong></th><td>Built so AI alone can’t meet the standard. You assess what the student does with it.</td><td class="ex">Draft it yourself, get AI feedback, then mark which suggestions you took or refused, and why.</td></tr>
+<tr><th scope="row" class="lv"><span class="n">4</span> <strong>Full AI</strong></th><td>Too big for AI or a person alone. You assess the directing.</td><td class="ex">Direct AI to write versions for two audiences. You’re assessed on your instructions and your choice.</td></tr>
+<tr><th scope="row" class="lv"><span class="n">5</span> <strong>AI exploration</strong></th><td>A new use, designed with students.</td><td class="ex">As a class, invent a use. For example, AI plays the people affected at a mock town hall.</td></tr>
+</tbody>
+</table>
+
+<h2>Questions for the scale</h2>
+<ol class="qs">
+<li>Real work is messy. Where does your task slip between levels?</li>
+<li>Who decides the level, and can students question it?</li>
+<li>Can a “No AI” task keep AI out? What does enforcing it cost, and who pays?</li>
+<li>Where does a student with an IEP, a shared device or another first language fit?</li>
+<li>At levels 4 and 5, what happens to a student who says no?</li>
+<li>What does sorting tasks this way leave out: data, cost, place, relationships?</li>
 </ol>
 
-<h2>Things to notice</h2>
-<ul>
-<li>No level is the best one. The 2024 version dropped its traffic-light colours so the higher levels wouldn’t look like the goal.</li>
-<li>A level is only as real as the conditions around it. “No AI” holds for work done in class, not for work done at home.</li>
-<li>One unit can use several levels, one task at a time.</li>
-</ul>
-
-<h2>At 11:25</h2>
-<p>Bring an assignment or activity you actually teach. Decide which level it should sit at and why, then try the <a href="class-ai-agreement.html">collaborative protocol</a> to make the same decision with students.</p>
+<h2>Assess the process</h2>
+<p>If AI can make the product, look at how the work was made, not only the end result.</p>
+<ol class="process">
+<li><h3><span>1</span>Plan</h3><p>A quick plan, question list or outline, made in class.</p><p class="look"><strong>Look for:</strong> What did they decide to do, and why?</p></li>
+<li><h3><span>2</span>Draft</h3><p>Drafts saved along the way, with a note on what changed.</p><p class="look"><strong>Look for:</strong> How did the thinking move?</p></li>
+<li><h3><span>3</span>Decide</h3><p>An AI statement: what I used, kept and refused, and why. “None” is an answer.</p><p class="look"><strong>Look for:</strong> Where were the student’s own choices?</p></li>
+<li><h3><span>4</span>Talk</h3><p>Two minutes: What did you decide, and why? Where did you change your mind?</p><p class="look"><strong>Look for:</strong> Can they explain it in their own words?</p></li>
+</ol>
+<p><strong>Watch for:</strong> a conversation, not a trap. Process evidence can turn into surveillance.</p>
 
 <h2>Sources</h2>
+<p class="meta">Scale summarized in my words from the AI Assessment Scale (Perkins, Furze, Roe &amp; MacVaugh), <a href="{AIAS}">aiassessmentscale.com</a>.</p>
 <ul class="meta">
 <li><a href="{AIAS}">aiassessmentscale.com</a>: the current scale, translations and resources.</li>
+<li>Furze, L. (2023). <a href="https://leonfurze.com/2023/04/29/the-ai-assessment-scale-from-no-ai-to-full-ai/">The AI Assessment Scale: From no AI to full AI</a>. The first version, on leonfurze.com.</li>
 <li>Perkins, M., Roe, J., &amp; Furze, L. (2024). <a href="https://arxiv.org/abs/2412.09029">The AI Assessment Scale revisited: A framework for educational assessment</a>.</li>
 <li>Perkins, M., Furze, L., Roe, J., &amp; MacVaugh, J. (2024). The AI Assessment Scale (AIAS): A framework for ethical integration of generative AI in educational assessment. <em>Journal of University Teaching and Learning Practice, 21</em>(6).</li>
 </ul>
@@ -836,7 +869,7 @@ PAGES = [
     {"file": "cards.html", "nav": "scenarios", "title": "More scenario cards · Teaching with, about, and without AI", "desc": "Ten more classroom scenarios about AI for small-group discussion.", "html": CARDS_PAGE},
     {"file": "metaphor.html", "nav": "home", "title": "My AI Metaphor · Teaching with, about, and without AI", "desc": "Opening activity: add a metaphor for AI to the shared board.", "html": METAPHOR_PAGE},
     {"file": "quickdraw.html", "nav": "home", "title": "Quick, Draw! · Teaching with, about, and without AI", "desc": "A sketch game with a neural network, and what it shows about how machine learning learns.", "html": QUICKDRAW_PAGE},
-    {"file": "aias.html", "nav": "home", "title": "The AI Assessment Scale · Teaching with, about, and without AI", "desc": "The five levels of the AI Assessment Scale, for deciding how AI fits a task.", "html": AIAS_PAGE},
+    {"file": "aias.html", "nav": "home", "title": "What kind of task is this? The AI Assessment Scale · Teaching with, about, and without AI", "desc": "Five kinds of task, not five levels of permission: the AI Assessment Scale, questions for it, and how to assess the process.", "html": AIAS_PAGE},
     {"file": "talk.html", "nav": "home", "title": "Talk slides · Teaching with, about, and without AI", "desc": "Slides for the opening talk: what are these strange systems, anyway?", "html": TALK_PAGE},
     {"file": "activities.html", "nav": "activities", "title": "Activities · Teaching with, about, and without AI", "desc": "Twenty short activities about AI and with AI, for students and educators.", "html": ACTIVITIES_PAGE},
     {"file": "handouts.html", "nav": "handouts", "title": "Handouts · Teaching with, about, and without AI", "html": HANDOUTS_INDEX},

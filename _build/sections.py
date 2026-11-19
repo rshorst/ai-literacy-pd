@@ -6,6 +6,9 @@ Edit a block here and rebuild. Each block has the plan's description (word for w
 import html
 from scenarios import COPILOT_URL
 
+FIT_PDF = "assets/how-ai-fits-handout.pdf"
+ED_PDF = "assets/entangled-dimensions-handout.pdf"
+
 ED = "https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html"  # the K-12 interactive
 FUT = "https://rshorst.github.io/AI-Futures/"
 PADLET = "https://padlet.com/embed/s025k2ljostv9t2zbjfr"
@@ -69,16 +72,18 @@ DAY = [
     },
     {
         "file": "fit.html", "tab": "How AI fits", "start": "11:25", "end": "11:55", "title": "How should AI fit into classroom work?",
-        "desc": "A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we use a collaborative protocol to make decisions about AI use in a real classroom activity or assignment.",
-        "chips": [("aias.html", "AI Assessment Scale"), ("class-ai-agreement.html", "Collaborative protocol")],
+        "desc": "A look at several ways educators and schools are approaching AI use in learning and assessment, from blanket rules to more nuanced frameworks such as the AI Assessment Scale. We consider what each approach makes possible, what assumptions it carries, and where it might break down in different K-12 contexts. Then we try configuring a chatbot to support learning without doing the thinking.",
+        "chips": [("aias.html", "AI Assessment Scale"), ("fit.html#configure", "Configure the machine")],
         "steps": [
-            "Several approaches, from blanket rules to frameworks such as the AI Assessment Scale.",
-            "For each: what it makes possible, what it assumes, and where it might break down in a K-12 classroom.",
-            "Use the collaborative protocol to decide about AI use in a real activity or assignment.",
+            "Approaches, quickly: ban, allow everything, traffic lights, the AI Assessment Scale, a class agreement.",
+            "In pairs, one person plays the student. Configure the machine with the tutor, the student who gets it wrong, or the skeptic, then test it.",
+            "Talk it over: what thinking was left to you, what difficulty was kept or removed, what the machine couldn’t know.",
         ],
+        "extra": "configure",
         "tiles": [
-            ("aias.html", "AI Assessment Scale", "Five kinds of task, from no AI to AI exploration."),
-            ("class-ai-agreement.html", "Collaborative protocol", "Deciding together, with students, how AI is used in the room."),
+            (FIT_PDF, "How AI fits handout", "What kind of task is this, assessing the process, and the prompts. Two pages to print."),
+            ("aias.html", "What kind of task is this?", "Our summary of the AI Assessment Scale, with questions for it and ways to assess the process."),
+            ("https://aiassessmentscale.com/", "The AI Assessment Scale", "By Leon Furze, with Mike Perkins, Jasper Roe and Jason MacVaugh. The scale itself, with translations and resources."),
         ],
     },
     {"pause": "Lunch", "start": "11:55"},
@@ -93,6 +98,7 @@ DAY = [
         ],
         "tiles": [
             ("aias.html", "AI Assessment Scale", "Which kind of task is this, and why?"),
+            (FIT_PDF, "How AI fits handout", "The scale, assessing the process, and the prompts, to print."),
             ("activities.html#activity-11", "Activities for educators", "Short moves for a staff meeting or workshop."),
             ("readings.html", "Readings on assessment", "Research and practice to draw on."),
         ],
@@ -100,17 +106,16 @@ DAY = [
     {
         "file": "bigger-picture.html", "tab": "Bigger picture", "start": "1:45", "end": "2:15", "title": "Looking at the bigger picture",
         "desc": "We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.",
-        "chips": [(ED, "Entangled Dimensions")],
+        "chips": [(ED, "Entangled Dimensions"), ("bigger-picture.html#threads", "Pull the threads")],
         "steps": [
             "A short introduction to the Entangled Dimensions of AI Literacy.",
-            "Explore the framework yourselves.",
-            "Use it to look at a classroom example, question or concern from another angle.",
+            "Take the task you worked on this morning. Which threads did your thinking already pull?",
+            "Pick one you didn’t, ask its question of your task, and share what it opened up.",
         ],
+        "extra": "threads",
         "embed": f'<div class="board ed"><iframe src="{ED}" title="Entangled Dimensions of AI Literacy: in the classroom" loading="lazy"></iframe></div><p class="meta"><a href="{ED}" target="_blank" rel="noopener">Open it in its own tab ↗</a></p>',
-        "tiles": [],
-        "old_tiles": [
-            ("frameworks.html", "Frameworks", "The frameworks behind the day."),
-            ("map.html#o-k-rec", "Other kinds of AI", "The systems around us that are not chatbots."),
+        "tiles": [
+            (ED_PDF, "Entangled Dimensions handout", "The diagram on one side, the ten threads on the other. Landscape, to print."),
         ],
     },
     {"pause": "Break", "start": "2:15"},
@@ -118,7 +123,7 @@ DAY = [
         "file": "collective.html", "tab": "Collective decisions", "start": "2:25", "end": "2:50", "title": "From classroom choices to collective decisions",
         "desc": "We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.",
         "note": "What needs to be decided here, who needs to be part of that decision, and what should remain open?",
-        "chips": [("policies.html", "Policy examples"), ("activities.html#activity-13", "The document audit")],
+        "chips": [("policies.html", "Policy examples"), ("class-ai-agreement.html", "Collaborative protocol"), ("activities.html#activity-13", "The document audit")],
         "steps": [
             "Gather the questions that came up through the day.",
             "Sort them: what an individual educator can decide, what may need shared school guidance, and what calls for broader community conversation.",
@@ -127,6 +132,7 @@ DAY = [
         "tiles": [
             ("responses.html", "Shared board", "The groups’ responses from the morning."),
             ("policies.html", "Policy examples", "What other schools and districts have written."),
+            ("class-ai-agreement.html", "Collaborative protocol", "Deciding together, with students, how AI is used in the room."),
             ("activities.html#activity-13", "The document audit", "What do we already say that covers this?"),
         ],
     },
@@ -213,7 +219,7 @@ BELONGS = {
     "talk.html": "systems.html",
     "responses.html": "scenarios.html", "cards.html": "scenarios.html",
     "copilot-and-prompting.html": "copilot.html", "practical-moves.html": "copilot.html",
-    "aias.html": "fit.html", "class-ai-agreement.html": "fit.html",
+    "aias.html": "fit.html", "class-ai-agreement.html": "collective.html",
 }
 
 
@@ -224,6 +230,8 @@ def block_of(file):
 
 
 def _href(h):
+    if h.endswith(".pdf"):
+        return f'href="{h}" download'
     ext = h.startswith("http")
     return f'href="{h}"' + (' target="_blank" rel="noopener"' if ext else "")
 
@@ -287,6 +295,181 @@ CSS = """<style>
 .pager a:last-child{text-align:right;margin-left:auto}
 .pager small{display:block;font-family:var(--font-mono);font-weight:500;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 </style>"""
+
+
+# ---- 11:25 "Configure the machine to help you learn" (matches the How AI fits handout, side 2)
+def _b(id_, ph, cls="blank"):
+    return f'<input class="{cls}" id="cf-{id_}" type="text" placeholder="{esc(ph)}" aria-label="{esc(ph)}" autocomplete="off">'
+
+
+def _prompt(pid, title, tag, items, full=False):
+    lis = "".join(f"<li>{it}</li>" for it in items)
+    return (f'<div class="prompt{" full" if full else ""}" data-prompt="{pid}">'
+            f'<div class="ph"><h4>{esc(title)}</h4>{f"<span class=tag>{esc(tag)}</span>" if tag else ""}</div>'
+            f'<ul>{lis}</ul>'
+            f'<div class="pa"><button class="btn primary copy" type="button">Copy prompt</button><span class="ok" aria-live="polite"></span></div></div>')
+
+
+def configure_html():
+    tutor = _prompt("tutor", "The tutor who won’t answer", "Learning", [
+        f"You are my tutor for {_b('tutor-topic', 'topic')} at a Grade {_b('tutor-grade', 'grade')} level. Help me figure it out myself. Don’t do it for me.",
+        "Start by asking what I already know.",
+        "Ask one question at a time, then wait for my answer.",
+        "If I’m stuck, give the smallest hint that helps. Get more specific only if I’m still stuck.",
+        "If I’m wrong, don’t correct me. Ask me to explain my thinking.",
+        "If I ask for the answer, say no and give me a hint.",
+        "At the end, ask me to explain it back in my own words, then name one thing I still need to work on.",
+    ], full=True)
+    student = _prompt("student", "The student who gets it wrong", "Teaching it back", [
+        f"You are a Grade {_b('student-grade', 'grade')} student who has just learned {_b('student-topic', 'topic')} but misunderstood part of it.",
+        "Explain it to me in a short paragraph with one example. Include one or two mistakes a real student might make. Don’t point them out.",
+        "Then I’ll teach you. Ask questions when I’m unclear, and only change your mind when I give you a good reason.",
+    ])
+    skeptic = _prompt("skeptic", "The skeptic", "Arguing", [
+        f"I’m going to argue that {_b('skeptic-claim', 'your claim')}. Play {_b('skeptic-who', 'who disagrees')}, who disagrees.",
+        "Give me one objection at a time and wait for my reply.",
+        "Don’t make my arguments for me, and don’t agree just to be nice. Push me to use evidence.",
+        "After three objections, tell me which of my answers was weakest.",
+    ])
+    own = _prompt("own", "Your own", "", [
+        f"For this conversation, you are {_b('own-role', 'a role', 'blank line')}",
+        f"Your job is to help me {_b('own-job', 'do what', 'blank line')}",
+        f"Never {_b('own-never', 'a rule', 'blank line')}",
+        f"Always {_b('own-always', 'a rule', 'blank line')}",
+        f"End by {_b('own-end', 'how it should finish', 'blank line')}",
+    ], full=True)
+    return f"""<style>
+.cfg-intro{{max-width:68ch}}
+.cfg-part{{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:30px 0 12px;font-size:21px;text-transform:uppercase}}
+.cfg-part .pn{{background:var(--ink);color:var(--surface);padding:0 9px}}
+.cfg-part em{{font-family:var(--font-body);font-weight:400;font-size:15.5px;font-style:italic;color:var(--muted);text-transform:none}}
+.prompts{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:none}}
+.prompt{{background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);padding:16px 18px 14px}}
+.prompt.full{{grid-column:1/-1}}
+.prompt .ph{{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px}}
+.prompt h4{{margin:0;font-family:var(--font-display);font-size:16px;text-transform:uppercase}}
+.prompt .tag{{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;border:1.5px solid var(--ink);padding:1px 7px}}
+.prompt ul{{margin:12px 0 14px;padding-left:20px}}
+.prompt li{{margin:5px 0;line-height:1.55}}
+.prompt[data-prompt=own] ul{{list-style:none;padding-left:0}}
+.prompt[data-prompt=own] li{{display:flex;align-items:baseline;gap:10px;margin:10px 0}}
+.blank{{font:inherit;color:var(--ink);background:#fff6cc;border:0;border-bottom:2px solid var(--ink);border-radius:2px 2px 0 0;padding:0 5px;width:12ch;max-width:100%}}
+.blank.line{{flex:1;width:0;min-width:0}}
+.blank::placeholder{{color:#8a8274;font-style:italic}}
+.blank:focus{{outline:2px solid var(--accent);outline-offset:1px}}
+.prompt .pa{{display:flex;align-items:center;gap:12px}}
+.prompt .ok{{font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}}
+@media (max-width:760px){{.prompts{{grid-template-columns:minmax(0,1fr)}}}}
+</style>
+<h2 id="configure">Configure the machine to help you learn</h2>
+<p class="cfg-intro">Using these systems well means knowing how you learn. Setting one up yourself is a way to find out. Paste instructions at the top of a new chat, in Copilot or any chatbot, and fill in the blanks.</p>
+<h3 class="cfg-part"><span class="pn">1</span>Use one as given <em>the teacher sets the conditions</em></h3>
+<div class="prompts">{tutor}{student}{skeptic}</div>
+<h3 class="cfg-part"><span class="pn">2</span>Write your own <em>the student designs</em></h3>
+<div class="prompts">{own}</div>
+<h3 class="cfg-part"><span class="pn">3</span>Test it <em>the student checks</em></h3>
+<p class="cfg-intro">Does it keep to your rules after five turns? What happens when you ask it to break one? Open a new chat: what’s left? <strong>What did writing the rules show you about how you learn?</strong></p>
+<p><strong>Use fictional material only, and leave out student information.</strong></p>
+<p class="meta">Prompts by Rachel Horst, UBC, drawing on Mollick &amp; Mollick (2023). CC BY 4.0.</p>
+<script>
+(function(){{
+  var KEY='aipd-configure', saved={{}};
+  try{{ saved=JSON.parse(localStorage.getItem(KEY)||'{{}}'); }}catch(e){{}}
+  var blanks=document.querySelectorAll('.prompt .blank');
+  function size(el){{ if(!el.classList.contains('line')) el.style.width=(Math.max(el.value.length, el.placeholder.length)+3)+'ch'; }}
+  blanks.forEach(function(el){{
+    if(saved[el.id]) el.value=saved[el.id];
+    size(el);
+    el.addEventListener('input',function(){{
+      size(el); saved[el.id]=el.value;
+      try{{ localStorage.setItem(KEY, JSON.stringify(saved)); }}catch(e){{}}
+    }});
+  }});
+  function textOf(node){{
+    var out='';
+    node.childNodes.forEach(function(c){{
+      if(c.nodeType===3) out+=c.textContent;
+      else if(c.tagName==='INPUT') out+=(c.value.trim()||'___');
+      else out+=textOf(c);
+    }});
+    return out;
+  }}
+  function copy(text, done){{
+    if(navigator.clipboard && window.isSecureContext){{ navigator.clipboard.writeText(text).then(done, fallback); }} else fallback();
+    function fallback(){{
+      var t=document.createElement('textarea'); t.value=text; t.setAttribute('readonly',''); t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select(); try{{ document.execCommand('copy'); done(); }}catch(e){{}} t.remove();
+    }}
+  }}
+  document.querySelectorAll('.prompt .copy').forEach(function(btn){{
+    btn.addEventListener('click',function(){{
+      var card=btn.closest('.prompt'), ok=card.querySelector('.ok');
+      var text=Array.prototype.map.call(card.querySelectorAll('li'), function(li){{ return textOf(li).replace(/\\s+/g,' ').trim(); }}).join('\\n');
+      copy(text, function(){{ ok.textContent='Copied. Paste it into a new chat.'; setTimeout(function(){{ ok.textContent=''; }}, 4000); }});
+    }});
+  }});
+}})();
+</script>"""
+
+
+# ---- 1:45 "Pull the threads" (matches the Entangled Dimensions handout, side 2)
+THREADS = [
+    ("data", "Data", "#59a34f", "What will students type or upload, and where does it go once they press enter?"),
+    ("algorithmic", "Algorithmic", "#eec949", "The tool is built to sound helpful and keep you going. Is that what this task needs?"),
+    ("futures", "Futures", "#b07ba3", "If students did this task this way every year, what would they get better at, and what would they lose?"),
+    ("creative", "Creative", "#f59ba8", "In the finished work, which choices were the student’s and which were the tool’s defaults?"),
+    ("relational", "Relational", "#9d7661", "Who would a student have asked for help before, and what happens to that conversation now?"),
+    ("political", "Political", "#bcb0ac", "Who decided this tool is allowed here, and what happens to a student who says no?"),
+    ("disciplinary", "Disciplinary", "#507aa9", "Would someone who works in your subject accept the way this was made?"),
+    ("epistemic", "Epistemic", "#f3902a", "If the tool gets something wrong, how would the student notice?"),
+    ("knowledge", "Knowledge-construction", "#e3585b", "What can the student do on their own after this task that they couldn’t before?"),
+    ("ecological", "Ecological", "#77b8b3", "Is this use worth the energy, water and hidden labour behind it, or would a pencil do?"),
+]
+
+
+def threads_html():
+    cards = "".join(
+        f'<label class="thread" style="--c:{c}"><input type="checkbox" id="th-{k}" style="accent-color:{c}">'
+        f'<span class="tn">{esc(n)}</span><span class="tq">{esc(q)}</span></label>'
+        for k, n, c, q in THREADS)
+    return f"""<style>
+.threads-intro{{max-width:68ch}}
+.th-field{{display:block;font-weight:700;margin:16px 0 18px;max-width:68ch}}
+.th-field input,.th-field textarea{{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:8px 10px;color:var(--ink)}}
+.th-field textarea{{min-height:96px;resize:vertical}}
+.threads{{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:none;margin:0 0 6px}}
+.thread{{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);padding:12px 12px 14px;cursor:pointer;line-height:1.45}}
+.thread input{{position:absolute;top:12px;right:10px;width:20px;height:20px;margin:0;cursor:pointer}}
+.thread .tn{{align-self:flex-start;background:var(--c);font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:.03em;text-transform:uppercase;padding:2px 7px;margin-right:24px}}
+.thread .tq{{font-size:15px}}
+.thread:has(input:checked){{background:color-mix(in srgb,var(--c) 22%,var(--surface))}}
+.thread:has(input:focus-visible){{outline:3px solid var(--accent);outline-offset:2px}}
+@media (max-width:1100px){{.threads{{grid-template-columns:repeat(2,1fr)}}}}
+@media (max-width:560px){{.threads{{grid-template-columns:1fr}}}}
+</style>
+<h2 id="threads">Pull the threads</h2>
+<p class="threads-intro">Each dimension is a thread, and they’re tangled together. Take a task you’ve worked on today. Tick the threads your thinking already pulled. Then pick one you didn’t, ask its question of your task, and note what it opens up.</p>
+<label class="th-field">The task<input id="th-task" type="text" autocomplete="off"></label>
+<div class="threads">{cards}</div>
+<label class="th-field">The thread I’ll pull next, and why<textarea id="th-next"></textarea></label>
+<p class="meta">Your ticks and notes stay in this browser.</p>
+<script>
+(function(){{
+  var KEY='aipd-threads', saved={{}};
+  try{{ saved=JSON.parse(localStorage.getItem(KEY)||'{{}}'); }}catch(e){{}}
+  document.querySelectorAll('.threads input, #th-task, #th-next').forEach(function(el){{
+    var cb=el.type==='checkbox';
+    if(el.id in saved){{ if(cb) el.checked=!!saved[el.id]; else el.value=saved[el.id]; }}
+    el.addEventListener(cb?'change':'input',function(){{
+      saved[el.id]=cb?el.checked:el.value;
+      try{{ localStorage.setItem(KEY, JSON.stringify(saved)); }}catch(e){{}}
+    }});
+  }});
+}})();
+</script>"""
+
+
+EXTRAS = {"configure": configure_html, "threads": threads_html}
 
 
 # ---- 9:15 talk slides: slides 6 to 23 of the deck, rendered to assets/talk/NN.webp ----
@@ -375,7 +558,7 @@ def talk_slides_html():
 def section_page(i):
     b = BLOCKS[i]
     steps = "".join(f"<li>{esc(s)}</li>" for s in b["steps"])
-    tiles = "".join(f'<a class="tile" {_href(h)}><h3>{esc(t)}{" ↗" if h.startswith("http") else ""}</h3><p>{esc(d)}</p></a>'
+    tiles = "".join(f'<a class="tile" {_href(h)}><h3>{esc(t)}{" ↗" if h.startswith("http") else ""}{" (PDF)" if h.endswith(".pdf") else ""}</h3><p>{esc(d)}</p></a>'
                     for h, t, d in b["tiles"])
     note = f'<p class="note-q">{esc(b["note"])}</p>' if b.get("note") else ""
     body = f"""{CSS}
@@ -384,7 +567,7 @@ def section_page(i):
 <h1>{esc(b['title'])}</h1>
 <p class="lede">{esc(b['desc'])}</p>
 {note}
-{f'<h2>What we’ll do</h2><ol class="steps">{steps}</ol>' if steps else ''}
+{EXTRAS[b['extra']]() if b.get('extra') else ''}
 {b.get('embed', '')}
 {copilot_demo_html() if b.get('after_steps') == 'copilot_demo' else ''}
 {talk_slides_html() if b.get('after_steps') == 'talk_slides' else ''}

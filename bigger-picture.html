@@ -178,7 +178,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">Teaching with, about, and without AI<small>A professional learning day · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Resources"><ul><li><a href="map.html">AI map</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="handouts.html">Handouts</a></li><li><a href="activities.html">Activities</a></li><li><a href="frameworks.html">Frameworks</a></li><li><a href="readings.html">Readings</a></li></ul></nav></div><nav class="day-nav" aria-label="The day"><ul><li><a href="index.html">The day</a></li><li><a href="welcome.html">Welcome</a></li><li><a href="systems.html">Strange systems</a></li><li><a href="scenarios.html">Classroom situations</a></li><li><a href="copilot.html">Copilot</a></li><li><a href="fit.html">How AI fits</a></li><li><a href="rethinking.html">Rethinking</a></li><li><a href="bigger-picture.html" aria-current="page">Bigger picture</a></li><li><a href="collective.html">Collective decisions</a></li><li><a href="close.html">Close</a></li></ul></nav></header>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="inner"><a class="brand" href="index.html">Teaching with, about, and without AI<small>A professional learning day · Rachel Horst</small></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Resources"><ul><li><a href="map.html">AI map</a></li><li><a href="policies.html">Policy examples</a></li><li><a href="frameworks.html">Frameworks</a></li><li><a href="readings.html">Readings</a></li></ul></nav></div><nav class="day-nav" aria-label="The day"><ul><li><a href="index.html">The day</a></li><li><a href="welcome.html">Welcome</a></li><li><a href="systems.html">Strange systems</a></li><li><a href="scenarios.html">Classroom situations</a></li><li><a href="copilot.html">Copilot</a></li><li><a href="fit.html">How AI fits</a></li><li><a href="bigger-picture.html" aria-current="page">Bigger picture</a></li><li><a href="collective.html">Collective decisions</a></li><li><a href="close.html">Close</a></li></ul></nav></header>
 <main id="main">
 <style>
 .steps{counter-reset:st;list-style:none;padding:0!important;margin:16px 0 8px;max-width:68ch}
@@ -216,11 +216,45 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <h1>Looking at the bigger picture</h1>
 <p class="lede">We use the Entangled Dimensions of AI Literacy framework to step back from individual classroom uses and explore some of the wider questions connected to AI: knowledge, relationships, institutions, resources, values, and planetary systems. Participants explore the framework themselves and use it to look at a classroom example, question, or concern from another angle.</p>
 
-<h2>What we’ll do</h2><ol class="steps"><li>A short introduction to the Entangled Dimensions of AI Literacy.</li><li>Explore the framework yourselves.</li><li>Use it to look at a classroom example, question or concern from another angle.</li></ol>
+<style>
+.threads-intro{max-width:68ch}
+.th-field{display:block;font-weight:700;margin:16px 0 18px;max-width:68ch}
+.th-field input,.th-field textarea{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:8px 10px;color:var(--ink)}
+.th-field textarea{min-height:96px;resize:vertical}
+.threads{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:none;margin:0 0 6px}
+.thread{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);padding:12px 12px 14px;cursor:pointer;line-height:1.45}
+.thread input{position:absolute;top:12px;right:10px;width:20px;height:20px;margin:0;cursor:pointer}
+.thread .tn{align-self:flex-start;background:var(--c);font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:.03em;text-transform:uppercase;padding:2px 7px;margin-right:24px}
+.thread .tq{font-size:15px}
+.thread:has(input:checked){background:color-mix(in srgb,var(--c) 22%,var(--surface))}
+.thread:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:1100px){.threads{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.threads{grid-template-columns:1fr}}
+</style>
+<h2 id="threads">Pull the threads</h2>
+<p class="threads-intro">Each dimension is a thread, and they’re tangled together. Take a task you’ve worked on today. Tick the threads your thinking already pulled. Then pick one you didn’t, ask its question of your task, and note what it opens up.</p>
+<label class="th-field">The task<input id="th-task" type="text" autocomplete="off"></label>
+<div class="threads"><label class="thread" style="--c:#59a34f"><input type="checkbox" id="th-data" style="accent-color:#59a34f"><span class="tn">Data</span><span class="tq">What will students type or upload, and where does it go once they press enter?</span></label><label class="thread" style="--c:#eec949"><input type="checkbox" id="th-algorithmic" style="accent-color:#eec949"><span class="tn">Algorithmic</span><span class="tq">The tool is built to sound helpful and keep you going. Is that what this task needs?</span></label><label class="thread" style="--c:#b07ba3"><input type="checkbox" id="th-futures" style="accent-color:#b07ba3"><span class="tn">Futures</span><span class="tq">If students did this task this way every year, what would they get better at, and what would they lose?</span></label><label class="thread" style="--c:#f59ba8"><input type="checkbox" id="th-creative" style="accent-color:#f59ba8"><span class="tn">Creative</span><span class="tq">In the finished work, which choices were the student’s and which were the tool’s defaults?</span></label><label class="thread" style="--c:#9d7661"><input type="checkbox" id="th-relational" style="accent-color:#9d7661"><span class="tn">Relational</span><span class="tq">Who would a student have asked for help before, and what happens to that conversation now?</span></label><label class="thread" style="--c:#bcb0ac"><input type="checkbox" id="th-political" style="accent-color:#bcb0ac"><span class="tn">Political</span><span class="tq">Who decided this tool is allowed here, and what happens to a student who says no?</span></label><label class="thread" style="--c:#507aa9"><input type="checkbox" id="th-disciplinary" style="accent-color:#507aa9"><span class="tn">Disciplinary</span><span class="tq">Would someone who works in your subject accept the way this was made?</span></label><label class="thread" style="--c:#f3902a"><input type="checkbox" id="th-epistemic" style="accent-color:#f3902a"><span class="tn">Epistemic</span><span class="tq">If the tool gets something wrong, how would the student notice?</span></label><label class="thread" style="--c:#e3585b"><input type="checkbox" id="th-knowledge" style="accent-color:#e3585b"><span class="tn">Knowledge-construction</span><span class="tq">What can the student do on their own after this task that they couldn’t before?</span></label><label class="thread" style="--c:#77b8b3"><input type="checkbox" id="th-ecological" style="accent-color:#77b8b3"><span class="tn">Ecological</span><span class="tq">Is this use worth the energy, water and hidden labour behind it, or would a pencil do?</span></label></div>
+<label class="th-field">The thread I’ll pull next, and why<textarea id="th-next"></textarea></label>
+<p class="meta">Your ticks and notes stay in this browser.</p>
+<script>
+(function(){
+  var KEY='aipd-threads', saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  document.querySelectorAll('.threads input, #th-task, #th-next').forEach(function(el){
+    var cb=el.type==='checkbox';
+    if(el.id in saved){ if(cb) el.checked=!!saved[el.id]; else el.value=saved[el.id]; }
+    el.addEventListener(cb?'change':'input',function(){
+      saved[el.id]=cb?el.checked:el.value;
+      try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){}
+    });
+  });
+})();
+</script>
 <div class="board ed"><iframe src="https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html" title="Entangled Dimensions of AI Literacy: in the classroom" loading="lazy"></iframe></div><p class="meta"><a href="https://rshorst.github.io/Entangled-Dimensions-of-AI-Literacy/interactive.html" target="_blank" rel="noopener">Open it in its own tab ↗</a></p>
 
 
-
+<h2>Materials</h2><div class="grid"><a class="tile" href="assets/entangled-dimensions-handout.pdf" download><h3>Entangled Dimensions handout (PDF)</h3><p>The diagram on one side, the ten threads on the other. Landscape, to print.</p></a></div>
 <nav class="pager" aria-label="The day"><a href="rethinking.html"><small>← 12:45</small>Rethinking something you already teach</a><a href="collective.html"><small>2:25 →</small>From classroom choices to collective decisions</a></nav>
 </div>
 </main>
