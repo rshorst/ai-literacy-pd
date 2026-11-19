@@ -477,7 +477,7 @@ def threads_html():
 EXTRAS = {"configure": configure_html, "threads": threads_html}
 
 
-# ---- 12:45 "Rethinking something you already teach": a guide
+# ---- 1:30 "Rethinking something you already teach": a guide
 REREAD = {
     "fppl": "https://www.fnesc.ca/first-peoples-principles-of-learning/",
     "kdu": "https://curriculum.gov.bc.ca/curriculum/overview",
