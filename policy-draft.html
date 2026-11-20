@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Draft your AI guidance · Teaching with, about, and without AI</title>
-<meta name="description" content="A worksheet for a first draft of AI guidance for a class, your staff or your school.">
+<title>Make your own policy · Teaching with, about, and without AI</title>
+<meta name="description" content="A template for a first draft of AI policy for a class, your staff or your school.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root:not(#_){--bg:#f4efe4;--surface:#fffcf5;--ink:#141414;--muted:#55514b;--line:#d6cdbb;--accent:#1d5bd8;--hover:#efe7d6;
@@ -207,8 +207,8 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 </style>
 <div class="doc">
 <p class="eyebrow">2:45 · Collective decisions</p>
-<h1>Draft your AI guidance</h1>
-<p class="lede">A first draft of guidance for a class, your staff or your school. Fill it in here or print it. Every line names why.</p>
+<h1>Make your own policy</h1>
+<p class="lede">A template for a first draft, for a class, your staff or your school. Fill it in here or print it. Every line names why.</p>
 <div class="tools no-print"><button class="btn" type="button" id="pd-copy">Copy my draft</button><button class="btn" type="button" onclick="window.print()">Print this page</button><button class="btn" type="button" id="pd-clear">Clear</button><span class="meta" id="pd-status" aria-live="polite"></span></div>
 <fieldset class="pd-for"><legend>This draft is for:</legend>
 <label><input type="radio" name="pd-for" value="A class">A class</label>
@@ -223,7 +223,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <label class="pd-field "><span>What should stay open for now?</span><textarea id="pd-open" placeholder="Questions we aren’t ready to settle yet."></textarea></label>
 <label class="pd-field "><span>When and how will we revisit it?</span><textarea id="pd-revisit" placeholder="For example: at the end of term, with students’ feedback."></textarea></label>
 <p class="meta pd-local">Your draft stays in this browser.</p>
-<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>. For positions to borrow from or push against, see <a href="policy-compare.html">six positions to argue with</a>.</p>
+<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>. To read other policies first, use the <a href="policy-questions.html">questions to ask of a policy</a>.</p>
 </div>
 <script>
 (function(){
@@ -243,7 +243,7 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
   var status=document.getElementById('pd-status');
   function say(t){ status.textContent=t; setTimeout(function(){ status.textContent=''; },2500); }
   function asText(){
-    var lines=['AI guidance: first draft',''];
+    var lines=['AI policy: first draft',''];
     var who=radios.filter(function(r){return r.checked;})[0];
     lines.push('This draft is for: '+(who?who.value:''),'');
     areas.forEach(function(el){

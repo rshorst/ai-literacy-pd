@@ -280,7 +280,8 @@ HANDOUTS_INDEX = """
 <a class="tile" href="practical-moves.html"><h3>Practical moves</h3><p>Moves for teachers and for students, tied to the four Cs.</p></a>
 <a class="tile" href="class-ai-agreement.html"><h3>The class AI agreement</h3><p>A protocol for writing a class AI agreement with students in one or two lessons.</p></a>
 <a class="tile" href="policy-compare.html"><h3>Six positions to argue with</h3><p>Six published AI policies with very different stances, and four questions for groups. Prints on two pages.</p></a>
-<a class="tile" href="policy-draft.html"><h3>Draft your AI guidance</h3><p>A first draft for a class, your staff or your school. Fill it in online or print it as a worksheet.</p></a>
+<a class="tile" href="policy-questions.html"><h3>Questions to ask of a policy</h3><p>What it assumes, who decides, what it leaves out and how it works in a classroom. One page.</p></a>
+<a class="tile" href="policy-draft.html"><h3>Make your own policy</h3><p>A template for a first draft for a class, your staff or your school. Fill it in online or print it.</p></a>
 <a class="tile" href="copilot-and-prompting.html"><h3>Copilot and prompting</h3><p>What Copilot is in a school, what it is good for, and six prompting strategies.</p></a>
 <a class="tile" href="assets/how-ai-fits-handout.pdf" download><h3>How AI fits (PDF)</h3><p>What kind of task is this, assessing the process, and prompts to configure the machine. Two pages.</p></a>
 <a class="tile" href="assets/one-essay-many-outcomes.pdf" download><h3>One essay, many outcomes (PDF)</h3><p>One Grade 9 essay task, eight BC standards it could be assessing, and how the assessment changes for each.</p></a>
@@ -622,7 +623,7 @@ POLICIES_PAGE = f"""
 <h2>Two ways to use them</h2>
 <p><strong>Critique.</strong> Give small groups three contrasting documents, such as Seaquam's bolt-on, Park East's red-by-default and Waterloo's scale. Read each through the <a href="frameworks.html">dimensions</a>: what does it assume about data and where it goes, about authorship and relation, whose labour does it move, and what future does it take for granted? Then: which would you want to teach under, and what would you add?</p>
 <p><strong>Build your own.</strong> Use the lists as positions to argue with while writing your own guidance. Langley's line on Indigenous content, Central Okanagan's framing of consent as a legal duty, Halton's tiers, Peel's supervised-not-prohibited stance and Wyndham's equity rule are good starting points. For a class version, see <a href="class-ai-agreement.html">the class AI agreement</a>.</p>
-<p>For the afternoon, <a href="policy-compare.html">six positions to argue with</a> sets six of these side by side with questions for groups, and <a href="policy-draft.html">Draft your AI guidance</a> is the worksheet for your own first draft.</p>
+<p>For the afternoon, read them with the <a href="policy-questions.html">questions to ask of a policy</a>, then <a href="policy-draft.html">make your own</a>. <a href="policy-compare.html">Six positions to argue with</a> sets six very different ones side by side.</p>
 
 <h2>Secondary</h2>
 {policies_html(SECONDARY, "secondary")}
@@ -644,6 +645,72 @@ POLICIES_PAGE = f"""
 <li><strong>Labour, environment and cost</strong> are almost absent, and none ask what futures the policy assumes.</li>
 </ul>
 <p>Every policy here is about permission and detection. None is about what AI does to the conditions of meaning-making in a classroom. That gap is where an entangled policy starts.</p>
+</div>
+"""
+
+# ---------------------------------------------------------------- 2:45 Collective decisions: questions to ask of a policy
+POLICY_QUESTIONS = [
+    ("What it assumes", [
+        "What does it assume about students, teachers and the tool?",
+        "Is AI treated as a cheating problem, a tool to manage, or something to learn about?",
+        "What counts as using AI here? Spellcheck, translation, search?",
+    ]),
+    ("Who decides", [
+        "Who wrote it, and who was asked?",
+        "Where do students, families and community appear, if at all?",
+        "Can a student or family say no? Is there a real alternative if they do?",
+    ]),
+    ("What it leaves out", [
+        "Data: where does student information go, and who can see it?",
+        "Cost and access: who pays, and who goes without?",
+        "Place: does it say anything about local or Indigenous knowledge, and who has permission to share it?",
+    ]),
+    ("How it works in a classroom", [
+        "What would a teacher actually do differently on Monday?",
+        "How does AI use become visible: disclosure, conversation, detection?",
+        "What happens when something goes wrong?",
+    ]),
+    ("For us", [
+        "What would we keep, what would we change, and what is missing for our place?",
+        "Who needs to be part of deciding here?",
+    ]),
+]
+
+
+def policy_questions_html():
+    return "\n".join(
+        f'<section class="pq"><h2>{esc(h)}</h2><ul>' + "".join(f"<li>{esc(q)}</li>" for q in qs) + "</ul></section>"
+        for h, qs in POLICY_QUESTIONS)
+
+
+POLICY_QUESTIONS_PAGE = f"""
+<style>
+.pq-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 28px;max-width:none}}
+.pq h2{{margin:18px 0 6px}}
+.pq ul{{margin:0;padding-left:20px}}
+.pq li{{margin:6px 0}}
+@media (max-width:760px){{.pq-grid{{grid-template-columns:1fr}}}}
+@media print{{
+  @page{{size:letter;margin:13mm 15mm}}
+  body{{font-size:11pt;line-height:1.4}}
+  .page-deco{{display:none}}
+  .doc h1{{font-size:24pt;margin:0 0 4px}}
+  .lede{{font-size:11.5pt;margin:0 0 6px}}
+  .pq-grid{{gap:0 22px}}
+  .pq{{break-inside:avoid}}
+  .pq h2{{font-size:13pt;margin:12px 0 4px}}
+  .pq li{{margin:3px 0}}
+}}
+</style>
+<div class="doc">
+<p class="eyebrow">2:45 · Collective decisions</p>
+<h1>Questions to ask of a policy</h1>
+<p class="lede">Use these with any of the <a href="policies.html">policy examples</a>, or with guidance your school already has. Pick a few. You don’t need all of them.</p>
+<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button><a class="btn" href="policies.html">Policy examples</a><a class="btn" href="policy-draft.html">Make your own policy</a></div>
+<div class="pq-grid">
+{policy_questions_html()}
+</div>
+<p class="meta">Then take what you noticed into <a href="policy-draft.html">your own draft</a>.</p>
 </div>
 """
 
@@ -707,7 +774,7 @@ POLICY_COMPARE_PAGE = f"""
 <p class="eyebrow">2:45 · Collective decisions</p>
 <h1>Six positions to argue with</h1>
 <p class="lede">Six published K to 12 AI policies that take very different positions. They are here to examine, not to adopt.</p>
-<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button><a class="btn" href="policy-draft.html">Draft your own</a><a class="btn" href="policies.html">All twenty policies</a></div>
+<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button><a class="btn" href="policy-draft.html">Make your own policy</a><a class="btn" href="policies.html">All twenty policies</a></div>
 <div class="note ask">
 <p><strong>In your group:</strong> take two or three of these. For each:</p>
 <ol>
@@ -769,8 +836,8 @@ POLICY_DRAFT_PAGE = f"""
 </style>
 <div class="doc">
 <p class="eyebrow">2:45 · Collective decisions</p>
-<h1>Draft your AI guidance</h1>
-<p class="lede">A first draft of guidance for a class, your staff or your school. Fill it in here or print it. Every line names why.</p>
+<h1>Make your own policy</h1>
+<p class="lede">A template for a first draft, for a class, your staff or your school. Fill it in here or print it. Every line names why.</p>
 <div class="tools no-print"><button class="btn" type="button" id="pd-copy">Copy my draft</button><button class="btn" type="button" onclick="window.print()">Print this page</button><button class="btn" type="button" id="pd-clear">Clear</button><span class="meta" id="pd-status" aria-live="polite"></span></div>
 <fieldset class="pd-for"><legend>This draft is for:</legend>
 <label><input type="radio" name="pd-for" value="A class">A class</label>
@@ -779,7 +846,7 @@ POLICY_DRAFT_PAGE = f"""
 </fieldset>
 {draft_fields_html()}
 <p class="meta pd-local">Your draft stays in this browser.</p>
-<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>. For positions to borrow from or push against, see <a href="policy-compare.html">six positions to argue with</a>.</p>
+<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>. To read other policies first, use the <a href="policy-questions.html">questions to ask of a policy</a>.</p>
 </div>
 <script>
 (function(){{
@@ -799,7 +866,7 @@ POLICY_DRAFT_PAGE = f"""
   var status=document.getElementById('pd-status');
   function say(t){{ status.textContent=t; setTimeout(function(){{ status.textContent=''; }},2500); }}
   function asText(){{
-    var lines=['AI guidance: first draft',''];
+    var lines=['AI policy: first draft',''];
     var who=radios.filter(function(r){{return r.checked;}})[0];
     lines.push('This draft is for: '+(who?who.value:''),'');
     areas.forEach(function(el){{
@@ -1074,7 +1141,8 @@ PAGES = [
     {"file": "copilot-and-prompting.html", "nav": "handouts", "title": "Copilot and prompting · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + COPILOT_MD + "\n</div>"},
     {"file": "readings.html", "nav": "readings", "title": "Readings · Teaching with, about, and without AI", "html": READINGS_PAGE},
     {"file": "policies.html", "nav": "policies", "title": "Policy examples · Teaching with, about, and without AI", "html": POLICIES_PAGE},
+    {"file": "policy-questions.html", "nav": "policies", "title": "Questions to ask of a policy · Teaching with, about, and without AI", "desc": "Questions to ask of any AI policy: what it assumes, who decides, what it leaves out and how it works in a classroom.", "html": POLICY_QUESTIONS_PAGE},
     {"file": "policy-compare.html", "nav": "policies", "title": "Six positions to argue with · Teaching with, about, and without AI", "desc": "Six published K to 12 AI policies with very different positions, and four questions to ask of them.", "html": POLICY_COMPARE_PAGE},
-    {"file": "policy-draft.html", "nav": "handouts", "title": "Draft your AI guidance · Teaching with, about, and without AI", "desc": "A worksheet for a first draft of AI guidance for a class, your staff or your school.", "html": POLICY_DRAFT_PAGE},
+    {"file": "policy-draft.html", "nav": "handouts", "title": "Make your own policy · Teaching with, about, and without AI", "desc": "A template for a first draft of AI policy for a class, your staff or your school.", "html": POLICY_DRAFT_PAGE},
     {"file": "frameworks.html", "nav": "frameworks", "title": "Frameworks · Teaching with, about, and without AI", "html": FRAMEWORKS_PAGE},
 ]

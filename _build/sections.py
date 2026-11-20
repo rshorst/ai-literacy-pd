@@ -128,19 +128,17 @@ DAY = [
         "file": "collective.html", "tab": "Collective decisions", "start": "2:45", "end": "3:15", "title": "From classroom choices to collective decisions",
         "desc": "We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.",
         "note": "What needs to be decided here, who needs to be part of that decision, and what should remain open?",
-        "chips": [("policy-compare.html", "Six positions to argue with"), ("policy-draft.html", "Draft your AI guidance"), ("policies.html", "Policy examples"), ("class-ai-agreement.html", "Collaborative protocol"), ("activities.html#activity-13", "The document audit")],
+        "chips": [("policies.html", "Policy examples"), ("policy-questions.html", "Questions to ask of a policy"), ("policy-draft.html", "Make your own policy"), ("class-ai-agreement.html", "Collaborative protocol")],
         "steps": [
             "Gather the questions that came up through the day.",
             "Sort them: what an individual educator can decide, what may need shared school guidance, and what calls for broader community conversation.",
             "Look at approaches from elsewhere as possibilities to examine, not templates to adopt.",
         ],
         "tiles": [
-            ("policy-compare.html", "Six positions to argue with", "Six published policies with very different stances, to examine in groups."),
-            ("policy-draft.html", "Draft your AI guidance", "A first draft for a class, your staff or your school. Fill it in or print it."),
-            ("responses.html", "Shared board", "The groups’ responses from the morning."),
             ("policies.html", "Policy examples", "What other schools and districts have written."),
+            ("policy-questions.html", "Questions to ask of a policy", "What it assumes, who decides, what it leaves out."),
+            ("policy-draft.html", "Make your own policy", "A template for a first draft. Fill it in or print it."),
             ("class-ai-agreement.html", "Collaborative protocol", "Deciding together, with students, how AI is used in the room."),
-            ("activities.html#activity-13", "The document audit", "What do we already say that covers this?"),
         ],
     },
     {
@@ -228,6 +226,7 @@ BELONGS = {
     "copilot-and-prompting.html": "copilot.html", "practical-moves.html": "copilot.html",
     "aias.html": "fit.html", "class-ai-agreement.html": "collective.html",
     "policy-compare.html": "collective.html", "policy-draft.html": "collective.html",
+    "policy-questions.html": "collective.html",
 }
 
 
