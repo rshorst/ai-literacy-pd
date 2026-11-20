@@ -279,6 +279,8 @@ HANDOUTS_INDEX = """
 <a class="tile" href="what-these-systems-are.html"><h3>What these systems are</h3><p>Eight things educators need to know about chatbots, in plain language.</p></a>
 <a class="tile" href="practical-moves.html"><h3>Practical moves</h3><p>Moves for teachers and for students, tied to the four Cs.</p></a>
 <a class="tile" href="class-ai-agreement.html"><h3>The class AI agreement</h3><p>A protocol for writing a class AI agreement with students in one or two lessons.</p></a>
+<a class="tile" href="policy-compare.html"><h3>Six positions to argue with</h3><p>Six published AI policies with very different stances, and four questions for groups. Prints on two pages.</p></a>
+<a class="tile" href="policy-draft.html"><h3>Draft your AI guidance</h3><p>A first draft for a class, your staff or your school. Fill it in online or print it as a worksheet.</p></a>
 <a class="tile" href="copilot-and-prompting.html"><h3>Copilot and prompting</h3><p>What Copilot is in a school, what it is good for, and six prompting strategies.</p></a>
 <a class="tile" href="assets/how-ai-fits-handout.pdf" download><h3>How AI fits (PDF)</h3><p>What kind of task is this, assessing the process, and prompts to configure the machine. Two pages.</p></a>
 <a class="tile" href="assets/one-essay-many-outcomes.pdf" download><h3>One essay, many outcomes (PDF)</h3><p>One Grade 9 essay task, eight BC standards it could be assessing, and how the assessment changes for each.</p></a>
@@ -620,6 +622,7 @@ POLICIES_PAGE = f"""
 <h2>Two ways to use them</h2>
 <p><strong>Critique.</strong> Give small groups three contrasting documents, such as Seaquam's bolt-on, Park East's red-by-default and Waterloo's scale. Read each through the <a href="frameworks.html">dimensions</a>: what does it assume about data and where it goes, about authorship and relation, whose labour does it move, and what future does it take for granted? Then: which would you want to teach under, and what would you add?</p>
 <p><strong>Build your own.</strong> Use the lists as positions to argue with while writing your own guidance. Langley's line on Indigenous content, Central Okanagan's framing of consent as a legal duty, Halton's tiers, Peel's supervised-not-prohibited stance and Wyndham's equity rule are good starting points. For a class version, see <a href="class-ai-agreement.html">the class AI agreement</a>.</p>
+<p>For the afternoon, <a href="policy-compare.html">six positions to argue with</a> sets six of these side by side with questions for groups, and <a href="policy-draft.html">Draft your AI guidance</a> is the worksheet for your own first draft.</p>
 
 <h2>Secondary</h2>
 {policies_html(SECONDARY, "secondary")}
@@ -642,6 +645,196 @@ POLICIES_PAGE = f"""
 </ul>
 <p>Every policy here is about permission and detection. None is about what AI does to the conditions of meaning-making in a classroom. That gap is where an entangled policy starts.</p>
 </div>
+"""
+
+# ---------------------------------------------------------------- 2:45 Collective decisions: six positions
+# Six contrasting policies, pulled from SECONDARY and ELEMENTARY above (not copied).
+SIX_POSITIONS = [
+    ("Seaquam", "Adds AI to the plagiarism rules"),
+    ("Park East", "No AI unless the teacher says so"),
+    ("Waterloo", "Optional, with a scale the teacher sets per task"),
+    ("Halton", "Tiered by age, with consent and an alternative"),
+    ("Canadian Rockies", "Conversations, not detectors"),
+    ("Langley", "A line on Indigenous content"),
+]
+
+
+def _policy(prefix):
+    hits = [p for p in SECONDARY + ELEMENTARY if p[0].startswith(prefix)]
+    assert len(hits) == 1, prefix
+    return hits[0]
+
+
+def six_positions_html():
+    out = []
+    for prefix, stance in SIX_POSITIONS:
+        name, meta, url, summary, notable = _policy(prefix)
+        out.append(
+            f'<article class="card six"><p class="stance">{esc(stance)}</p><h3>{esc(name)}</h3><p class="meta">{esc(meta)}</p>'
+            f'<p>{esc(summary)}</p><p><strong>Notable:</strong> {esc(notable)}</p>'
+            f'<p class="no-print"><a href="{url}">Read the policy</a></p></article>'
+        )
+    return "\n".join(out)
+
+
+POLICY_COMPARE_PAGE = f"""
+<style>
+.six-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;max-width:none}}
+.six-grid .card{{margin:14px 0}}
+.stance{{display:inline-block;background:var(--yellow);font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;margin:0 0 10px}}
+.ask ol{{margin:6px 0 2px;padding-left:22px}}
+.ask li{{margin:3px 0}}
+@media (max-width:760px){{.six-grid{{grid-template-columns:1fr}}}}
+@media print{{
+  @page{{size:letter;margin:11mm 12mm}}
+  body{{font-size:10.4pt;line-height:1.36}}
+  .page-deco{{display:none}}
+  .doc h1{{font-size:21pt;margin:0 0 4px}}
+  .doc .eyebrow{{font-size:8pt;margin:0 0 4px}}
+  .lede{{font-size:10.5pt;margin:0 0 8px}}
+  .ask{{margin:8px 0 10px;padding:7px 12px;box-shadow:none;border-left-width:4px}}
+  .ask p,.ask li{{margin:1px 0}}
+  .six-grid{{gap:0 14px}}
+  .six-grid .card{{margin:6px 0;padding:8px 11px 6px;break-inside:avoid}}
+  .six-grid .card p{{margin:0 0 4px}}
+  .six-grid .card h3{{font-size:11pt;margin:0 0 2px}}
+  .six-grid .meta{{font-size:8.8pt}}
+  .stance{{font-size:8.6pt;padding:1px 6px;margin:0 0 4px;background:#fbd441;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  .doc > .meta:last-child{{font-size:8.4pt;margin-top:6px}}
+}}
+</style>
+<div class="doc">
+<p class="eyebrow">2:45 · Collective decisions</p>
+<h1>Six positions to argue with</h1>
+<p class="lede">Six published K to 12 AI policies that take very different positions. They are here to examine, not to adopt.</p>
+<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button><a class="btn" href="policy-draft.html">Draft your own</a><a class="btn" href="policies.html">All twenty policies</a></div>
+<div class="note ask">
+<p><strong>In your group:</strong> take two or three of these. For each:</p>
+<ol>
+<li>What does it assume about students, teachers and the tool?</li>
+<li>Who decides, and who is left out of deciding?</li>
+<li>What is missing: data, cost, place, refusal, student voice?</li>
+<li>Which would you want to teach under, and what would you add?</li>
+</ol>
+</div>
+<div class="six-grid">
+{six_positions_html()}
+</div>
+<p class="meta">Summaries read in September 2026. Policies change quickly, so check the link before relying on one.</p>
+</div>
+"""
+
+# ---------------------------------------------------------------- 2:45 Collective decisions: draft your guidance
+DRAFT_FIELDS = [
+    ("who", "Who is it for, and what is it about?", "", "For example: our Grade 7 class, and how we use AI for research and writing."),
+    ("will", "We will", "tall", "We will … because …"),
+    ("wont", "We won’t", "tall", "We won’t … because …"),
+    ("ask", "We’ll ask first", "tall", "We’ll ask before we … because …"),
+    ("part", "Who needs to be part of this decision?", "", "Students, families, colleagues, community …"),
+    ("open", "What should stay open for now?", "", "Questions we aren’t ready to settle yet."),
+    ("revisit", "When and how will we revisit it?", "", "For example: at the end of term, with students’ feedback."),
+]
+
+
+def draft_fields_html():
+    return "\n".join(
+        f'<label class="pd-field {cls}"><span>{esc(lab)}</span><textarea id="pd-{k}" placeholder="{esc(ph)}"></textarea></label>'
+        for k, lab, cls, ph in DRAFT_FIELDS)
+
+
+POLICY_DRAFT_PAGE = f"""
+<style>
+.pd-for{{border:2px solid var(--ink);border-radius:4px;background:var(--surface);padding:10px 14px 12px;margin:18px 0;max-width:68ch}}
+.pd-for legend{{font-weight:700;padding:0 6px}}
+.pd-for label{{display:inline-flex;align-items:center;gap:6px;margin:4px 22px 0 0;font-weight:600;cursor:pointer}}
+.pd-for input{{width:18px;height:18px;margin:0;accent-color:var(--ink)}}
+.pd-field{{display:block;font-weight:700;margin:16px 0 18px;max-width:68ch}}
+.pd-field textarea{{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:8px 10px;color:var(--ink);min-height:80px;resize:vertical}}
+.pd-field.tall textarea{{min-height:140px}}
+#pd-status{{align-self:center}}
+@media print{{
+  @page{{size:letter;margin:12mm 14mm}}
+  body{{font-size:10.5pt}}
+  .page-deco{{display:none}}
+  .doc h1{{font-size:22pt;margin:0 0 4px}}
+  .lede{{font-size:11pt;margin:0 0 6px}}
+  .pd-for{{margin:8px 0 6px;padding:5px 10px 7px;max-width:none}}
+  .pd-for input{{width:14px;height:14px}}
+  .pd-field{{margin:0 0 8px;max-width:none;break-inside:avoid}}
+  .pd-field textarea{{min-height:2.5cm;height:2.5cm;margin-top:3px;padding:5px 8px;border-width:1.5px;resize:none;overflow:hidden;background:#fff}}
+  .pd-field.tall textarea{{min-height:4cm;height:4cm}}
+  .pd-field textarea::placeholder{{color:transparent}}
+  .pd-local{{display:none}}
+}}
+</style>
+<div class="doc">
+<p class="eyebrow">2:45 · Collective decisions</p>
+<h1>Draft your AI guidance</h1>
+<p class="lede">A first draft of guidance for a class, your staff or your school. Fill it in here or print it. Every line names why.</p>
+<div class="tools no-print"><button class="btn" type="button" id="pd-copy">Copy my draft</button><button class="btn" type="button" onclick="window.print()">Print this page</button><button class="btn" type="button" id="pd-clear">Clear</button><span class="meta" id="pd-status" aria-live="polite"></span></div>
+<fieldset class="pd-for"><legend>This draft is for:</legend>
+<label><input type="radio" name="pd-for" value="A class">A class</label>
+<label><input type="radio" name="pd-for" value="Our staff">Our staff</label>
+<label><input type="radio" name="pd-for" value="Our school">Our school</label>
+</fieldset>
+{draft_fields_html()}
+<p class="meta pd-local">Your draft stays in this browser.</p>
+<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>. For positions to borrow from or push against, see <a href="policy-compare.html">six positions to argue with</a>.</p>
+</div>
+<script>
+(function(){{
+  var KEY='aipd-policy-draft', saved={{}};
+  try{{ saved=JSON.parse(localStorage.getItem(KEY)||'{{}}'); }}catch(e){{}}
+  var areas=[].slice.call(document.querySelectorAll('.pd-field textarea'));
+  var radios=[].slice.call(document.querySelectorAll('input[name="pd-for"]'));
+  function store(){{ try{{ localStorage.setItem(KEY, JSON.stringify(saved)); }}catch(e){{}} }}
+  areas.forEach(function(el){{
+    if(el.id in saved) el.value=saved[el.id];
+    el.addEventListener('input',function(){{ saved[el.id]=el.value; store(); }});
+  }});
+  radios.forEach(function(r){{
+    if(saved['pd-for']===r.value) r.checked=true;
+    r.addEventListener('change',function(){{ if(r.checked){{ saved['pd-for']=r.value; store(); }} }});
+  }});
+  var status=document.getElementById('pd-status');
+  function say(t){{ status.textContent=t; setTimeout(function(){{ status.textContent=''; }},2500); }}
+  function asText(){{
+    var lines=['AI guidance: first draft',''];
+    var who=radios.filter(function(r){{return r.checked;}})[0];
+    lines.push('This draft is for: '+(who?who.value:''),'');
+    areas.forEach(function(el){{
+      var lab=el.parentNode.querySelector('span').textContent;
+      var v=el.value.trim(); lines.push(lab); if(v) lines.push(v); lines.push('');
+    }});
+    return lines.join('\\n').trim()+'\\n';
+  }}
+  document.getElementById('pd-copy').addEventListener('click',function(){{
+    var t=asText();
+    function fallback(){{
+      var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      try{{ document.execCommand('copy'); say('Copied.'); }}catch(e){{ say('Could not copy. Select the text and copy it instead.'); }}
+      document.body.removeChild(ta);
+    }}
+    if(navigator.clipboard&&navigator.clipboard.writeText){{
+      navigator.clipboard.writeText(t).then(function(){{ say('Copied.'); }},fallback);
+    }} else fallback();
+  }});
+  document.getElementById('pd-clear').addEventListener('click',function(){{
+    if(!confirm('Clear everything in this draft?')) return;
+    areas.forEach(function(el){{ el.value=''; }});
+    radios.forEach(function(r){{ r.checked=false; }});
+    saved={{}};
+    try{{ localStorage.removeItem(KEY); }}catch(e){{}}
+    say('Cleared.');
+  }});
+  // In print, let a filled box grow to fit what was written; a blank box keeps its writing space.
+  window.addEventListener('beforeprint',function(){{
+    areas.forEach(function(el){{ if(!el.value) return; el.style.height='auto'; el.style.height=(el.scrollHeight+4)+'px'; }});
+  }});
+  window.addEventListener('afterprint',function(){{ areas.forEach(function(el){{ el.style.height=''; }}); }});
+}})();
+</script>
 """
 
 # ---------------------------------------------------------------- Frameworks
@@ -881,5 +1074,7 @@ PAGES = [
     {"file": "copilot-and-prompting.html", "nav": "handouts", "title": "Copilot and prompting · Teaching with, about, and without AI", "md": '<div class="doc" markdown="1">\n' + COPILOT_MD + "\n</div>"},
     {"file": "readings.html", "nav": "readings", "title": "Readings · Teaching with, about, and without AI", "html": READINGS_PAGE},
     {"file": "policies.html", "nav": "policies", "title": "Policy examples · Teaching with, about, and without AI", "html": POLICIES_PAGE},
+    {"file": "policy-compare.html", "nav": "policies", "title": "Six positions to argue with · Teaching with, about, and without AI", "desc": "Six published K to 12 AI policies with very different positions, and four questions to ask of them.", "html": POLICY_COMPARE_PAGE},
+    {"file": "policy-draft.html", "nav": "handouts", "title": "Draft your AI guidance · Teaching with, about, and without AI", "desc": "A worksheet for a first draft of AI guidance for a class, your staff or your school.", "html": POLICY_DRAFT_PAGE},
     {"file": "frameworks.html", "nav": "frameworks", "title": "Frameworks · Teaching with, about, and without AI", "html": FRAMEWORKS_PAGE},
 ]
