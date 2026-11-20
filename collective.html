@@ -217,10 +217,125 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <p class="lede">We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.</p>
 <p class="note-q">What needs to be decided here, who needs to be part of that decision, and what should remain open?</p>
 
+<style>
+
+.six-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;max-width:none}
+.six-grid .card{margin:14px 0}
+.stance{display:inline-block;background:var(--yellow);font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;margin:0 0 10px}
+@media (max-width:760px){.six-grid{grid-template-columns:1fr}}
+
+.pq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 28px;max-width:none}
+.pq h2,.pq h3{margin:18px 0 6px}
+.pq ul{margin:0;padding-left:20px}
+.pq li{margin:6px 0}
+@media (max-width:760px){.pq-grid{grid-template-columns:1fr}}
+
+.pd-for{border:2px solid var(--ink);border-radius:4px;background:var(--surface);padding:10px 14px 12px;margin:18px 0;max-width:68ch}
+.pd-for legend{font-weight:700;padding:0 6px}
+.pd-for label{display:inline-flex;align-items:center;gap:6px;margin:4px 22px 0 0;font-weight:600;cursor:pointer}
+.pd-for input{width:18px;height:18px;margin:0;accent-color:var(--ink)}
+.pd-field{display:block;font-weight:700;margin:16px 0 18px;max-width:68ch}
+.pd-field textarea{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:8px 10px;color:var(--ink);min-height:80px;resize:vertical}
+.pd-field.tall textarea{min-height:140px}
+#pd-status{align-self:center}
+
+.ct-step{margin-top:44px}
+.ct-six.six-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+</style>
+<h2 class="ct-step" id="choose">Choose two or three policies</h2>
+<p>Six published K to 12 policies that take very different positions, here to examine, not to adopt. There are <a href="policies.html">twenty in all</a>.</p>
+<div class="six-grid ct-six">
+<article class="card six"><p class="stance">Adds AI to the plagiarism rules</p><h3>Seaquam Secondary School (Delta SD37), Academic Honesty</h3><p class="meta">Delta, BC. Secondary, grades 8 to 12. November 2024. Governs students.</p><p>A school academic-integrity page that adds copying from AI, or using AI content without sourcing it, to the list of plagiarism offences. Consequences include a mark of zero, a call home and referral to administration. No guidance on permitted use, no disclosure format, no tool list.</p><p><strong>Notable:</strong> The typical BC bolt-on: AI handled as a plagiarism category inside an existing honesty policy rather than as its own framework. A good contrast case.</p><p class="no-print"><a href="https://se.deltasd.bc.ca/our-school/academic-honesty/">Read the policy</a></p></article>
+<article class="card six"><p class="stance">No AI unless the teacher says so</p><h3>Park East High School (NYC), AI and Academic Integrity Policies</h3><p class="meta">New York. Grades 9 to 12. 2026–27 school year. Governs students.</p><p>Restrictive by default: every assignment is red (no AI) unless the teacher makes it yellow or green. Where AI is allowed, students disclose what it generated and how they used it. A consequence ladder runs from a call home to a redo under a strict timeframe, then a zero.</p><p><strong>Notable:</strong> The clearest red-by-default policy, with a fully specified discipline ladder. A useful contrast to permissive-by-default models.</p><p class="no-print"><a href="https://www.parkeasths.org/apps/pages/index.jsp?uREC_ID=4428131&type=d&pREC_ID=2698883">Read the policy</a></p></article>
+<article class="card six"><p class="stance">Optional, with a scale the teacher sets per task</p><h3>Waterloo Region District School Board, GenAI Student Guidelines</h3><p class="meta">Waterloo Region, Ontario. Grades 7 to 12. May 2026.</p><p>Two board-licensed tools for grades 7 and up, always optional and teacher-guided. Teachers can include, limit or leave out AI for each task using a four-level scale, with worked citation examples. Copying without citation is plagiarism.</p><p><strong>Notable:</strong> A grade 7 floor with teacher opt-out, and a ready-made student-facing scale.</p><p class="no-print"><a href="https://www.wrdsb.ca/learning/digital-citizenship/genai-student-guidelines/">Read the policy</a></p></article>
+<article class="card six"><p class="stance">Tiered by age, with consent and an alternative</p><h3>Halton District School Board, Generative AI Staff and Student Use Guidelines</h3><p class="meta">Halton Region, Ontario. K to 12 with tiers. August 2025.</p><p>The clearest tiered model found: no student tools for K to 6, a short vetted list for grades 7 and 8 with signed parental consent and an alternate assignment for anyone without it, and a broader list for 9 to 12. Staff may use AI for planning and report-card drafting as a supplement to professional judgement, and must disclose AI-generated lesson content.</p><p><strong>Notable:</strong> An explicit K to 6 prohibition, per-class consent letters and mandatory alternate assignments.</p><p class="no-print"><a href="https://www.myhdsb.ca/media/bhtc22om/generative-ai-staff-and-student-use-guidelines.pdf">Read the policy</a></p></article>
+<article class="card six"><p class="stance">Conversations, not detectors</p><h3>Canadian Rockies Public Schools, Administrative Procedure 140</h3><p class="meta">Canmore and Banff, Alberta. K to 12 with grade 9 to 12 provisions. August 2026. Governs students and staff.</p><p>Folds AI into the technology acceptable-use procedure. Students may use AI to generate ideas, practise skills or deepen understanding, and must disclose it and mark which parts were AI-assisted. Only district-approved tools with privacy agreements may be used. Staff are steered away from AI detectors toward conversations with students. Deepfakes of any person without permission are banned.</p><p><strong>Notable:</strong> An explicit anti-deepfake rule and an explicit stance against detection software, with the preferred alternative named.</p><p class="no-print"><a href="https://www.crps.ca/download/344210">Read the policy</a></p></article>
+<article class="card six"><p class="stance">A line on Indigenous content</p><h3>Langley School District (SD35), AI Guidelines</h3><p class="meta">Langley, BC. K to 12; Copilot for staff, student access planned for grades 9 to 12. Spring 2025.</p><p>Teacher-facing. Staff may use the district Copilot for planning, assignments, rubrics and family communications, and must tell students when and how AI is permitted. At the request of the district's Aboriginal Program, teachers are asked not to use AI to create Indigenous learning opportunities, which the guidelines name as cultural appropriation.</p><p><strong>Notable:</strong> The only policy found that explicitly prohibits using AI to generate Indigenous learning content.</p><p class="no-print"><a href="https://www.sd35.bc.ca/instructionalservices/sd35-ai-guidelines">Read the policy</a></p></article>
+</div>
+<p class="meta">Summaries read in September 2026. Policies change quickly, so check the link before relying on one.</p>
+<h2 class="ct-step" id="ask">Ask these as you read</h2>
+<div class="pq-grid">
+<section class="pq"><h3>What it assumes</h3><ul><li>What does it assume about students, teachers and the tool?</li><li>Is AI treated as a cheating problem, a tool to manage, or something to learn about?</li><li>What counts as using AI here? Spellcheck, translation, search?</li></ul></section>
+<section class="pq"><h3>Who decides</h3><ul><li>Who wrote it, and who was asked?</li><li>Where do students, families and community appear, if at all?</li><li>Can a student or family say no? Is there a real alternative if they do?</li></ul></section>
+<section class="pq"><h3>What it leaves out</h3><ul><li>Data: where does student information go, and who can see it?</li><li>Cost and access: who pays, and who goes without?</li><li>Place: does it say anything about local or Indigenous knowledge, and who has permission to share it?</li></ul></section>
+<section class="pq"><h3>How it works in a classroom</h3><ul><li>What would a teacher actually do differently on Monday?</li><li>How does AI use become visible: disclosure, conversation, detection?</li><li>What happens when something goes wrong?</li></ul></section>
+<section class="pq"><h3>For us</h3><ul><li>What would we keep, what would we change, and what is missing for our place?</li><li>Who needs to be part of deciding here?</li></ul></section>
+</div>
+<h2 class="ct-step" id="draft">Draft your own</h2>
+<p>A first draft for a class, your staff or your school. Every line names why. What you write is saved in this browser, and it also fills in the <a href="policy-draft.html">printable template</a>.</p>
+<div class="tools no-print"><button class="btn" type="button" id="pd-copy">Copy my draft</button><a class="btn" href="policy-draft.html">Print it</a><button class="btn" type="button" id="pd-clear">Clear</button><span class="meta" id="pd-status" aria-live="polite"></span></div>
+<fieldset class="pd-for"><legend>This draft is for:</legend>
+<label><input type="radio" name="pd-for" value="A class">A class</label>
+<label><input type="radio" name="pd-for" value="Our staff">Our staff</label>
+<label><input type="radio" name="pd-for" value="Our school">Our school</label>
+</fieldset>
+<label class="pd-field "><span>Who is it for, and what is it about?</span><textarea id="pd-who" placeholder="For example: our Grade 7 class, and how we use AI for research and writing."></textarea></label>
+<label class="pd-field tall"><span>We will</span><textarea id="pd-will" placeholder="We will … because …"></textarea></label>
+<label class="pd-field tall"><span>We won’t</span><textarea id="pd-wont" placeholder="We won’t … because …"></textarea></label>
+<label class="pd-field tall"><span>We’ll ask first</span><textarea id="pd-ask" placeholder="We’ll ask before we … because …"></textarea></label>
+<label class="pd-field "><span>Who needs to be part of this decision?</span><textarea id="pd-part" placeholder="Students, families, colleagues, community …"></textarea></label>
+<label class="pd-field "><span>What should stay open for now?</span><textarea id="pd-open" placeholder="Questions we aren’t ready to settle yet."></textarea></label>
+<label class="pd-field "><span>When and how will we revisit it?</span><textarea id="pd-revisit" placeholder="For example: at the end of term, with students’ feedback."></textarea></label>
+<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>.</p>
+<script>
+(function(){
+  var KEY='aipd-policy-draft', saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  var areas=[].slice.call(document.querySelectorAll('.pd-field textarea'));
+  var radios=[].slice.call(document.querySelectorAll('input[name="pd-for"]'));
+  function store(){ try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){} }
+  areas.forEach(function(el){
+    if(el.id in saved) el.value=saved[el.id];
+    el.addEventListener('input',function(){ saved[el.id]=el.value; store(); });
+  });
+  radios.forEach(function(r){
+    if(saved['pd-for']===r.value) r.checked=true;
+    r.addEventListener('change',function(){ if(r.checked){ saved['pd-for']=r.value; store(); } });
+  });
+  var status=document.getElementById('pd-status');
+  function say(t){ status.textContent=t; setTimeout(function(){ status.textContent=''; },2500); }
+  function asText(){
+    var lines=['AI policy: first draft',''];
+    var who=radios.filter(function(r){return r.checked;})[0];
+    lines.push('This draft is for: '+(who?who.value:''),'');
+    areas.forEach(function(el){
+      var lab=el.parentNode.querySelector('span').textContent;
+      var v=el.value.trim(); lines.push(lab); if(v) lines.push(v); lines.push('');
+    });
+    return lines.join('\n').trim()+'\n';
+  }
+  document.getElementById('pd-copy').addEventListener('click',function(){
+    var t=asText();
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); say('Copied.'); }catch(e){ say('Could not copy. Select the text and copy it instead.'); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){ say('Copied.'); },fallback);
+    } else fallback();
+  });
+  document.getElementById('pd-clear').addEventListener('click',function(){
+    if(!confirm('Clear everything in this draft?')) return;
+    areas.forEach(function(el){ el.value=''; });
+    radios.forEach(function(r){ r.checked=false; });
+    saved={};
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    say('Cleared.');
+  });
+  // In print, let a filled box grow to fit what was written; a blank box keeps its writing space.
+  window.addEventListener('beforeprint',function(){
+    areas.forEach(function(el){ if(!el.value) return; el.style.height='auto'; el.style.height=(el.scrollHeight+4)+'px'; });
+  });
+  window.addEventListener('afterprint',function(){ areas.forEach(function(el){ el.style.height=''; }); });
+})();
+</script>
 
 
 
-<h2>Materials</h2><div class="grid"><a class="tile" href="policies.html"><h3>Policy examples</h3><p>What other schools and districts have written.</p></a><a class="tile" href="policy-questions.html"><h3>Questions to ask of a policy</h3><p>What it assumes, who decides, what it leaves out.</p></a><a class="tile" href="policy-draft.html"><h3>Make your own policy</h3><p>A template for a first draft. Fill it in or print it.</p></a><a class="tile" href="class-ai-agreement.html"><h3>Collaborative protocol</h3><p>Deciding together, with students, how AI is used in the room.</p></a></div>
+
+<h2>Materials</h2><div class="grid"><a class="tile" href="policies.html"><h3>Policy examples</h3><p>All twenty policies, secondary and elementary.</p></a><a class="tile" href="policy-questions.html"><h3>Questions to ask of a policy</h3><p>The questions on one printable page.</p></a><a class="tile" href="policy-draft.html"><h3>Make your own policy</h3><p>The template as a printable worksheet, with your draft from this page.</p></a><a class="tile" href="class-ai-agreement.html"><h3>Collaborative protocol</h3><p>Deciding together, with students, how AI is used in the room.</p></a></div>
 <nav class="pager" aria-label="The day"><a href="rethinking.html"><small>← 1:30</small>Rethinking something you already teach</a><a href="close.html"><small>3:15 →</small>Close</a></nav>
 </div>
 </main>

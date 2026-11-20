@@ -677,19 +677,24 @@ POLICY_QUESTIONS = [
 ]
 
 
-def policy_questions_html():
+def policy_questions_html(level="h2"):
     return "\n".join(
-        f'<section class="pq"><h2>{esc(h)}</h2><ul>' + "".join(f"<li>{esc(q)}</li>" for q in qs) + "</ul></section>"
+        f'<section class="pq"><{level}>{esc(h)}</{level}><ul>' + "".join(f"<li>{esc(q)}</li>" for q in qs) + "</ul></section>"
         for h, qs in POLICY_QUESTIONS)
+
+
+PQ_CSS = """
+.pq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 28px;max-width:none}
+.pq h2,.pq h3{margin:18px 0 6px}
+.pq ul{margin:0;padding-left:20px}
+.pq li{margin:6px 0}
+@media (max-width:760px){.pq-grid{grid-template-columns:1fr}}
+"""
 
 
 POLICY_QUESTIONS_PAGE = f"""
 <style>
-.pq-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 28px;max-width:none}}
-.pq h2{{margin:18px 0 6px}}
-.pq ul{{margin:0;padding-left:20px}}
-.pq li{{margin:6px 0}}
-@media (max-width:760px){{.pq-grid{{grid-template-columns:1fr}}}}
+{PQ_CSS}
 @media print{{
   @page{{size:letter;margin:13mm 15mm}}
   body{{font-size:11pt;line-height:1.4}}
@@ -744,14 +749,18 @@ def six_positions_html():
     return "\n".join(out)
 
 
+SIX_CSS = """
+.six-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;max-width:none}
+.six-grid .card{margin:14px 0}
+.stance{display:inline-block;background:var(--yellow);font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;margin:0 0 10px}
+@media (max-width:760px){.six-grid{grid-template-columns:1fr}}
+"""
+
 POLICY_COMPARE_PAGE = f"""
 <style>
-.six-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;max-width:none}}
-.six-grid .card{{margin:14px 0}}
-.stance{{display:inline-block;background:var(--yellow);font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;margin:0 0 10px}}
+{SIX_CSS}
 .ask ol{{margin:6px 0 2px;padding-left:22px}}
 .ask li{{margin:3px 0}}
-@media (max-width:760px){{.six-grid{{grid-template-columns:1fr}}}}
 @media print{{
   @page{{size:letter;margin:11mm 12mm}}
   body{{font-size:10.4pt;line-height:1.36}}
@@ -809,16 +818,86 @@ def draft_fields_html():
         for k, lab, cls, ph in DRAFT_FIELDS)
 
 
+DRAFT_CSS = """
+.pd-for{border:2px solid var(--ink);border-radius:4px;background:var(--surface);padding:10px 14px 12px;margin:18px 0;max-width:68ch}
+.pd-for legend{font-weight:700;padding:0 6px}
+.pd-for label{display:inline-flex;align-items:center;gap:6px;margin:4px 22px 0 0;font-weight:600;cursor:pointer}
+.pd-for input{width:18px;height:18px;margin:0;accent-color:var(--ink)}
+.pd-field{display:block;font-weight:700;margin:16px 0 18px;max-width:68ch}
+.pd-field textarea{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:8px 10px;color:var(--ink);min-height:80px;resize:vertical}
+.pd-field.tall textarea{min-height:140px}
+#pd-status{align-self:center}
+"""
+
+
+def draft_form_html():
+    return f"""<fieldset class="pd-for"><legend>This draft is for:</legend>
+<label><input type="radio" name="pd-for" value="A class">A class</label>
+<label><input type="radio" name="pd-for" value="Our staff">Our staff</label>
+<label><input type="radio" name="pd-for" value="Our school">Our school</label>
+</fieldset>
+{draft_fields_html()}"""
+
+
+# One saved draft, shared by the Collective decisions page and the printable template.
+DRAFT_JS = """<script>
+(function(){
+  var KEY='aipd-policy-draft', saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  var areas=[].slice.call(document.querySelectorAll('.pd-field textarea'));
+  var radios=[].slice.call(document.querySelectorAll('input[name="pd-for"]'));
+  function store(){ try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){} }
+  areas.forEach(function(el){
+    if(el.id in saved) el.value=saved[el.id];
+    el.addEventListener('input',function(){ saved[el.id]=el.value; store(); });
+  });
+  radios.forEach(function(r){
+    if(saved['pd-for']===r.value) r.checked=true;
+    r.addEventListener('change',function(){ if(r.checked){ saved['pd-for']=r.value; store(); } });
+  });
+  var status=document.getElementById('pd-status');
+  function say(t){ status.textContent=t; setTimeout(function(){ status.textContent=''; },2500); }
+  function asText(){
+    var lines=['AI policy: first draft',''];
+    var who=radios.filter(function(r){return r.checked;})[0];
+    lines.push('This draft is for: '+(who?who.value:''),'');
+    areas.forEach(function(el){
+      var lab=el.parentNode.querySelector('span').textContent;
+      var v=el.value.trim(); lines.push(lab); if(v) lines.push(v); lines.push('');
+    });
+    return lines.join('\\n').trim()+'\\n';
+  }
+  document.getElementById('pd-copy').addEventListener('click',function(){
+    var t=asText();
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); say('Copied.'); }catch(e){ say('Could not copy. Select the text and copy it instead.'); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){ say('Copied.'); },fallback);
+    } else fallback();
+  });
+  document.getElementById('pd-clear').addEventListener('click',function(){
+    if(!confirm('Clear everything in this draft?')) return;
+    areas.forEach(function(el){ el.value=''; });
+    radios.forEach(function(r){ r.checked=false; });
+    saved={};
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    say('Cleared.');
+  });
+  // In print, let a filled box grow to fit what was written; a blank box keeps its writing space.
+  window.addEventListener('beforeprint',function(){
+    areas.forEach(function(el){ if(!el.value) return; el.style.height='auto'; el.style.height=(el.scrollHeight+4)+'px'; });
+  });
+  window.addEventListener('afterprint',function(){ areas.forEach(function(el){ el.style.height=''; }); });
+})();
+</script>"""
+
 POLICY_DRAFT_PAGE = f"""
 <style>
-.pd-for{{border:2px solid var(--ink);border-radius:4px;background:var(--surface);padding:10px 14px 12px;margin:18px 0;max-width:68ch}}
-.pd-for legend{{font-weight:700;padding:0 6px}}
-.pd-for label{{display:inline-flex;align-items:center;gap:6px;margin:4px 22px 0 0;font-weight:600;cursor:pointer}}
-.pd-for input{{width:18px;height:18px;margin:0;accent-color:var(--ink)}}
-.pd-field{{display:block;font-weight:700;margin:16px 0 18px;max-width:68ch}}
-.pd-field textarea{{display:block;width:100%;margin-top:6px;font:inherit;font-weight:400;background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:8px 10px;color:var(--ink);min-height:80px;resize:vertical}}
-.pd-field.tall textarea{{min-height:140px}}
-#pd-status{{align-self:center}}
+{DRAFT_CSS}
 @media print{{
   @page{{size:letter;margin:12mm 14mm}}
   body{{font-size:10.5pt}}
@@ -839,70 +918,44 @@ POLICY_DRAFT_PAGE = f"""
 <h1>Make your own policy</h1>
 <p class="lede">A template for a first draft, for a class, your staff or your school. Fill it in here or print it. Every line names why.</p>
 <div class="tools no-print"><button class="btn" type="button" id="pd-copy">Copy my draft</button><button class="btn" type="button" onclick="window.print()">Print this page</button><button class="btn" type="button" id="pd-clear">Clear</button><span class="meta" id="pd-status" aria-live="polite"></span></div>
-<fieldset class="pd-for"><legend>This draft is for:</legend>
-<label><input type="radio" name="pd-for" value="A class">A class</label>
-<label><input type="radio" name="pd-for" value="Our staff">Our staff</label>
-<label><input type="radio" name="pd-for" value="Our school">Our school</label>
-</fieldset>
-{draft_fields_html()}
-<p class="meta pd-local">Your draft stays in this browser.</p>
+{draft_form_html()}
+<p class="meta pd-local">Your draft stays in this browser. It is the same draft as on the <a href="collective.html#draft">Collective decisions</a> page.</p>
 <p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>. To read other policies first, use the <a href="policy-questions.html">questions to ask of a policy</a>.</p>
 </div>
-<script>
-(function(){{
-  var KEY='aipd-policy-draft', saved={{}};
-  try{{ saved=JSON.parse(localStorage.getItem(KEY)||'{{}}'); }}catch(e){{}}
-  var areas=[].slice.call(document.querySelectorAll('.pd-field textarea'));
-  var radios=[].slice.call(document.querySelectorAll('input[name="pd-for"]'));
-  function store(){{ try{{ localStorage.setItem(KEY, JSON.stringify(saved)); }}catch(e){{}} }}
-  areas.forEach(function(el){{
-    if(el.id in saved) el.value=saved[el.id];
-    el.addEventListener('input',function(){{ saved[el.id]=el.value; store(); }});
-  }});
-  radios.forEach(function(r){{
-    if(saved['pd-for']===r.value) r.checked=true;
-    r.addEventListener('change',function(){{ if(r.checked){{ saved['pd-for']=r.value; store(); }} }});
-  }});
-  var status=document.getElementById('pd-status');
-  function say(t){{ status.textContent=t; setTimeout(function(){{ status.textContent=''; }},2500); }}
-  function asText(){{
-    var lines=['AI policy: first draft',''];
-    var who=radios.filter(function(r){{return r.checked;}})[0];
-    lines.push('This draft is for: '+(who?who.value:''),'');
-    areas.forEach(function(el){{
-      var lab=el.parentNode.querySelector('span').textContent;
-      var v=el.value.trim(); lines.push(lab); if(v) lines.push(v); lines.push('');
-    }});
-    return lines.join('\\n').trim()+'\\n';
-  }}
-  document.getElementById('pd-copy').addEventListener('click',function(){{
-    var t=asText();
-    function fallback(){{
-      var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
-      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
-      try{{ document.execCommand('copy'); say('Copied.'); }}catch(e){{ say('Could not copy. Select the text and copy it instead.'); }}
-      document.body.removeChild(ta);
-    }}
-    if(navigator.clipboard&&navigator.clipboard.writeText){{
-      navigator.clipboard.writeText(t).then(function(){{ say('Copied.'); }},fallback);
-    }} else fallback();
-  }});
-  document.getElementById('pd-clear').addEventListener('click',function(){{
-    if(!confirm('Clear everything in this draft?')) return;
-    areas.forEach(function(el){{ el.value=''; }});
-    radios.forEach(function(r){{ r.checked=false; }});
-    saved={{}};
-    try{{ localStorage.removeItem(KEY); }}catch(e){{}}
-    say('Cleared.');
-  }});
-  // In print, let a filled box grow to fit what was written; a blank box keeps its writing space.
-  window.addEventListener('beforeprint',function(){{
-    areas.forEach(function(el){{ if(!el.value) return; el.style.height='auto'; el.style.height=(el.scrollHeight+4)+'px'; }});
-  }});
-  window.addEventListener('afterprint',function(){{ areas.forEach(function(el){{ el.style.height=''; }}); }});
-}})();
-</script>
+{DRAFT_JS}
 """
+
+# ---------------------------------------------------------------- 2:45 Collective decisions page: the working area
+# Section pages are rendered in sections.py before this module defines the policy data,
+# so sections.py leaves a marker and the working area is filled in here.
+COLLECTIVE_TOOLS = f"""
+<style>
+{SIX_CSS}{PQ_CSS}{DRAFT_CSS}
+.ct-step{{margin-top:44px}}
+.ct-six.six-grid{{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}}
+</style>
+<h2 class="ct-step" id="choose">Choose two or three policies</h2>
+<p>Six published K to 12 policies that take very different positions, here to examine, not to adopt. There are <a href="policies.html">twenty in all</a>.</p>
+<div class="six-grid ct-six">
+{six_positions_html()}
+</div>
+<p class="meta">Summaries read in September 2026. Policies change quickly, so check the link before relying on one.</p>
+<h2 class="ct-step" id="ask">Ask these as you read</h2>
+<div class="pq-grid">
+{policy_questions_html("h3")}
+</div>
+<h2 class="ct-step" id="draft">Draft your own</h2>
+<p>A first draft for a class, your staff or your school. Every line names why. What you write is saved in this browser, and it also fills in the <a href="policy-draft.html">printable template</a>.</p>
+<div class="tools no-print"><button class="btn" type="button" id="pd-copy">Copy my draft</button><a class="btn" href="policy-draft.html">Print it</a><button class="btn" type="button" id="pd-clear">Clear</button><span class="meta" id="pd-status" aria-live="polite"></span></div>
+{draft_form_html()}
+<p class="meta">Writing one with students? See <a href="class-ai-agreement.html">the class AI agreement</a>.</p>
+{DRAFT_JS}
+"""
+
+from sections import SECTION_PAGES as _SECTION_PAGES  # noqa: E402
+for _p in _SECTION_PAGES:
+    if "<!--collective-tools-->" in _p["html"]:
+        _p["html"] = _p["html"].replace("<!--collective-tools-->", COLLECTIVE_TOOLS)
 
 # ---------------------------------------------------------------- Frameworks
 FRAMEWORKS_PAGE = f"""

@@ -182,11 +182,13 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <main id="main"><img class="page-deco" src="assets/sticker-collective.webp" alt="">
 
 <style>
+
 .pq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 28px;max-width:none}
-.pq h2{margin:18px 0 6px}
+.pq h2,.pq h3{margin:18px 0 6px}
 .pq ul{margin:0;padding-left:20px}
 .pq li{margin:6px 0}
 @media (max-width:760px){.pq-grid{grid-template-columns:1fr}}
+
 @media print{
   @page{size:letter;margin:13mm 15mm}
   body{font-size:11pt;line-height:1.4}

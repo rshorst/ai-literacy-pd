@@ -128,6 +128,7 @@ DAY = [
         "file": "collective.html", "tab": "Collective decisions", "start": "2:45", "end": "3:15", "title": "From classroom choices to collective decisions",
         "desc": "We bring together the questions that have surfaced throughout the day and consider what can be decided by an individual educator, what may need shared school guidance, and what calls for broader community conversation. We look at emerging approaches elsewhere as possibilities to examine, not templates to adopt.",
         "note": "What needs to be decided here, who needs to be part of that decision, and what should remain open?",
+        "extra": "collective",
         "chips": [("policies.html", "Policy examples"), ("policy-questions.html", "Questions to ask of a policy"), ("policy-draft.html", "Make your own policy"), ("class-ai-agreement.html", "Collaborative protocol")],
         "steps": [
             "Gather the questions that came up through the day.",
@@ -135,9 +136,9 @@ DAY = [
             "Look at approaches from elsewhere as possibilities to examine, not templates to adopt.",
         ],
         "tiles": [
-            ("policies.html", "Policy examples", "What other schools and districts have written."),
-            ("policy-questions.html", "Questions to ask of a policy", "What it assumes, who decides, what it leaves out."),
-            ("policy-draft.html", "Make your own policy", "A template for a first draft. Fill it in or print it."),
+            ("policies.html", "Policy examples", "All twenty policies, secondary and elementary."),
+            ("policy-questions.html", "Questions to ask of a policy", "The questions on one printable page."),
+            ("policy-draft.html", "Make your own policy", "The template as a printable worksheet, with your draft from this page."),
             ("class-ai-agreement.html", "Collaborative protocol", "Deciding together, with students, how AI is used in the room."),
         ],
     },
@@ -728,6 +729,8 @@ def rethink_html():
 
 
 EXTRAS["rethink"] = rethink_html
+# Filled in by content.py, which holds the policy data.
+EXTRAS["collective"] = lambda: "<!--collective-tools-->"
 
 
 # ---- Strange systems talk slides: slides 7 to 23 of the final deck, rendered to assets/talk/NN.webp ----

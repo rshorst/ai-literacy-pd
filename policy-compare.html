@@ -182,12 +182,14 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 <main id="main"><img class="page-deco" src="assets/sticker-collective.webp" alt="">
 
 <style>
+
 .six-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;max-width:none}
 .six-grid .card{margin:14px 0}
 .stance{display:inline-block;background:var(--yellow);font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;margin:0 0 10px}
+@media (max-width:760px){.six-grid{grid-template-columns:1fr}}
+
 .ask ol{margin:6px 0 2px;padding-left:22px}
 .ask li{margin:3px 0}
-@media (max-width:760px){.six-grid{grid-template-columns:1fr}}
 @media print{
   @page{size:letter;margin:11mm 12mm}
   body{font-size:10.4pt;line-height:1.36}
