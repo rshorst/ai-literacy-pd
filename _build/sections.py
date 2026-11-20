@@ -116,6 +116,7 @@ DAY = [
         "extra": "rethink",
         "tiles": [
             (ESSAY_PDF, "One essay, many outcomes", "The worked example: eight Grade 9 standards, and how the assessment changes for each."),
+            ("k5-story.html", "One story, many outcomes (K-5)", "A worked example for younger students: a Grade 3 animal story, process over product, and AI ideas without AI in the room."),
             (TASK_PDF, "What is your task assessing?", "The worksheet: the same layout, blank, for a task you teach."),
             ("aias.html", "AI Assessment Scale", "Which kind of task is this, and why?"),
             (FIT_PDF, "How AI fits handout", "The scale, assessing the process, and the prompts, to print."),
@@ -229,6 +230,7 @@ BELONGS = {
     "aias.html": "fit.html", "class-ai-agreement.html": "collective.html",
     "policy-compare.html": "collective.html", "policy-draft.html": "collective.html",
     "policy-questions.html": "collective.html",
+    "k5-story.html": "rethinking.html",
 }
 
 
@@ -680,7 +682,7 @@ def rethink_html():
 @media (max-width:760px){{.essay thead{{display:none}}.essay tr{{display:block;border-bottom:1.5px solid var(--line)}}.essay th,.essay td{{display:block;border:0;width:auto!important}}
 .essay td:nth-of-type(1)::before{{content:"Instead of the essay: ";font-weight:700}}.essay td:nth-of-type(2)::before{{content:"Bringing AI in: ";font-weight:700}}}}
 </style>
-<p class="tools no-print"><a class="btn primary" href="{ESSAY_PDF}" download>The essay example (PDF)</a><a class="btn" href="{TASK_PDF}" download>Your worksheet (PDF)</a></p>
+<p class="tools no-print"><a class="btn primary" href="{ESSAY_PDF}" download>The essay example (PDF)</a><a class="btn" href="k5-story.html">The K-5 example</a><a class="btn" href="{TASK_PDF}" download>Your worksheet (PDF)</a></p>
 
 <h2 id="priorities">Four priorities</h2>
 <p class="rt">Keep these in view as you rethink a task.</p>
@@ -732,6 +734,96 @@ def rethink_html():
 EXTRAS["rethink"] = rethink_html
 # Filled in by content.py, which holds the policy data.
 EXTRAS["collective"] = lambda: "<!--collective-tools-->"
+
+
+# ---- K-5 worked example: a sub-page of Rethinking ----
+K5_AI_IDEAS = [
+    ("Guess the next word", "Start a sentence: “Once upon a…” The class guesses the next word. Notice that most people guess the same word. A chatbot works roughly like this, picking a likely next word, so its stories often sound like everyone else’s."),
+    ("Train the sorter", "One student is the “machine.” Classmates teach it to sort animal cards using only examples, with no rules. Leave one kind of animal out of the pile, then test it. The sorter gets it wrong. A machine only knows what it was shown."),
+    ("What the machine can’t know", "List things about your own place, family or pets. Which could a machine have read about somewhere? Most couldn’t. Some of these are also things we share only with permission."),
+]
+K5_PROCESS = [
+    ("The messy middle", "Show a real draft, an artist’s sketchbook, or your own crossed-out work. What changed? Why? Make a class wall of sketches, mistakes and do-overs, next to the finished work."),
+    ("Tell me how you made it", "Each student tells a partner one moment they got stuck and what they did. Write these down. They are part of the assessment."),
+    ("Before and after", "Draw an animal on day one. Draw it again after a week of looking, talking and learning. Put them side by side. What do you know now? The learning shows up in the difference between them."),
+]
+K5_ROWS = [
+    ("Story shape", "Tell a story with a beginning, middle and end.",
+     "Draw three pictures (beginning, middle, end) and tell the story to a partner before writing.",
+     "Read a Copilot story aloud. Find the beginning, middle and end. Is anything missing? Is it interesting?"),
+    ("Planning and changing", "Plan, draft and improve a piece of writing.",
+     "Keep every stage: sketch, draft, changes. Photograph each one. Assess what changed and why.",
+     "Show a machine story. Ask: where is its messy middle? What did it learn while making this?"),
+    ("My own experience", "Connect stories to my life and the places I know.",
+     "The animal is one the student has really seen, in a place they know.",
+     "Read a Copilot story about “a dog.” Compare it with a story about your grandma’s dog. What can the machine not know?"),
+    ("Telling it aloud", "Share stories through talk and oral storytelling.",
+     "Tell the story to family or a buddy class. Tell it again with one change.",
+     "None. This part is people talking with people."),
+    ("Making choices", "Make creative choices and explain them.",
+     "Explain one choice: “I made the bear blue because…” Assess the reason.",
+     "Show an AI picture of an animal that lives near you. What did it get wrong? What would you show instead?"),
+    ("Audience", "Think about who the story is for.",
+     "Read the story to Kindergarten buddies. Watch how they react. Change one thing.",
+     "Read a Copilot story written “for a 5-year-old.” Would our buddies really like it? What would bore or confuse them?"),
+]
+
+
+def k5_page():
+    cards = lambda items: "".join(f"<div><h3>{esc(h)}</h3><p>{esc(t)}</p></div>" for h, t in items)
+    rows = "".join(
+        f'<tr><th scope="row"><span class="n">{i}</span><b>{esc(lab)}</b><small>{esc(std)}</small></th><td>{esc(a)}</td><td>{esc(ai)}</td></tr>'
+        for i, (lab, std, a, ai) in enumerate(K5_ROWS, 1))
+    body = f"""{CSS}
+<style>
+.rt{{max-width:68ch}}
+.k5cards{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:14px 0 18px}}
+.k5cards > div{{background:#fffdf7;border:1.5px solid var(--line);border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.12);padding:16px}}
+.k5cards h3{{margin:0 0 6px;font-size:18px;text-transform:uppercase}}
+.k5cards p{{margin:0}}
+@media (max-width:820px){{.k5cards{{grid-template-columns:minmax(0,1fr)}}}}
+.essay{{width:100%;border-collapse:collapse;background:var(--surface);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);margin:14px 0 18px}}
+.essay th,.essay td{{border-bottom:1.5px solid var(--line);border-right:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}}
+.essay thead th{{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-bottom:2px solid var(--ink);background:var(--bg)}}
+.essay tbody th{{width:26%;font-weight:400;background:var(--bg);font-family:var(--font-body);text-transform:none;letter-spacing:0}}
+.essay tbody th b{{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:15px}}
+.essay tbody th small{{display:block;margin-top:3px;font-family:var(--font-body);font-size:13px;color:var(--muted);line-height:1.35}}
+.essay .n{{display:inline-block;background:var(--ink);color:var(--surface);font-family:var(--font-display);font-weight:800;font-size:12px;padding:0 6px;margin-bottom:4px}}
+.essay tr:last-child th,.essay tr:last-child td{{border-bottom:0}}
+.why{{background:var(--yellow);border:2px solid var(--ink);border-radius:4px;padding:12px 18px;margin:10px 0 14px}}
+.why ul{{margin:6px 0 0}}
+@media (max-width:760px){{.essay thead{{display:none}}.essay tr{{display:block;border-bottom:1.5px solid var(--line)}}.essay th,.essay td{{display:block;border:0;width:auto!important}}
+.essay td:nth-of-type(1)::before{{content:"Instead of only the finished story: ";font-weight:700}}.essay td:nth-of-type(2)::before{{content:"If you bring AI in: ";font-weight:700}}}}
+</style>
+<div class="doc wide">
+<p class="eyebrow"><a href="rethinking.html">Rethinking</a> · A K-5 example</p>
+<h1>One story, many outcomes</h1>
+<p class="lede">Take an ordinary task: a Grade 3 student writes and illustrates a short story about an animal. Usually we assess the finished story. A machine can now make a finished story too. So what are we actually assessing? Name the thing you mean, and look at the process, not only the product.</p>
+<p class="rt">In K-5, students usually don’t use AI themselves. Everything below can be done with no AI in the room. Where AI does appear, the teacher shows it on the board, and the point is to look closely at what it made, not to admire it.</p>
+<div class="tools no-print"><button class="btn" type="button" onclick="window.print()">Print this page</button><a class="btn" href="rethinking.html">Back to Rethinking</a></div>
+
+<h2 id="machine">Start here: how does the machine work?</h2>
+<div class="k5cards">{cards(K5_AI_IDEAS)}</div>
+
+<h2 id="process">Make the process visible</h2>
+<div class="k5cards">{cards(K5_PROCESS)}</div>
+
+<h2 id="task">The task</h2>
+<table class="essay">
+<thead><tr><th scope="col">The standard</th><th scope="col">Instead of only the finished story</th><th scope="col">If you bring AI in (teacher-led, optional)</th></tr></thead>
+<tbody>{rows}</tbody>
+</table>
+
+<h2 id="why">Why do it ourselves?</h2>
+<div class="why"><p>Have this conversation early, and come back to it:</p>
+<ul><li>A machine can draw a cat. Why would you draw one?</li><li>What did you find out while making it that you didn’t know before?</li><li>What part of your story could only you have made?</li></ul></div>
+<p class="rt">Kids often get there themselves: it’s fun, I get better, it’s mine, I find out what I think. That’s the point. We assess the learning, the choices and the person, not only the finished thing.</p>
+<p class="meta">Standards in plain words, drawn from <a href="https://curriculum.gov.bc.ca/curriculum/english-language-arts/3/core" target="_blank" rel="noopener">BC’s English Language Arts K-5 curriculum</a>.</p>
+</div>"""
+    return {"file": "k5-story.html", "nav": "home",
+            "title": "One story, many outcomes (K-5) · Teaching with, about, and without AI",
+            "desc": "A K-5 worked example: a Grade 3 animal story, process over product, and AI ideas without AI in the room.",
+            "html": body}
 
 
 # ---- Strange systems talk slides: slides 7 to 23 of the final deck, rendered to assets/talk/NN.webp ----
@@ -882,3 +974,5 @@ _idx = scenarios.SCENARIO_PAGES[0]
 _idx["html"] = _idx["html"].replace('<p class="eyebrow">Classroom situations</p>',
                                     f'<p class="eyebrow"><a href="index.html">The day</a> · {BLOCKS[_i]["start"]} to {BLOCKS[_i]["end"]} · Classroom situations</p>', 1)
 _idx["html"] = _idx["html"][: _idx["html"].rindex("</div>")] + pager(_i) + "\n</div>"
+
+SECTION_PAGES.append(k5_page())
