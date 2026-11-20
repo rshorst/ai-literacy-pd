@@ -204,7 +204,8 @@ def copilot_demo_html():
         f'<p class="dlink"><a href="{url}" target="_blank" rel="noopener">How to do it ↗</a></p></li>'
         for t, m, path, do, ask, url in DEMOS)
     tut = "".join(f'<a class="tile" href="{h}" target="_blank" rel="noopener"><h3>{esc(t)} ↗</h3><p>{esc(d)}</p></a>' for h, t, d in TUTORIALS)
-    return f"""<h2>The demo</h2>
+    return f"""{copilot_slides_html()}
+<h2>The demo</h2>
 <p>Seven short demonstrations, each followed straight away by a question. The centre is a Copilot Notebook on AI literacy: what changes when you choose the sources, how it represents knowledge, and how source material becomes a learning activity.</p>
 <ol class="demos">{items}</ol>
 <h2>Before you try it</h2>
@@ -755,11 +756,12 @@ TALK_SLIDES = [
 ]
 
 
-def talk_slides_html():
+def deck_viewer(slides, folder, did, img_id, label):
+    """A slide viewer: buttons, arrow keys, swipe and full screen. One per page."""
     import json
-    data = json.dumps([{"src": f"assets/talk/{n:02d}.webp", "alt": a} for n, a in TALK_SLIDES], ensure_ascii=False)
-    first = TALK_SLIDES[0]
-    total = len(TALK_SLIDES)
+    data = json.dumps([{"src": f"assets/{folder}/{n:02d}.webp", "alt": a} for n, a in slides], ensure_ascii=False)
+    first = slides[0]
+    total = len(slides)
     return f"""<style>
 .deck{{margin:20px 0 8px}}
 .deck-frame{{position:relative;aspect-ratio:16/9;border:2px solid var(--ink);border-radius:4px;box-shadow:5px 5px 0 var(--ink);background:#f3eee6;overflow:hidden}}
@@ -772,9 +774,9 @@ def talk_slides_html():
 .deck-bar .fs{{margin-left:auto}}
 .deck-frame:fullscreen{{border:0;border-radius:0;box-shadow:none;background:#000}}
 </style>
-<figure class="deck" id="slides" aria-roledescription="carousel" aria-label="Talk slides">
+<figure class="deck" id="{did}" aria-roledescription="carousel" aria-label="{esc(label)}">
 <div class="deck-frame">
-<img id="deck-img" src="assets/talk/{first[0]:02d}.webp" alt="{esc(first[1])}" width="1920" height="1080">
+<img id="{img_id}" src="assets/{folder}/{first[0]:02d}.webp" alt="{esc(first[1])}" width="1920" height="1080">
 <button class="deck-hit prev" type="button" aria-label="Previous slide"></button>
 <button class="deck-hit next" type="button" aria-label="Next slide"></button>
 </div>
@@ -787,7 +789,7 @@ def talk_slides_html():
 </figure>
 <script>
 (function(){{
-  var S={data}, i=0, img=document.getElementById('deck-img'), deck=document.getElementById('slides'),
+  var S={data}, i=0, img=document.getElementById('{img_id}'), deck=document.getElementById('{did}'),
       frame=deck.querySelector('.deck-frame'), count=deck.querySelector('.deck-count'), fs=deck.querySelector('.fs');
   function show(n){{
     i=Math.max(0,Math.min(S.length-1,n));
@@ -813,6 +815,38 @@ def talk_slides_html():
   }}
 }})();
 </script>"""
+
+
+def talk_slides_html():
+    return deck_viewer(TALK_SLIDES, "talk", "slides", "deck-img", "Talk slides")
+
+
+# ---- 10:30 Copilot slides: the "Copilot in a school" deck, rendered to assets/copilot/NN.webp. Speaker notes stay off the site.
+NFER_TRIAL = "https://www.nfer.ac.uk/publications/chatgpt-in-lesson-preparation-a-teacher-choices-trial/"
+TWC_GUIDE = "https://teachingwithchatgpt.org.uk/"
+COPILOT_SLIDES = [
+    (1, "Copilot in a school. Some things worth trying in Copilot. What it is, whose wrapper it is, and how to build your own. Microsoft renames these often. Check with your IT person."),
+    (2, "Two products, one name. Free: Microsoft 365 Copilot Chat comes with the standard school licences at no extra cost. It works from the web, not from your school's files. Paid add-on: Microsoft 365 Copilot is grounded in your own work: files, mail, calendar and Teams, plus drafting features inside Word, Excel and PowerPoint. Side panel that answers questions = free. Features that rewrite the doc in front of you = paid."),
+    (3, "Whose model is it, anyway? Same engines, different wrappers. Your account: school account or personal account. The wrapper: Copilot, ChatGPT, Claude, Gemini. The model: OpenAI GPT, Anthropic Claude, Google Gemini. Paid Copilot lets you pick GPT or Claude. Free Copilot Chat doesn't, and Microsoft keeps changing the default."),
+    (4, "Data protection, honestly. Microsoft commits that prompts in a school account aren't used to train its models, and stay inside your school's permissions, retention and audit. Three things that doesn't cover: 1, it follows the account, not the app: sign in with a personal Microsoft account and you're under consumer terms. 2, web search is different: when Copilot searches the web, the query goes out under Microsoft's ordinary service agreement. 3, where the data lives: don't assume your prompts stay in Canada. Check your district's position under FIPPA."),
+    (5, "Data sovereignty. \"Not used for training\" is a promise about Microsoft's models. It isn't the community keeping control of its knowledge. Before you upload: stories, language recordings, songs, place names, Elders' words, community photos, anything held under protocol. Ask: whose is this? Who decides how it's shared? Where does it go once it's in the chat, and who can get it back? Not my call, and not Copilot's. The community's protocols come first."),
+    (6, "What about students? Under 13: blocked by default. In a K to 12 setup, Microsoft's defaults block students under 13 from Copilot Chat. 13 to 17: off unless an admin turns it on. An administrator has to set age groups and record consent. Staff-only is the default, not a local restriction. Check what your school has enabled."),
+    (7, "Some uses among many. 1, first drafts of routine writing: newsletters, permission letters, a description of an assignment. 2, reformatting and restructuring something you already wrote. 3, differentiating materials: the same task at different reading levels, in plain language, with more scaffolding or an extension. 4, variations: ten practice questions to choose from. 5, summarising a long document you already understand, so you can find the part you need. 6, brainstorming: getting unstuck on a lesson idea, looking for neat ideas, twenty options to pick one from. 7, stupid routine tasks: scheduling, reminders, to-do lists, the admin nobody went into teaching for. Notice: you stay the judge."),
+    (8, "Avoid very much. 1, grading. 2, writing about identifiable people, whether students, colleagues or families. It invents biographical details. 3, anything factual that goes to students unverified. Fabricated articles and court cases turn up. 4, feedback you would want to give yourself. The relationship is the point. 5, transcribing meetings with students or parents. There are consent issues here."),
+    (9, "The best trial so far. 25 min saved a week on lesson prep. About a third of their preparation time. 259 science teachers in 68 schools, randomised, chatbot for lesson prep. Independent reviewers found no difference in the quality of what they produced. A note on the research: all of this is new, and studies rarely look at deep, creative use. Taught and used well, the point may be learning more deeply, not saving time. It can save time. It does not obviously make the work better."),
+    (10, "Someone else's wrapper. Prebuilt buttons like \"make a lesson plan\", \"make a quiz\" or \"make a rubric\" decide what a lesson or a rubric looks like before you've said anything. Built in: their idea of a worksheet, their reading levels, their structure, their defaults. Hidden: instructions you can't see or change sit between you and the model. Moving: the model underneath changes when the company decides it should."),
+    (11, "Build your own wrapper. 1, paste it: keep your instructions in a doc and paste them at the top of a new chat. Works everywhere. 2, settings: custom instructions for tone, format and reading level, applied to every chat. 3, notebook: instructions plus your own files, scoped to one unit or course. 4, agent: save it, reuse it, share it inside the school. Web sources only on the free tier. The instructions are the pedagogy. Ask your IT person which steps are switched on."),
+    (12, "What goes in your wrapper. Say who and what for: grade, subject, length, what students already know. Show it an example: paste one of your own handouts and ask for something that matches. Ask for options: three versions, and you pick. Work in steps: outline first, agree the outline, then the content. Say what it should look like: a table with these columns, under 200 words. Make it argue: what would a skeptical colleague say?"),
+    (13, "Three habits that matter more. 1, run it twice: two fresh chats, same question. What changes is what it was never sure about. 2, ask what it left out: the smoothing is where the interesting material went. 3, verify anything factual: every name, date, number and citation, before it reaches a student."),
+    (14, "One question to keep asking: what am I giving up by handing this over? Sometimes nothing. Sometimes the thinking was the job."),
+    (15, "Where this comes from. Microsoft on Copilot licensing and enterprise data protection, enabling Copilot Chat for learners, model choice in Microsoft 365 Copilot, and custom instructions, Notebooks and Agent Builder. SURF's data protection impact assessment on Microsoft 365 Copilot for Education, September 2025. EEF and NFER, ChatGPT in lesson preparation: a teacher choices trial, December 2024. Hg Foundation and Bain and Company, Teaching with ChatGPT, the guide used in the trial. Checked November 2026."),
+]
+
+
+def copilot_slides_html():
+    return f"""<h2>Slides</h2>
+<p>The trial on slide 9: <a href="{NFER_TRIAL}" target="_blank" rel="noopener">ChatGPT in lesson preparation (NFER, 2024) ↗</a>, and the guide its teachers used: <a href="{TWC_GUIDE}" target="_blank" rel="noopener">Teaching with ChatGPT ↗</a>.</p>
+{deck_viewer(COPILOT_SLIDES, "copilot", "copilot-slides", "copilot-deck-img", "Copilot slides")}"""
 
 
 def section_page(i):
